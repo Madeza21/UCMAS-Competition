@@ -104,6 +104,7 @@
     <Compile Include="Form\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Help\DbBase.cs" />
     <Compile Include="Model\Cabang.cs" />
     <Compile Include="Model\Url.cs" />
     <Compile Include="Program.cs" />

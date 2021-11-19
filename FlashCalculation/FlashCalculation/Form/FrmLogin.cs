@@ -1,4 +1,5 @@
-﻿using FlashCalculation.Model;
+﻿using FlashCalculation.Help;
+using FlashCalculation.Model;
 using Newtonsoft.Json;
 using SpeechLib;
 using System;
@@ -26,26 +27,6 @@ namespace FlashCalculation
         arrurl license = new arrurl();
         arrcabang cabangtemp = new arrcabang();
 
-        SQLiteConnection sqlite_conn;
-
-        static SQLiteConnection CreateConnection()
-        {
-            //https://www.codeguru.com/dotnet/using-sqlite-in-a-c-application/
-            SQLiteConnection sqlite_conn;
-            // Create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=ucmas.db3; Version = 3; New = True; Compress = True; ");
-            // Open the connection:
-            try
-            {
-                sqlite_conn.Open();
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return sqlite_conn;
-        }
-
         public FrmLogin()
         {
             InitializeComponent();
@@ -58,7 +39,6 @@ namespace FlashCalculation
                 client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-
         public static bool CheckForInternetConnection(int timeoutMs = 10000, string url = null)
         {
             try
@@ -74,7 +54,6 @@ namespace FlashCalculation
                 return false;
             }
         }
-
         public bool IsConnectedToInternet()
         {
             bool result = false;
@@ -97,7 +76,10 @@ namespace FlashCalculation
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Data : " + comboBox1.SelectedValue);
+            DbBase obj = new DbBase();
+
+            DataTable dt = obj.GetCabang(comboBox1.SelectedValue.ToString());
+            MessageBox.Show("Data : " + dt.Rows[0]["CABANG_NAME"].ToString());
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -125,24 +107,7 @@ namespace FlashCalculation
             LoadListSpeech();
 
 
-            /*sqlite_conn = CreateConnection();
-            
-            SQLiteCommand sqlite_cmd;
-            sqlite_cmd = sqlite_conn.CreateCommand();
-            sqlite_cmd.CommandText = "SELECT * FROM tb_cabang";
-
-            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
-
-            DataTable dt = new DataTable();
-
-            dda.Fill(dt);
-
-            sqlite_conn.Close();
-
-            if(dt.Rows.Count > 0)
-            {
-                MessageBox.Show("Data : " + dt.Rows[0]["CABANG_NAME"].ToString());
-            }*/
+            /**/
         }
 
         private void LoadListSpeech()
