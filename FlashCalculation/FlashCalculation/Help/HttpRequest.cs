@@ -1,0 +1,131 @@
+﻿using FlashCalculation.Model;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FlashCalculation.Help
+{
+    public class HttpRequest
+    {
+        static HttpClient client = new HttpClient();
+        arrurl license = new arrurl();
+        arrcabang cabang = new arrcabang();
+        arrconfig config = new arrconfig();
+
+        // Put the following code where you want to initialize the class
+        // It can be the static constructor or a one-time initializer
+        public void initialize()
+        {
+            client.BaseAddress = new Uri(Properties.Settings.Default.api_address);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        public bool IsConnectedToInternet()
+        {
+            bool result = false;
+            Ping p = new Ping();
+            try
+            {
+                PingReply reply = p.Send(Properties.Settings.Default.ip_address, 3000);
+                if (reply.Status == IPStatus.Success)
+                    return true;
+            }
+            catch { }
+            return result;
+        }
+
+        public bool CheckForInternetConnection()
+        {
+            try 
+            {
+                var request = (HttpWebRequest)WebRequest.Create("https://"+Properties.Settings.Default.ip_address);
+                request.KeepAlive = false;
+                request.Timeout = 3000;
+                using (var response = (HttpWebResponse)request.GetResponse())
+                    return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public Url[] GetRequestUrl(string url)
+        {
+            //https://stackoverflow.com/questions/32716174/call-and-consume-web-api-in-winform-using-c-net/32716351            
+
+            HttpResponseMessage response = new HttpResponseMessage();            
+            response = client.GetAsync(url).Result;
+            
+            if (response.IsSuccessStatusCode)
+            {
+                license = (arrurl)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(arrurl));
+            }
+
+            Url[] obj = new Url[license.license.Length];
+            license.license.CopyTo(obj, 0);
+
+            return obj;
+        }
+
+        public Cabang[] GetRequestCabang(string url)
+        {    
+            HttpResponseMessage response = new HttpResponseMessage();            
+            response = client.GetAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                cabang = (arrcabang)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(arrcabang));
+            }
+            
+            Cabang[] obj = new Cabang[cabang.cabang.Length];
+            cabang.cabang.CopyTo(obj, 0);
+
+            return obj;
+        }
+
+        public AppConfiguration[] PostRequestConfig(string url, string cabangcode)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            prmcabang prm = new prmcabang() {  CABANG_CODE = cabangcode };
+            response = client.PostAsJsonAsync(url, prm).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                config = (arrconfig)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(arrconfig));
+            }
+
+            AppConfiguration[] obj = new AppConfiguration[config.config.Length];
+            config.config.CopyTo(obj, 0);
+
+            return obj;
+        }
+
+        public class prmcabang
+        {
+            public string CABANG_CODE { get; set; }
+        }
+        public class arrurl
+        {
+            public Url[] license { get; set; }
+        }
+
+        public class arrcabang
+        {
+            public Cabang[] cabang { get; set; }
+        }
+
+        public class arrconfig
+        {
+            public AppConfiguration[] config { get; set; }
+        }
+    }
+}

@@ -165,22 +165,25 @@ namespace FlashCalculation
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(194, 21);
             this.comboBox2.TabIndex = 16;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(208, 182);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 13);
+            this.label9.Size = new System.Drawing.Size(44, 14);
             this.label9.TabIndex = 15;
             this.label9.Text = "English";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(208, 157);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(92, 13);
+            this.label8.Size = new System.Drawing.Size(100, 14);
             this.label8.TabIndex = 14;
             this.label8.Text = "Bahasa Indonesia";
             // 
@@ -192,6 +195,7 @@ namespace FlashCalculation
             this.radioButton2.Size = new System.Drawing.Size(14, 13);
             this.radioButton2.TabIndex = 13;
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -203,6 +207,7 @@ namespace FlashCalculation
             this.radioButton1.TabIndex = 12;
             this.radioButton1.TabStop = true;
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // pictureBox2
             // 
@@ -224,25 +229,28 @@ namespace FlashCalculation
             // 
             // comboBox1
             // 
+            this.comboBox1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(155, 121);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(255, 21);
+            this.comboBox1.Size = new System.Drawing.Size(255, 22);
             this.comboBox1.TabIndex = 9;
             // 
             // textBox2
             // 
+            this.textBox2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.Location = new System.Drawing.Point(155, 89);
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(255, 20);
+            this.textBox2.Size = new System.Drawing.Size(255, 22);
             this.textBox2.TabIndex = 8;
             // 
             // textBox1
             // 
+            this.textBox1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.Location = new System.Drawing.Point(155, 57);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(255, 20);
+            this.textBox1.Size = new System.Drawing.Size(255, 22);
             this.textBox1.TabIndex = 7;
             // 
             // label7
@@ -310,6 +318,7 @@ namespace FlashCalculation
             this.chkTrial.TabIndex = 0;
             this.chkTrial.Text = "UJI COBA";
             this.chkTrial.UseVisualStyleBackColor = true;
+            this.chkTrial.CheckedChanged += new System.EventHandler(this.chkTrial_CheckedChanged);
             // 
             // panel5
             // 

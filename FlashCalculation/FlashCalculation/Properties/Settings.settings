@@ -14,5 +14,8 @@
     <Setting Name="api_address" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://api.ucmasidn.com/</Value>
     </Setting>
+    <Setting Name="bahasa" Type="System.String" Scope="User">
+      <Value Profile="(Default)">indonesia</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

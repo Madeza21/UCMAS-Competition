@@ -1,19 +1,11 @@
 ﻿using FlashCalculation.Help;
 using FlashCalculation.Model;
-using Newtonsoft.Json;
-using SpeechLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SQLite;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.NetworkInformation;
 using System.Speech.Synthesis;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,68 +15,63 @@ namespace FlashCalculation
 {
     public partial class FrmLogin : Form
     {
-        static HttpClient client = new HttpClient();
-        arrurl license = new arrurl();
-        arrcabang cabangtemp = new arrcabang();
 
+        Url[] url;
+        Cabang[] cabang;
+        AppConfiguration[] config;
+        DbBase db = new DbBase();
+        HttpRequest client = new HttpRequest();
+        SpeechSynthesizer speechSynthesizerObj;
+
+        string urlconfig, loadSpeech, textSpeech;
         public FrmLogin()
         {
             InitializeComponent();
-
-            timer1.Start();
-
-            // Put the following code where you want to initialize the class
-            // It can be the static constructor or a one-time initializer
-            client.BaseAddress = new Uri(Properties.Settings.Default.api_address);
-                client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            timer1.Start();            
         }
-        public static bool CheckForInternetConnection(int timeoutMs = 10000, string url = null)
-        {
-            try
-            {
-                var request = (HttpWebRequest)WebRequest.Create(url);
-                request.KeepAlive = false;
-                request.Timeout = timeoutMs;
-                using (var response = (HttpWebResponse)request.GetResponse())
-                    return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        public bool IsConnectedToInternet()
-        {
-            bool result = false;
-            Ping p = new Ping();
-            try
-            {
-                PingReply reply = p.Send(Properties.Settings.Default.ip_address, 3000);
-                if (reply.Status == IPStatus.Success)
-                    return true;
-            }
-            catch { }
-            return result;
-        }
+              
         private void button2_Click(object sender, EventArgs e)
         {
             timer1.Stop();
-            //this.Close();
+            db.CloseConnection();
+
+            if (speechSynthesizerObj != null)
+            {
+                //Gets the current speaking state of the SpeechSynthesizer object.   
+                if (speechSynthesizerObj.State == SynthesizerState.Speaking)
+                {
+                    //close the SpeechSynthesizer object.   
+                    speechSynthesizerObj.SpeakAsyncCancelAll();
+                }
+                speechSynthesizerObj.Dispose();
+            }
+
             Application.Exit();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            /*config = client.PostRequestConfig(urlconfig, comboBox1.SelectedValue.ToString());
             DbBase obj = new DbBase();
 
             DataTable dt = obj.GetCabang(comboBox1.SelectedValue.ToString());
             MessageBox.Show("Data : " + dt.Rows[0]["CABANG_NAME"].ToString());
+
+            db.CloseConnection();*/
+            if (speechSynthesizerObj != null)
+            {
+                //Gets the current speaking state of the SpeechSynthesizer object.   
+                if (speechSynthesizerObj.State == SynthesizerState.Speaking)
+                {
+                    //close the SpeechSynthesizer object.   
+                    speechSynthesizerObj.SpeakAsyncCancelAll();
+                }
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (IsConnectedToInternet())
+            if (client.IsConnectedToInternet())
             {
                 lblStatus.Text = "Internet Connected";
                 lblStatus.ForeColor = Color.Green;
@@ -98,24 +85,46 @@ namespace FlashCalculation
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-            //https://www.codeproject.com/Articles/19334/Text-to-Speech-using-Windows-SAPI
-            if (IsConnectedToInternet())
+            db.OpenConnection();
+            if (client.IsConnectedToInternet())
             {
+                client.initialize();
                 LoadDataFromApi();
             }
 
-            LoadListSpeech();
+            LoadListSpeech();            
+            UpdateDb("FrmLoad");
+            loadSpeech = "N";
+            SetImg();
+            radioButton1_CheckedChanged(null,null);
+            textBox1.Focus();
+        }
 
-
-            /**/
+        private void UpdateDb(string flag)
+        {
+            if(flag == "FrmLoad")
+            {
+                //tb_url
+                db.Query("DELETE FROM tb_url");
+                db.InsertUrl(url);
+                //tb_cabang
+                db.Query("DELETE FROM tb_cabang");
+                db.InsertCabang(cabang);
+            }else if (flag == "Login")
+            {
+                //tb_application_configuration
+                db.Query("DELETE FROM tb_application_configuration");
+                db.InsertAppConfig(config);
+            }
         }
 
         private void LoadListSpeech()
         {
+            //https://www.codeproject.com/Articles/19334/Text-to-Speech-using-Windows-SAPI
             IList<VoiceInfo> voiceInfos = new List<VoiceInfo>();
-            var reader = new SpeechSynthesizer();
+            speechSynthesizerObj = new SpeechSynthesizer();
 
-            var installedVoices = reader.GetInstalledVoices();
+            var installedVoices = speechSynthesizerObj.GetInstalledVoices();
             if (installedVoices.Count == 0)
             {
                 MessageBox.Show(this,
@@ -125,68 +134,145 @@ namespace FlashCalculation
             }
             else
             {
+                loadSpeech = "Y";
                 foreach (InstalledVoice voice in installedVoices)
                 {
-                    voiceInfos.Add(voice.VoiceInfo);
+                    if (voice.VoiceInfo.Name.Contains("David"))
+                    {
+                        voiceInfos.Add(voice.VoiceInfo);
+                    }else if (voice.VoiceInfo.Name.Contains("Zira"))
+                    {
+                        voiceInfos.Add(voice.VoiceInfo);
+                    }
+
                 }
                 comboBox2.DataSource = voiceInfos;
                 comboBox2.DisplayMember = "Name";
                 comboBox2.ValueMember = "Id";
             }
-
-            /*reader.SelectVoice(comboBox2.DisplayMember); //[0,1] - std english synthesizers, [2] - Nikolay
-            reader.Volume = 100; // от 0 до 100
-            reader.Rate = 0; //от -10 до 10
-            reader.SpeakAsync("TES");*/
-
-            reader.Dispose();            
+            speechSynthesizerObj.Dispose();            
         }
 
-        private async void LoadDataFromApi()
+        private void LoadDataFromApi()
         {
-            //https://stackoverflow.com/questions/32716174/call-and-consume-web-api-in-winform-using-c-net/32716351            
-
-            HttpResponseMessage response = new HttpResponseMessage();
-
-            response = await client.GetAsync("api/url");
-            if (response.IsSuccessStatusCode)
-            {
-                license = (arrurl)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof (arrurl));
-            }
+            url = client.GetRequestUrl("api/url");            
             
-            for(int i = 0; i < license.license.Length; i++)
+            for(int i = 0; i < url.Length; i++)
             {
-                if(license.license[i].URL_CODE == "GetAllCabang")
+                if(url[i].URL_CODE == "GetAllCabang")
                 {
-                    response = await client.GetAsync(license.license[i].URL_PARAM);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        cabangtemp = (arrcabang)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(arrcabang));
-                    }
+                    cabang = client.GetRequestCabang(url[i].URL_PARAM);
+                }
+                else if (url[i].URL_CODE == "GetAllConfigCabang")
+                {
+                    urlconfig = url[i].URL_PARAM;
                 }
             }
 
             Dictionary<string, string> item = new Dictionary<string, string>();
-            for (int i = 0; i < cabangtemp.cabang.Length; i++)
+            for (int i = 0; i < cabang.Length; i++)
             {
-                item.Add(cabangtemp.cabang[i].CABANG_CODE, cabangtemp.cabang[i].CABANG_NAME);
+                item.Add(cabang[i].CABANG_CODE, cabang[i].CABANG_NAME);
             }
 
             comboBox1.DataSource = new BindingSource(item, null);
             comboBox1.DisplayMember = "Value";
             comboBox1.ValueMember = "Key";
-            //var product = new Product() { Name = "P1", Price = 100, Category = "C1" };
-            //var response = await client.PostAsJsonAsync("products", product);
-        }        
-
-        public class arrurl
-        {
-            public Url[] license { get; set; }
+            
         }
 
-        public class arrcabang
+        private void SetImg()
         {
-            public Cabang[] cabang { get; set; }
+            if (comboBox2.Text.Contains("Zira"))
+            {
+                pictureBox3.Image = Properties.Resources.female;
+                textSpeech = @"My Name is Zira.It's nice to meet you!
+                    for example
+                    are you ready
+                    nine hundred ten
+                    six hundred forty eigh
+                    five hundred sixty one
+                    That is";
+            }
+            else
+            {
+                pictureBox3.Image = Properties.Resources.male;
+                textSpeech = @"My Name is David.It's nice to meet you!
+                    for example
+                    are you ready
+                    nine hundred ten
+                    six hundred forty eigh
+                    five hundred sixty one
+                    That is";
+            }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                Properties.Settings.Default.bahasa = "indonesia";
+                Properties.Settings.Default.Save();
+                label2.Text = "ID Peserta";
+                label3.Text = "Kata Sandi";
+                label4.Text = "Cabang";
+                label5.Text = "Bahasa";
+                label6.Text = "Suara";
+                label7.Text = "* Suara untuk kompetisi Listening";
+
+                button1.Text = "Masuk";
+                button2.Text = "Batal";
+
+                chkTrial.Text = "UJI COBA";
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked)
+            {
+                Properties.Settings.Default.bahasa = "english";
+                Properties.Settings.Default.Save();
+                label2.Text = "Participant ID";
+                label3.Text = "Password";
+                label4.Text = "Branch";
+                label5.Text = "Language";
+                label6.Text = "Voice";
+                label7.Text = "* Voice for Listening Competition";
+
+                button1.Text = "Sign In";
+                button2.Text = "Cancel";
+
+                chkTrial.Text = "TRIAL";
+            }
+        }
+
+        private void chkTrial_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chkTrial.Checked == true)
+            {
+                textBox1.Text = "TRL000000001";
+                textBox2.Text = "Peserta Trial";
+            }
+            else
+            {
+                textBox1.Text = "";
+                textBox2.Text = "";
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetImg();
+            if(loadSpeech != "Y")
+            {
+                speechSynthesizerObj.Dispose();
+                speechSynthesizerObj = new SpeechSynthesizer();
+                speechSynthesizerObj.Volume = 100; // от 0 до 100
+                speechSynthesizerObj.Rate = 0; //от -10 до 10
+                speechSynthesizerObj.SelectVoice(comboBox2.Text);
+                speechSynthesizerObj.SpeakAsync(textSpeech);                
+            }
         }
     }
 }
