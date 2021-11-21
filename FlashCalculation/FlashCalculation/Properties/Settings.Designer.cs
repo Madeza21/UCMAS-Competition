@@ -82,5 +82,29 @@ namespace FlashCalculation.Properties {
                 this["bahasa"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cabang {
+            get {
+                return ((string)(this["cabang"]));
+            }
+            set {
+                this["cabang"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string voice {
+            get {
+                return ((string)(this["voice"]));
+            }
+            set {
+                this["voice"] = value;
+            }
+        }
     }
 }

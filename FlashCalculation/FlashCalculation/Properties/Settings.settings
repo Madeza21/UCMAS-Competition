@@ -17,5 +17,11 @@
     <Setting Name="bahasa" Type="System.String" Scope="User">
       <Value Profile="(Default)">indonesia</Value>
     </Setting>
+    <Setting Name="cabang" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="voice" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

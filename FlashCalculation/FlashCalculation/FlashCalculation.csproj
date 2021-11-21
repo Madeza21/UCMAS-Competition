@@ -107,7 +107,12 @@
     <Compile Include="Help\DbBase.cs" />
     <Compile Include="Help\HttpRequest.cs" />
     <Compile Include="Model\AppConfiguration.cs" />
+    <Compile Include="Model\ArrLogin.cs" />
     <Compile Include="Model\Cabang.cs" />
+    <Compile Include="Model\Kompetisi.cs" />
+    <Compile Include="Model\OutputLogin.cs" />
+    <Compile Include="Model\ParameterKompetisi.cs" />
+    <Compile Include="Model\Peserta.cs" />
     <Compile Include="Model\Url.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

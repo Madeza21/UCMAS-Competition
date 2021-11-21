@@ -18,6 +18,7 @@ namespace FlashCalculation.Help
         arrurl license = new arrurl();
         arrcabang cabang = new arrcabang();
         arrconfig config = new arrconfig();
+        ArrLogin login = new ArrLogin();
 
         // Put the following code where you want to initialize the class
         // It can be the static constructor or a one-time initializer
@@ -109,10 +110,38 @@ namespace FlashCalculation.Help
             return obj;
         }
 
+        public ArrLogin PostRequestLogin(string url, string id, string password, string cabangcode)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            prmlogin prm = new prmlogin() { ID_PESERTA = id, PASSWORD_PESERTA = password, CABANG_CODE = cabangcode };
+            response = client.PostAsJsonAsync(url, prm).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                login = (ArrLogin)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(ArrLogin));
+                login.Status = "OK";
+            }
+            else
+            {
+                login = (ArrLogin)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(ArrLogin));
+                login.Status = "Error";
+            }
+
+            return login;
+        }
+
+        public class prmlogin
+        {
+            public string ID_PESERTA { get; set; }
+            public string PASSWORD_PESERTA { get; set; }
+            public string CABANG_CODE { get; set; }
+        }
+
         public class prmcabang
         {
             public string CABANG_CODE { get; set; }
         }
+
         public class arrurl
         {
             public Url[] license { get; set; }
@@ -127,5 +156,7 @@ namespace FlashCalculation.Help
         {
             public AppConfiguration[] config { get; set; }
         }
+
+        
     }
 }

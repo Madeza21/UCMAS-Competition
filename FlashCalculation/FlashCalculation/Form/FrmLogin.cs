@@ -19,6 +19,7 @@ namespace FlashCalculation
         Url[] url;
         Cabang[] cabang;
         AppConfiguration[] config;
+        
         DbBase db = new DbBase();
         HttpRequest client = new HttpRequest();
         SpeechSynthesizer speechSynthesizerObj;
@@ -51,22 +52,109 @@ namespace FlashCalculation
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*config = client.PostRequestConfig(urlconfig, comboBox1.SelectedValue.ToString());
-            DbBase obj = new DbBase();
-
-            DataTable dt = obj.GetCabang(comboBox1.SelectedValue.ToString());
-            MessageBox.Show("Data : " + dt.Rows[0]["CABANG_NAME"].ToString());
-
-            db.CloseConnection();*/
-            if (speechSynthesizerObj != null)
+            try
             {
-                //Gets the current speaking state of the SpeechSynthesizer object.   
-                if (speechSynthesizerObj.State == SynthesizerState.Speaking)
+                ArrLogin login;
+
+                string urllogin = "/api/login/pesertanet"; 
+
+                if (chkTrial.Checked)
                 {
-                    //close the SpeechSynthesizer object.   
-                    speechSynthesizerObj.SpeakAsyncCancelAll();
+                    textBox1.Text = "TRL000000001";
+                    textBox2.Text = "Peserta Trial";
+                    urllogin = "/api/kompetisitrial/searchnet";
                 }
+
+                if(textBox1.Text.Trim() == "")
+                {
+                    if(Properties.Settings.Default.bahasa == "indonesia")
+                    {
+                        MessageBox.Show("ID Peserta harus di isi.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Participant ID must be filled in.");
+                    }
+                    return;
+                }
+
+                if (textBox2.Text.Trim() == "")
+                {
+                    if (Properties.Settings.Default.bahasa == "indonesia")
+                    {
+                        MessageBox.Show("Kata sandi harus di isi.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Password must be filled in.");
+                    }
+                    return;
+                }
+                
+                login = client.PostRequestLogin(urllogin, textBox1.Text, textBox2.Text, comboBox1.SelectedValue.ToString());                
+
+                if (login.Status == "Error")
+                {
+                    if (Properties.Settings.Default.bahasa == "indonesia")
+                    {
+                        if(login.data[0].message == "Lisensi cabang tidak valid")
+                        {
+                            MessageBox.Show("Lisensi cabang tidak valid");
+                        }
+                        else if (login.data[0].message == "Peserta tidak terdaftar kompetisi")
+                        {
+                            MessageBox.Show("Peserta tidak terdaftar kompetisi");
+                        }
+                        else if (login.data[0].message == "Tidak ada jadwal kompetisi peserta")
+                        {
+                            MessageBox.Show("Tidak ada jadwal kompetisi peserta");
+                        }
+                        else if (login.data[0].message == "Id peserta/Password tidak valid")
+                        {
+                            MessageBox.Show("Id peserta/Password tidak valid");
+                        }                        
+                    }
+                    else
+                    {
+                        if (login.data[0].message == "Lisensi cabang tidak valid")
+                        {
+                            MessageBox.Show("Invalid branch license");
+                        }
+                        else if (login.data[0].message == "Peserta tidak terdaftar kompetisi")
+                        {
+                            MessageBox.Show("Participants are not registered in the competition");
+                        }
+                        else if (login.data[0].message == "Tidak ada jadwal kompetisi peserta")
+                        {
+                            MessageBox.Show("There is no participant competition schedule");
+                        }
+                        else if (login.data[0].message == "Id peserta/Password tidak valid")
+                        {
+                            MessageBox.Show("Invalid participant id/password");
+                        }
+                    }
+                    return;
+                }
+                else
+                {
+                    Properties.Settings.Default.token = login.data[0].token;
+                    Properties.Settings.Default.siswa_id = textBox1.Text;
+                    Properties.Settings.Default.voice = comboBox2.Text;
+                    Properties.Settings.Default.cabang = comboBox1.SelectedValue.ToString();
+                    Properties.Settings.Default.Save();
+                }
+                config = client.PostRequestConfig(urlconfig, comboBox1.SelectedValue.ToString());
+                DbBase obj = new DbBase();
+
+                DataTable dt = obj.GetCabang(comboBox1.SelectedValue.ToString());
+                MessageBox.Show("Data : " + dt.Rows[0]["CABANG_NAME"].ToString());
+
+                db.CloseConnection();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }            
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -85,19 +173,27 @@ namespace FlashCalculation
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-            db.OpenConnection();
-            if (client.IsConnectedToInternet())
+            try
             {
-                client.initialize();
-                LoadDataFromApi();
-            }
+                db.OpenConnection();
+                if (client.IsConnectedToInternet())
+                {
+                    client.initialize();
+                    LoadDataFromApi();
+                }
 
-            LoadListSpeech();            
-            UpdateDb("FrmLoad");
-            loadSpeech = "N";
-            SetImg();
-            radioButton1_CheckedChanged(null,null);
-            textBox1.Focus();
+                LoadListSpeech();
+                UpdateDb("FrmLoad");
+                loadSpeech = "N";
+                SetImg();
+                radioButton1_CheckedChanged(null, null);
+                textBox1.Focus();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void UpdateDb(string flag)
@@ -274,5 +370,6 @@ namespace FlashCalculation
                 speechSynthesizerObj.SpeakAsync(textSpeech);                
             }
         }
+       
     }
 }

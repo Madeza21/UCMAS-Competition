@@ -170,6 +170,63 @@ namespace FlashCalculation.Help
             }
         }
 
+        public void InsertPeserta(Peserta[] peserta)
+        {
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            SQLiteParameter parm = new SQLiteParameter();
+
+            sqlite_cmd.CommandText = @"INSERT INTO tb_cabang ( ID_PESERTA, NAMA_PESERTA, JENIS_KELAMIN, TEMPAT_LAHIR,
+	                                    TANGGAL_LAHIR, ALAMAT_PESERTA, SEKOLAH_PESERTA, NO_TELP_PESERTA, EMAIL_PESERTA,
+	                                    IS_USMAS, TOKEN_PESERTA, CABANG_CODE ) 
+								        VALUES
+                                          (@prm1,@prm2,@prm3,@prm4,@prm5,@prm6,@prm7,@prm8,@prm9,@prm10,@prm11,@prm12) ";
+
+            for (int i = 0; i < peserta.Length; i++)
+            {
+                sqlite_cmd.Parameters.Clear();
+
+                parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].ID_PESERTA;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].NAMA_PESERTA;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm3", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].JENIS_KELAMIN;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm4", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].TEMPAT_LAHIR;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm5", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].TANGGAL_LAHIR;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm6", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].ALAMAT_PESERTA;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm7", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].SEKOLAH_PESERTA;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm8", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].NO_TELP_PESERTA;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm9", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].EMAIL_PESERTA;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm10", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].IS_USMAS;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm11", DbType.String, ParameterDirection.Input);
+                parm.Value = Properties.Settings.Default.token;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm12", DbType.String, ParameterDirection.Input);
+                parm.Value = peserta[i].CABANG_CODE;
+                sqlite_cmd.Parameters.Add(parm);
+
+                sqlite_cmd.ExecuteNonQuery();
+            }
+        }
+
         public void Query(string query)
         {
             SQLiteCommand sqlite_cmd;
