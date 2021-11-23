@@ -25,6 +25,7 @@ namespace FlashCalculation
         SpeechSynthesizer speechSynthesizerObj;
 
         string urlconfig, loadSpeech, textSpeech;
+        bool isdispose = false;
         public FrmLogin()
         {
             InitializeComponent();
@@ -36,7 +37,7 @@ namespace FlashCalculation
             timer1.Stop();
             db.CloseConnection();
 
-            if (speechSynthesizerObj != null)
+            if (!isdispose)
             {
                 //Gets the current speaking state of the SpeechSynthesizer object.   
                 if (speechSynthesizerObj.State == SynthesizerState.Speaking)
@@ -47,7 +48,9 @@ namespace FlashCalculation
                 speechSynthesizerObj.Dispose();
             }
 
-            Application.Exit();
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+            //Application.Exit();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -90,66 +93,111 @@ namespace FlashCalculation
                     }
                     return;
                 }
-                
-                login = client.PostRequestLogin(urllogin, textBox1.Text, textBox2.Text, comboBox1.SelectedValue.ToString());                
 
-                if (login.Status == "Error")
+                if (client.IsConnectedToInternet())
                 {
-                    if (Properties.Settings.Default.bahasa == "indonesia")
+                    login = client.PostRequestLogin(urllogin, textBox1.Text, textBox2.Text, comboBox1.SelectedValue.ToString());
+                    config = client.PostRequestConfig(urlconfig, comboBox1.SelectedValue.ToString());
+
+                    if (login.Status == "Error")
                     {
-                        if(login.data[0].message == "Lisensi cabang tidak valid")
+                        if (Properties.Settings.Default.bahasa == "indonesia")
                         {
-                            MessageBox.Show("Lisensi cabang tidak valid");
+                            if (login.data[0].message == "Lisensi cabang tidak valid")
+                            {
+                                MessageBox.Show("Lisensi cabang tidak valid");
+                            }
+                            else if (login.data[0].message == "Peserta tidak terdaftar kompetisi")
+                            {
+                                MessageBox.Show("Peserta tidak terdaftar kompetisi");
+                            }
+                            else if (login.data[0].message == "Tidak ada jadwal kompetisi peserta")
+                            {
+                                MessageBox.Show("Tidak ada jadwal kompetisi peserta");
+                            }
+                            else if (login.data[0].message == "Id peserta/Password tidak valid")
+                            {
+                                MessageBox.Show("Id peserta/Password tidak valid");
+                            }
                         }
-                        else if (login.data[0].message == "Peserta tidak terdaftar kompetisi")
+                        else
                         {
-                            MessageBox.Show("Peserta tidak terdaftar kompetisi");
+                            if (login.data[0].message == "Lisensi cabang tidak valid")
+                            {
+                                MessageBox.Show("Invalid branch license");
+                            }
+                            else if (login.data[0].message == "Peserta tidak terdaftar kompetisi")
+                            {
+                                MessageBox.Show("Participants are not registered in the competition");
+                            }
+                            else if (login.data[0].message == "Tidak ada jadwal kompetisi peserta")
+                            {
+                                MessageBox.Show("There is no participant competition schedule");
+                            }
+                            else if (login.data[0].message == "Id peserta/Password tidak valid")
+                            {
+                                MessageBox.Show("Invalid participant id/password");
+                            }
                         }
-                        else if (login.data[0].message == "Tidak ada jadwal kompetisi peserta")
-                        {
-                            MessageBox.Show("Tidak ada jadwal kompetisi peserta");
-                        }
-                        else if (login.data[0].message == "Id peserta/Password tidak valid")
-                        {
-                            MessageBox.Show("Id peserta/Password tidak valid");
-                        }                        
+                        return;
                     }
                     else
                     {
-                        if (login.data[0].message == "Lisensi cabang tidak valid")
-                        {
-                            MessageBox.Show("Invalid branch license");
-                        }
-                        else if (login.data[0].message == "Peserta tidak terdaftar kompetisi")
-                        {
-                            MessageBox.Show("Participants are not registered in the competition");
-                        }
-                        else if (login.data[0].message == "Tidak ada jadwal kompetisi peserta")
-                        {
-                            MessageBox.Show("There is no participant competition schedule");
-                        }
-                        else if (login.data[0].message == "Id peserta/Password tidak valid")
-                        {
-                            MessageBox.Show("Invalid participant id/password");
-                        }
+                        Properties.Settings.Default.token = login.data[0].token;
+                        Properties.Settings.Default.siswa_id = textBox1.Text;
+                        Properties.Settings.Default.voice = comboBox2.Text;
+                        Properties.Settings.Default.cabang = comboBox1.SelectedValue.ToString();
+                        Properties.Settings.Default.trial = chkTrial.Checked == true ? "Y" : "N";
+                        Properties.Settings.Default.Save();
                     }
-                    return;
+                    //tb_peserta
+                    if (login.peserta != null)
+                    {
+                        for (int i = 0; i < login.peserta.Length; i++)
+                        {
+                            db.Query("DELETE FROM tb_peserta where ID_PESERTA = '" + login.peserta[i].ID_PESERTA + "'");
+                        }
+
+                        db.InsertPeserta(login.peserta);
+                    }
+                    //tb_kompetisi & tb_peserta_kompetisi
+                    if (login.kompetisi != null)
+                    {
+                        if (chkTrial.Checked)
+                        {
+                            db.Query("DELETE FROM tb_kompetisi where IS_TRIAL = 'Y'");
+                        }
+                        for (int i = 0; i < login.kompetisi.Length; i++)
+                        {
+                            db.Query("DELETE FROM tb_kompetisi where ROW_ID = '" + login.kompetisi[i].ROW_ID + "'");
+                            db.Query("DELETE FROM tb_parameter_kompetisi where ROW_ID_KOMPETISI = '" + login.kompetisi[i].ROW_ID + "'");
+                            db.Query("DELETE FROM tb_peserta_kompetisi where ROW_ID_KOMPETISI = '" + login.kompetisi[i].ROW_ID + "' AND ID_PESERTA = '" + textBox1.Text + "'");
+                        }
+
+                        db.InsertKompetisi(login.kompetisi);
+                        db.InsertKompetisiPeserta(login.kompetisi);
+                    }
+                    //tb_parameter_kompetisi
+                    if (login.parameterkompetisi != null)
+                    {
+                        db.InsertParameterKompetisi(login.parameterkompetisi);
+                    }
+
+                    UpdateDb("Login");
                 }
                 else
                 {
-                    Properties.Settings.Default.token = login.data[0].token;
-                    Properties.Settings.Default.siswa_id = textBox1.Text;
-                    Properties.Settings.Default.voice = comboBox2.Text;
-                    Properties.Settings.Default.cabang = comboBox1.SelectedValue.ToString();
-                    Properties.Settings.Default.Save();
+                    MessageBox.Show("Internet Disconnected");
+                    return;
                 }
-                config = client.PostRequestConfig(urlconfig, comboBox1.SelectedValue.ToString());
-                DbBase obj = new DbBase();
+                                    
 
-                DataTable dt = obj.GetCabang(comboBox1.SelectedValue.ToString());
-                MessageBox.Show("Data : " + dt.Rows[0]["CABANG_NAME"].ToString());
-
+                
                 db.CloseConnection();
+
+                //Open Main Form
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -246,7 +294,8 @@ namespace FlashCalculation
                 comboBox2.DisplayMember = "Name";
                 comboBox2.ValueMember = "Id";
             }
-            speechSynthesizerObj.Dispose();            
+            speechSynthesizerObj.Dispose();
+            isdispose = true;
         }
 
         private void LoadDataFromApi()
@@ -343,6 +392,20 @@ namespace FlashCalculation
             }
         }
 
+        private void textBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            TextBox currentContainer = ((TextBox)sender);
+            int caretPosition = currentContainer.SelectionStart;
+
+            currentContainer.Text = currentContainer.Text.ToUpper();
+            currentContainer.SelectionStart = caretPosition++;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
         private void chkTrial_CheckedChanged(object sender, EventArgs e)
         {
             if(chkTrial.Checked == true)
@@ -364,10 +427,11 @@ namespace FlashCalculation
             {
                 speechSynthesizerObj.Dispose();
                 speechSynthesizerObj = new SpeechSynthesizer();
+                isdispose = false;
                 speechSynthesizerObj.Volume = 100; // от 0 до 100
                 speechSynthesizerObj.Rate = 0; //от -10 до 10
                 speechSynthesizerObj.SelectVoice(comboBox2.Text);
-                speechSynthesizerObj.SpeakAsync(textSpeech);                
+                speechSynthesizerObj.SpeakAsync(textSpeech);
             }
         }
        

@@ -176,7 +176,7 @@ namespace FlashCalculation.Help
             sqlite_cmd = sqlite_conn.CreateCommand();
             SQLiteParameter parm = new SQLiteParameter();
 
-            sqlite_cmd.CommandText = @"INSERT INTO tb_cabang ( ID_PESERTA, NAMA_PESERTA, JENIS_KELAMIN, TEMPAT_LAHIR,
+            sqlite_cmd.CommandText = @"INSERT INTO tb_peserta ( ID_PESERTA, NAMA_PESERTA, JENIS_KELAMIN, TEMPAT_LAHIR,
 	                                    TANGGAL_LAHIR, ALAMAT_PESERTA, SEKOLAH_PESERTA, NO_TELP_PESERTA, EMAIL_PESERTA,
 	                                    IS_USMAS, TOKEN_PESERTA, CABANG_CODE ) 
 								        VALUES
@@ -221,6 +221,175 @@ namespace FlashCalculation.Help
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm12", DbType.String, ParameterDirection.Input);
                 parm.Value = peserta[i].CABANG_CODE;
+                sqlite_cmd.Parameters.Add(parm);
+
+                sqlite_cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void InsertKompetisi(Kompetisi[] kompetisi)
+        {
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            SQLiteParameter parm = new SQLiteParameter();
+
+            sqlite_cmd.CommandText = @"INSERT INTO tb_kompetisi ( ROW_ID, CABANG_CODE, KOMPETISI_NAME, TANGGAL_KOMPETISI, JAM_MULAI, JAM_SAMPAI,
+			                    JENIS_CODE, JENIS_NAME, TIPE, ROW_ID_KATEGORI, KATEGORI_CODE, KATEGORI_NAME, LAMA_PERLOMBAAN, KECEPATAN, IS_TRIAL ) 
+								        VALUES
+                                          (@prm1,@prm2,@prm3,@prm4,@prm5,@prm6,@prm7,@prm8,@prm9,@prm10,@prm11,@prm12,@prm13,@prm14,@prm15) ";
+
+            for (int i = 0; i < kompetisi.Length; i++)
+            {
+                sqlite_cmd.Parameters.Clear();
+
+                parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].ROW_ID;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].CABANG_CODE;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm3", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].KOMPETISI_NAME;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm4", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].TANGGAL_KOMPETISI;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm5", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].JAM_MULAI;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm6", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].JAM_SAMPAI;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm7", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].JENIS_CODE;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm8", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].JENIS_NAME;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm9", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].TIPE;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm10", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].ROW_ID_KATEGORI;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm11", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].KATEGORI_CODE;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm12", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].KATEGORI_NAME;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm13", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = kompetisi[i].LAMA_PERLOMBAAN == null ? 180 : Convert.ToDecimal(kompetisi[i].LAMA_PERLOMBAAN);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm14", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = kompetisi[i].KECEPATAN == null ? 0 : Convert.ToDecimal(kompetisi[i].KECEPATAN);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm15", DbType.String, ParameterDirection.Input);
+                parm.Value = Properties.Settings.Default.trial;
+                sqlite_cmd.Parameters.Add(parm);
+
+                sqlite_cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void InsertKompetisiPeserta(Kompetisi[] kompetisi)
+        {
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            SQLiteParameter parm = new SQLiteParameter();
+
+            sqlite_cmd.CommandText = @"INSERT INTO tb_peserta_kompetisi ( ROW_ID_KOMPETISI, ID_PESERTA ) 
+								        VALUES
+                                          (@prm1,@prm2) ";
+
+            for (int i = 0; i < kompetisi.Length; i++)
+            {
+                sqlite_cmd.Parameters.Clear();
+
+                parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].ROW_ID;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
+                parm.Value = Properties.Settings.Default.siswa_id;
+                sqlite_cmd.Parameters.Add(parm);
+
+                sqlite_cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void InsertParameterKompetisi(ParameterKompetisi[] Prmkompetisi)
+        {
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            SQLiteParameter parm = new SQLiteParameter();
+
+            sqlite_cmd.CommandText = @"INSERT INTO tb_parameter_kompetisi 
+                    ( ROW_ID_KOMPETISI, PARAMETER_ID, SOAL_DARI, SOAL_SAMPAI, PANJANG_DIGIT, JUMLAH_MUNCUL, JML_BARIS_PER_MUNCUL,
+					  MAX_PANJANG_DIGIT, MAX_JML_DIGIT_PER_SOAL, JML_BARIS_PER_SOAL, MUNCUL_ANGKA_MINUS, MUNCUL_ANGKA_PERKALIAN, DIGIT_PERKALIAN,
+					  MUNCUL_ANGKA_PEMBAGIAN, DIGIT_PEMBAGIAN, MUNCUL_ANGKA_DECIMAL, DIGIT_DECIMAL, FONT_SIZE, KECEPATAN ) 
+					VALUES
+                    (@prm1,@prm2,@prm3,@prm4,@prm5,@prm6,@prm7,@prm8,@prm9,@prm10,@prm11,@prm12,@prm13,@prm14,@prm15,@prm16,@prm17,@prm18,@prm19) ";
+
+            for (int i = 0; i < Prmkompetisi.Length; i++)
+            {
+                sqlite_cmd.Parameters.Clear();
+
+                parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].ROW_ID_KOMPETISI;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].PARAMETER_ID;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm3", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].SOAL_DARI == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].SOAL_DARI);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm4", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].SOAL_SAMPAI == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].SOAL_SAMPAI);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm5", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].PANJANG_DIGIT == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].PANJANG_DIGIT);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm6", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].JUMLAH_MUNCUL == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].JUMLAH_MUNCUL);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm7", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].JML_BARIS_PER_MUNCUL == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].JML_BARIS_PER_MUNCUL);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm8", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].MAX_PANJANG_DIGIT == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].MAX_PANJANG_DIGIT);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm9", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].MAX_JML_DIGIT_PER_SOAL == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].MAX_JML_DIGIT_PER_SOAL);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm10", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].JML_BARIS_PER_SOAL == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].JML_BARIS_PER_SOAL);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm11", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].MUNCUL_ANGKA_MINUS;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm12", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].MUNCUL_ANGKA_PERKALIAN;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm13", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].DIGIT_PERKALIAN == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].DIGIT_PERKALIAN);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm14", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].MUNCUL_ANGKA_PEMBAGIAN;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm15", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].DIGIT_PEMBAGIAN == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].DIGIT_PEMBAGIAN);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm16", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].MUNCUL_ANGKA_DECIMAL;
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm17", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].DIGIT_DECIMAL == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].DIGIT_DECIMAL);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm18", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].FONT_SIZE == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].FONT_SIZE);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm19", DbType.Decimal, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].KECEPATAN == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].KECEPATAN);
                 sqlite_cmd.Parameters.Add(parm);
 
                 sqlite_cmd.ExecuteNonQuery();
