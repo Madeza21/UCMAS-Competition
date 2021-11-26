@@ -130,6 +130,48 @@ namespace FlashCalculation.Help
             return login;
         }
 
+        public Peserta PostRequestCheckPeserta(string url, string id)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            prmlogin prm = new prmlogin() { ID_PESERTA = id };
+            Peserta obj = new Peserta();
+            CheckPeserta login = new CheckPeserta();
+
+            response = client.PostAsJsonAsync(url, prm).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                login = (CheckPeserta)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(CheckPeserta));
+                obj = login.peserta[0];
+            }
+            else
+            {
+                login = (CheckPeserta)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(CheckPeserta));
+            }
+
+            return obj;
+        }
+
+        public string PostRequestChangePassword(string url, string id, string password)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            prmlogin prm = new prmlogin() { ID_PESERTA = id, PASSWORD_PESERTA = password };
+            
+            OutputData data = new OutputData();
+
+            response = client.PostAsJsonAsync(url, prm).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                data = (OutputData)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(OutputData)); 
+            }
+            else
+            {
+                data = (OutputData)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(OutputData));
+            }
+            return data.message;
+        }
+
         public class prmlogin
         {
             public string ID_PESERTA { get; set; }
@@ -157,6 +199,15 @@ namespace FlashCalculation.Help
             public AppConfiguration[] config { get; set; }
         }
 
-        
+        public class CheckPeserta
+        {
+            public OutputData[] data { get; set; }
+            public Peserta[] peserta { get; set; }
+        }
+
+        public class OutputData
+        {
+            public string message { get; set; }
+        }
     }
 }

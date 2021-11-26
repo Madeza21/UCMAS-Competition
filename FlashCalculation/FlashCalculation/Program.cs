@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlashCalculation.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,16 +17,16 @@ namespace FlashCalculation
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FrmLogin());
-            FrmLogin fLogin = new FrmLogin();
-            if (fLogin.ShowDialog() == DialogResult.OK)
+            Application.Run(new FrmLogin());
+            //FrmLogin fLogin = new FrmLogin(peserta);
+            /*if (fLogin.ShowDialog() == DialogResult.OK)
             {
-                Application.Run(new FrmMain());
+                Application.Run(new FrmMain(peserta));
             }
             else
             {
                 Application.Exit();
-            }
+            }*/
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FlashCalculation.Help;
 using FlashCalculation.Model;
+using FlashCalculation.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +20,9 @@ namespace FlashCalculation
         Url[] url;
         Cabang[] cabang;
         AppConfiguration[] config;
-        
+
+        Peserta peserta;
+
         DbBase db = new DbBase();
         HttpRequest client = new HttpRequest();
         SpeechSynthesizer speechSynthesizerObj;
@@ -29,7 +32,7 @@ namespace FlashCalculation
         public FrmLogin()
         {
             InitializeComponent();
-            timer1.Start();            
+            timer1.Start();
         }
               
         private void button2_Click(object sender, EventArgs e)
@@ -49,8 +52,8 @@ namespace FlashCalculation
             }
 
             this.DialogResult = DialogResult.Cancel;
-            this.Close();
-            //Application.Exit();
+            //this.Close();
+            Application.Exit();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -184,6 +187,7 @@ namespace FlashCalculation
                     }
 
                     UpdateDb("Login");
+                    peserta = login.peserta[0];
                 }
                 else
                 {
@@ -196,8 +200,22 @@ namespace FlashCalculation
                 db.CloseConnection();
 
                 //Open Main Form
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                this.Hide();
+                FrmMain frm = new FrmMain(peserta);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    //Jika Berhasil
+                    this.Show();
+                }
+                else
+                {
+                    Application.Exit();
+                }
+
+                //frm.Show();
+                //this.DialogResult = DialogResult.OK;
+                //this.Hide();
+                //this.Close();
             }
             catch (Exception ex)
             {
@@ -392,18 +410,39 @@ namespace FlashCalculation
             }
         }
 
-        private void textBox1_KeyUp(object sender, KeyEventArgs e)
-        {
-            TextBox currentContainer = ((TextBox)sender);
-            int caretPosition = currentContainer.SelectionStart;
-
-            currentContainer.Text = currentContainer.Text.ToUpper();
-            currentContainer.SelectionStart = caretPosition++;
-        }
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            //Peserta perserta = new Peserta();
 
+            peserta = client.PostRequestCheckPeserta("api/user/GetPeserta", textBox1.Text);
+
+            if(peserta.ID_PESERTA == null)
+            {
+                if (Properties.Settings.Default.bahasa == "indonesia")
+                {
+                    MessageBox.Show("ID Peserta tidak valid");
+                }
+                else
+                {
+                    MessageBox.Show("Participant ID not valid"); 
+                }
+                    
+                return;
+            }
+
+            this.Hide();
+
+            FrmResetPswd frm = new FrmResetPswd(peserta);
+            
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                //Jika Berhasil
+            }
+            else 
+            {
+                //Jika Batal
+            }
+            this.Show();
         }
 
         private void chkTrial_CheckedChanged(object sender, EventArgs e)

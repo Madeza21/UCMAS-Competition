@@ -70,7 +70,68 @@ namespace FlashCalculation.Help
 
             return dt;
         }
+        public DataTable GetKompetisi(string pid, string ptgl, string pflag)
+        {
+            DataTable dt = new DataTable();
 
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT tb_kompetisi.ROW_ID,   
+                                              tb_kompetisi.CABANG_CODE,   
+                                              tb_kompetisi.KOMPETISI_NAME,   
+                                              tb_kompetisi.TANGGAL_KOMPETISI,   
+                                              tb_kompetisi.JAM_MULAI,   
+                                              tb_kompetisi.JAM_SAMPAI,   
+                                              tb_kompetisi.JENIS_CODE,   
+                                              tb_kompetisi.JENIS_NAME,   
+                                              tb_kompetisi.TIPE,   
+                                              tb_kompetisi.ROW_ID_KATEGORI,   
+                                              tb_kompetisi.KATEGORI_CODE,   
+                                              tb_kompetisi.KATEGORI_NAME,   
+                                              tb_kompetisi.LAMA_PERLOMBAAN,   
+                                              tb_kompetisi.KECEPATAN  
+                                         FROM tb_peserta_kompetisi, tb_kompetisi
+                                        WHERE tb_peserta_kompetisi.ROW_ID_KOMPETISI = tb_kompetisi.ROW_ID
+                                          AND tb_peserta_kompetisi.ID_PESERTA =@pid
+                                          AND tb_kompetisi.TANGGAL_KOMPETISI =@ptgl
+                                          AND tb_kompetisi.IS_TRIAL =@pflag";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
+            parm.Value = pid;
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@ptgl", DbType.String, ParameterDirection.Input);
+            parm.Value = ptgl;
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@pflag", DbType.String, ParameterDirection.Input);
+            parm.Value = pflag;
+            sqlite_cmd.Parameters.Add(parm);
+
+            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
+
+            dda.Fill(dt);
+
+            return dt;
+        }
+        public string GetAppConfig(string pcode)
+        {
+            string str = "";
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT CONFIG_PARAM FROM tb_application_configuration WHERE CONFIG_CODE =@pcode";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@pcode", DbType.String, ParameterDirection.Input);
+            parm.Value = pcode;
+            sqlite_cmd.Parameters.Add(parm);
+
+            str = Convert.ToString(sqlite_cmd.ExecuteScalar());
+
+            return str;
+        }
         public void InsertUrl(Url[] url)
         {
             SQLiteCommand sqlite_cmd;
@@ -252,7 +313,7 @@ namespace FlashCalculation.Help
                 parm.Value = kompetisi[i].KOMPETISI_NAME;
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm4", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].TANGGAL_KOMPETISI;
+                parm.Value = Properties.Settings.Default.trial == "Y" ? DateTime.Now.ToString("yyyy-MM-dd") : kompetisi[i].TANGGAL_KOMPETISI;
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm5", DbType.String, ParameterDirection.Input);
                 parm.Value = kompetisi[i].JAM_MULAI;
