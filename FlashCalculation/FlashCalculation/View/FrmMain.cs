@@ -89,6 +89,7 @@ namespace FlashCalculation
 
             //Load dummy soal kompetisi
             dtSoal = db.GetSoalKompetisi("");
+            SetSoalKompetisi();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -749,6 +750,337 @@ namespace FlashCalculation
             }
 
             return str;
+        }
+
+        private string Thanks(string idperlombaan, int row)
+        {
+            string ret = "";
+            DataRow dr;
+            dr = (DataRow)dtSoal.NewRow();
+
+            dr["row_id_kompetisi"] = idperlombaan;
+            dr["no_soal"] = row;
+            dr["angkamuncul1"] = "Thanks";
+            dr["jml_baris_per_muncul"] = 1;
+            dr["jumlah_muncul"] = 1;
+            dr["kecepatan"] = 1;
+            dr["max_jml_digit_per_soal"] = 0;
+
+            dtSoal.Rows.Add(dr);
+
+            return ret;
+        }
+
+        private void ZigZag()
+        {
+            string angkamuncul1, munculangkadecimal, randomformat, angka1, angka;
+            int maxkarakter, totalkarakter, decrease, digitdecimal;
+            decimal kuncijwb, angkax, dangka;
+
+            if(dtSoal.Rows.Count > 0)
+            {
+                for(int i = 0; i < dtSoal.Rows.Count; i++)
+                {
+                    angkamuncul1 = dtSoal.Rows[i]["angkamuncul1"].ToString();
+                    maxkarakter = dtSoal.Rows[i]["max_jml_digit_per_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtSoal.Rows[i]["max_jml_digit_per_soal"].ToString());
+                    
+                    if (maxkarakter > 0)
+                    {
+
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    totalkarakter = dtSoal.Rows[i]["total_digit_per_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtSoal.Rows[i]["total_digit_per_soal"].ToString());
+                    decrease = totalkarakter - maxkarakter;
+                    munculangkadecimal = dtSoal.Rows[i]["muncul_angka_decimal"].ToString();
+                    if(munculangkadecimal != "Y")
+                    {
+                        munculangkadecimal = "N";
+                    }
+                    digitdecimal = dtSoal.Rows[i]["digit_decimal"].ToString() == "" ? 0 : Convert.ToInt32(dtSoal.Rows[i]["digit_decimal"].ToString());
+                    kuncijwb = 0;
+                    randomformat = "";
+                    angka1 = "";
+
+                    if (angkamuncul1 == "Thanks")
+                    {
+                        continue;
+                    }
+                    if (angkamuncul1.Contains("x"))
+                    {
+                        continue;
+                    }
+                    if (angkamuncul1.Contains("÷"))
+                    {
+                        continue;
+                    }
+
+                    if (decrease > 0)
+                    {
+                        //minus
+                        for(int x = 1; x <= 150; x++)
+                        {
+                            if(munculangkadecimal == "Y")
+                            {
+                                angkax = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString()), digitdecimal);                                
+                            }
+                            else
+                            {
+                                angkax = dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString());
+                            }
+                            angka = angkax.ToString();
+                            if (angka.Contains("-"))
+                            {
+                                if (munculangkadecimal == "Y")
+                                {
+                                    angka = angka.Substring(0, angka.IndexOf(".") - 2) + angka.Substring(angka.IndexOf("."), angka.Length);
+                                }
+                                else
+                                {
+                                    angka = angka.Substring(0, angka.Length - 1);
+                                }
+
+                                dtSoal.Rows[i]["angka" + x.ToString()] = angka;
+                                decrease = decrease - 1;
+                                if(decrease < 1)
+                                {
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                    }
+
+                    if (decrease > 0)
+                    {
+                        //plus
+                        for (int x = 1; x <= 150; x++)
+                        {
+                            if (munculangkadecimal == "Y")
+                            {
+                                angkax = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString()), digitdecimal);
+                            }
+                            else
+                            {
+                                angkax = dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString());
+                            }
+                            angka = angkax.ToString();
+                            if (angka.Contains("-"))
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                if (munculangkadecimal == "Y")
+                                {
+                                    angka = angka.Substring(0, angka.IndexOf(".") - 2) + angka.Substring(angka.IndexOf("."), angka.Length);
+                                }
+                                else
+                                {
+                                    angka = angka.Substring(0, angka.Length - 1);
+                                }
+
+                                dtSoal.Rows[i]["angka" + x.ToString()] = angka;
+                                decrease = decrease - 1;
+                                if (decrease < 1)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    //Generate Soal dan kunci jawaban
+                    for (int x = 1; x <= 150; x++)
+                    {
+                        if (munculangkadecimal == "Y")
+                        {
+                            angkax = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString()), digitdecimal);
+                        }
+                        else
+                        {
+                            angkax = dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString());
+                        }
+                        angka = angkax.ToString();
+                        if(angka == "")
+                        {
+                            dangka = 0;
+                        }
+                        else
+                        {
+                            dangka = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString()), digitdecimal);
+                            if (munculangkadecimal == "Y")
+                            {
+                                if (digitdecimal == 1)
+                                {
+                                    randomformat = dangka.ToString("###,###,###.#");
+                                }
+                                else if (digitdecimal == 2)
+                                {
+                                    randomformat = dangka.ToString("###,###,###.##");
+                                }
+                                else if (digitdecimal == 3)
+                                {
+                                    randomformat = dangka.ToString("###,###,###.###");
+                                }
+                                else if (digitdecimal == 4)
+                                {
+                                    randomformat = dangka.ToString("###,###,###.####");
+                                }
+                                else if (digitdecimal == 5)
+                                {
+                                    randomformat = dangka.ToString("###,###,###.#####");
+                                }
+                                else if (digitdecimal == 6)
+                                {
+                                    randomformat = dangka.ToString("###,###,###.######");
+                                }
+                            }
+                            else
+                            {
+                                randomformat = dangka.ToString("###,###,###");
+                            }
+                            angka1 = angka1 + randomformat + Environment.NewLine;
+                        }
+                        kuncijwb = kuncijwb + dangka;
+                    }
+                    dtSoal.Rows[i]["kunci_jawaban"] = kuncijwb;
+                    dtSoal.Rows[i]["angkamuncul1"] = angka1;
+                }
+            }
+        }
+
+        private void SetSoalKompetisi()
+        {
+            string idperlombaan, parameterid, munculangkaminus, munculangkaperkalian, munculangkapembagian, munculangkadecimal, type;
+            int soaldari, soalsampai, panjangdigit, jumlahmuncul, jmlbarispermuncul, maxpanjangdigit, maxjmldigitpersoal;
+            int digitperkalian, digitpembagian, digitdecimal, fontsize, totalrow;
+            decimal kecepatan;
+            string idperlombaanprev = "";
+            int soalsampaiprev = 0;
+            string strtglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
+            DataTable dtparm = db.GetParameterKompetisi(peserta.ID_PESERTA, strtglkompetisi);
+
+            if (dtparm.Rows.Count > 0)
+            {
+                for(int i = 0;i < dtparm.Rows.Count; i++)
+                {
+                    idperlombaan = dtparm.Rows[i]["row_id_kompetisi"].ToString();
+                    parameterid = dtparm.Rows[i]["parameter_id"].ToString();
+                    munculangkaminus = dtparm.Rows[i]["muncul_angka_minus"].ToString();
+                    munculangkaperkalian = dtparm.Rows[i]["muncul_angka_perkalian"].ToString();
+                    munculangkapembagian = dtparm.Rows[i]["muncul_angka_pembagian"].ToString();
+                    munculangkadecimal = dtparm.Rows[i]["muncul_angka_decimal"].ToString();
+                    type = dtparm.Rows[i]["tipe"].ToString();
+
+                    soaldari = dtparm.Rows[i]["soal_dari"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["soal_dari"].ToString());
+                    soalsampai = dtparm.Rows[i]["soal_sampai"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["soal_sampai"].ToString());
+                    panjangdigit = dtparm.Rows[i]["panjang_digit"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["panjang_digit"].ToString());
+                    jumlahmuncul = dtparm.Rows[i]["jumlah_muncul"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["jumlah_muncul"].ToString());
+                    jmlbarispermuncul = dtparm.Rows[i]["jml_baris_per_muncul"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["jml_baris_per_muncul"].ToString());
+                    maxpanjangdigit = dtparm.Rows[i]["max_panjang_digit"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["max_panjang_digit"].ToString());
+                    maxjmldigitpersoal = dtparm.Rows[i]["max_jml_digit_per_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["max_jml_digit_per_soal"].ToString());
+
+                    digitperkalian = dtparm.Rows[i]["digit_perkalian"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["digit_perkalian"].ToString());
+                    digitpembagian = dtparm.Rows[i]["digit_pembagian"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["digit_pembagian"].ToString());
+                    digitdecimal = dtparm.Rows[i]["digit_decimal"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["digit_decimal"].ToString());
+                    fontsize = dtparm.Rows[i]["font_size"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["font_size"].ToString());
+
+                    kecepatan = dtparm.Rows[i]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtparm.Rows[i]["kecepatan"].ToString());
+
+                    if(kecepatan <= 0)
+                    {
+                        kecepatan = 1;
+                    }
+
+                    totalrow = jmlbarispermuncul * jumlahmuncul;
+
+                    //delete soal
+                    db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaan + "' AND no_soal between " + soaldari.ToString() + " and " + soalsampai.ToString());
+
+                    if(i == dtparm.Rows.Count - 1)
+                    {
+                        db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaanprev + "' AND no_soal = " + (soalsampai +1).ToString());
+                    }
+                    else
+                    {
+                        if(idperlombaanprev != idperlombaan && i > 0)
+                        {
+                            db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaanprev + "' AND no_soal = " + (soalsampaiprev + 1).ToString());
+                        }
+                    }                    
+
+                    if(type == "F")
+                    {                        
+                        RandomFlash(soaldari, soalsampai, panjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, kecepatan);
+                    }
+                    else if (type == "V")
+                    {                        
+                        RandomVisual(soaldari, soalsampai, maxpanjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, munculangkaperkalian, digitperkalian, munculangkapembagian, digitpembagian, munculangkadecimal, digitdecimal, kecepatan, maxjmldigitpersoal);
+                    }
+                    else if (type == "L")
+                    {		
+                        RandomListening(soaldari, soalsampai, panjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, kecepatan);
+                    }
+
+                    //Thanks
+                    if (i == dtparm.Rows.Count - 1)
+                    {
+                        Thanks(idperlombaanprev, soalsampai + 1);
+                    }
+                    else
+                    {
+                        if (idperlombaanprev != idperlombaan && i > 0)
+                        {
+                            Thanks(idperlombaanprev, soalsampaiprev + 1);
+                        }
+                    }
+
+                    idperlombaanprev = idperlombaan;
+                    soalsampaiprev = soalsampai;
+                }
+            }
+
+            //ZigZag
+            ZigZag();
+
+            //Save Data dtSoal
+            string[] lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol;
+            lstrPrmHdrUpdateCol = new string[235]{
+                               "row_id_kompetisi", "no_soal", "jumlah_muncul", "jml_baris_per_muncul", "angka1", "angka2", "angka3", "angka4", "angka5", "angka6", "angka7",
+                                "angka8", "angka9", "angka10", "angka11", "angka12", "angka13", "angka14", "angka15", "angka16", "angka17", "angka18", "angka19", "angka20",
+                                "angka21", "angka22", "angka23", "angka24", "angka25", "angka26", "angka27", "angka28", "angka29", "angka30", "angka31", "angka32", "angka33",
+                                "angka34", "angka35", "angka36", "angka37", "angka38", "angka39", "angka40", "angka41", "angka42", "angka43", "angka44", "angka45", "angka46",
+                                "angka47", "angka48", "angka49", "angka50", "angka51", "angka52", "angka53", "angka54", "angka55", "angka56", "angka57", "angka58", "angka59",
+                                "angka60", "angka61", "angka62", "angka63", "angka64", "angka65", "angka66", "angka67", "angka68", "angka69", "angka70", "angka71", "angka72",
+                                "angka73", "angka74", "angka75", "angka76", "angka77", "angka78", "angka79", "angka80", "angka81", "angka82", "angka83", "angka84", "angka85",
+                                "angka86", "angka87", "angka88", "angka89", "angka90", "angka91", "angka92", "angka93", "angka94", "angka95", "angka96", "angka97", "angka98",
+                                "angka99", "angka100", "angka101", "angka102", "angka103", "angka104", "angka105", "angka106", "angka107", "angka108", "angka109", "angka110",
+                                "angka111", "angka112", "angka113", "angka114", "angka115", "angka116", "angka117", "angka118", "angka119", "angka120", "angka121", "angka122",
+                                "angka123", "angka124", "angka125", "angka126", "angka127", "angka128", "angka129", "angka130", "angka131", "angka132", "angka133", "angka134",
+                                "angka135", "angka136", "angka137", "angka138", "angka139", "angka140", "angka141", "angka142", "angka143", "angka144", "angka145", "angka146",
+                                "angka147", "angka148", "angka149", "angka150", "perkalian1", "perkalian2", "perkalian3", "perkalian4", "perkalian5", "perkalian6", "perkalian7",
+                                "perkalian8", "perkalian9", "perkalian10", "pembagian1", "pembagian2", "pembagian3", "pembagian4", "pembagian5", "pembagian6", "pembagian7",
+                                "pembagian8", "pembagian9", "pembagian10", "kunci_jawaban", "angkamuncul1", "angkamuncul2", "angkamuncul3", "angkamuncul4", "angkamuncul5",
+                                "angkamuncul6", "angkamuncul7", "angkamuncul8", "angkamuncul9", "angkamuncul10", "angkamuncul11", "angkamuncul12", "angkamuncul13", "angkamuncul14",
+                                "angkamuncul15", "angkamuncul16", "angkamuncul17", "angkamuncul18", "angkamuncul19", "angkamuncul20", "angkamuncul21", "angkamuncul22", "angkamuncul23",
+                                "angkamuncul24", "angkamuncul25", "angkamuncul26", "angkamuncul27", "angkamuncul28", "angkamuncul29", "angkamuncul30", "angkamuncul31", "angkamuncul32",
+                                "angkamuncul33", "angkamuncul34", "angkamuncul35", "angkamuncul36", "angkamuncul37", "angkamuncul38", "angkamuncul39", "angkamuncul40", "angkamuncul41",
+                                "angkamuncul42", "angkamuncul43", "angkamuncul44", "angkamuncul45", "angkamuncul46", "angkamuncul47", "angkamuncul48", "angkamuncul49", "angkamuncul50",
+                                "kecepatan", "angkalistening1", "angkalistening2", "angkalistening3", "angkalistening4", "angkalistening5", "max_jml_digit_per_soal", "total_digit_per_soal",
+                                "MUNCUL_ANGKA_DECIMAL", "DIGIT_DECIMAL" };
+            lstrPrmHdrKeyCol = new string[2] { "row_id_kompetisi", "no_soal" };
+            if(db.UpdateDataTable(dtSoal, "tb_soal_kompetisi", lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol) != "OK")
+            {
+
+            }
+
         }
     }
 }

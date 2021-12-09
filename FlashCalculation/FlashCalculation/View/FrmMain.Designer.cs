@@ -48,6 +48,15 @@ namespace FlashCalculation
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
@@ -67,15 +76,6 @@ namespace FlashCalculation
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -300,6 +300,96 @@ namespace FlashCalculation
             this.panel2.Size = new System.Drawing.Size(256, 527);
             this.panel2.TabIndex = 0;
             // 
+            // label21
+            // 
+            this.label21.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ForeColor = System.Drawing.Color.White;
+            this.label21.Location = new System.Drawing.Point(13, 385);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(226, 22);
+            this.label21.TabIndex = 19;
+            this.label21.Text = "Alamat";
+            // 
+            // label20
+            // 
+            this.label20.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.ForeColor = System.Drawing.Color.White;
+            this.label20.Location = new System.Drawing.Point(11, 336);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(226, 22);
+            this.label20.TabIndex = 19;
+            this.label20.Text = "Alamat";
+            // 
+            // label19
+            // 
+            this.label19.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.ForeColor = System.Drawing.Color.White;
+            this.label19.Location = new System.Drawing.Point(12, 288);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(226, 22);
+            this.label19.TabIndex = 19;
+            this.label19.Text = "Alamat";
+            // 
+            // label18
+            // 
+            this.label18.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.ForeColor = System.Drawing.Color.White;
+            this.label18.Location = new System.Drawing.Point(13, 244);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(226, 22);
+            this.label18.TabIndex = 19;
+            this.label18.Text = "Alamat";
+            // 
+            // label17
+            // 
+            this.label17.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.White;
+            this.label17.Location = new System.Drawing.Point(13, 198);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(226, 22);
+            this.label17.TabIndex = 19;
+            this.label17.Text = "Alamat";
+            // 
+            // label16
+            // 
+            this.label16.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.Color.White;
+            this.label16.Location = new System.Drawing.Point(13, 153);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(226, 22);
+            this.label16.TabIndex = 19;
+            this.label16.Text = "Alamat";
+            // 
+            // label15
+            // 
+            this.label15.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.White;
+            this.label15.Location = new System.Drawing.Point(13, 108);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(226, 22);
+            this.label15.TabIndex = 19;
+            this.label15.Text = "Alamat";
+            // 
+            // label14
+            // 
+            this.label14.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.Color.White;
+            this.label14.Location = new System.Drawing.Point(13, 63);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(226, 22);
+            this.label14.TabIndex = 19;
+            this.label14.Text = "Alamat";
+            // 
+            // label13
+            // 
+            this.label13.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.Color.White;
+            this.label13.Location = new System.Drawing.Point(12, 438);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(226, 67);
+            this.label13.TabIndex = 19;
+            this.label13.Text = "Alamat";
+            // 
             // textBox9
             // 
             this.textBox9.BackColor = System.Drawing.Color.DodgerBlue;
@@ -519,96 +609,6 @@ namespace FlashCalculation
             this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "ID Peserta";
-            // 
-            // label13
-            // 
-            this.label13.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.ForeColor = System.Drawing.Color.White;
-            this.label13.Location = new System.Drawing.Point(12, 438);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(226, 67);
-            this.label13.TabIndex = 19;
-            this.label13.Text = "Alamat";
-            // 
-            // label14
-            // 
-            this.label14.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.ForeColor = System.Drawing.Color.White;
-            this.label14.Location = new System.Drawing.Point(13, 63);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(226, 22);
-            this.label14.TabIndex = 19;
-            this.label14.Text = "Alamat";
-            // 
-            // label15
-            // 
-            this.label15.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.ForeColor = System.Drawing.Color.White;
-            this.label15.Location = new System.Drawing.Point(13, 108);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(226, 22);
-            this.label15.TabIndex = 19;
-            this.label15.Text = "Alamat";
-            // 
-            // label16
-            // 
-            this.label16.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.ForeColor = System.Drawing.Color.White;
-            this.label16.Location = new System.Drawing.Point(13, 153);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(226, 22);
-            this.label16.TabIndex = 19;
-            this.label16.Text = "Alamat";
-            // 
-            // label17
-            // 
-            this.label17.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.ForeColor = System.Drawing.Color.White;
-            this.label17.Location = new System.Drawing.Point(13, 198);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(226, 22);
-            this.label17.TabIndex = 19;
-            this.label17.Text = "Alamat";
-            // 
-            // label18
-            // 
-            this.label18.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.ForeColor = System.Drawing.Color.White;
-            this.label18.Location = new System.Drawing.Point(13, 244);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(226, 22);
-            this.label18.TabIndex = 19;
-            this.label18.Text = "Alamat";
-            // 
-            // label19
-            // 
-            this.label19.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.ForeColor = System.Drawing.Color.White;
-            this.label19.Location = new System.Drawing.Point(12, 288);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(226, 22);
-            this.label19.TabIndex = 19;
-            this.label19.Text = "Alamat";
-            // 
-            // label20
-            // 
-            this.label20.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(11, 336);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(226, 22);
-            this.label20.TabIndex = 19;
-            this.label20.Text = "Alamat";
-            // 
-            // label21
-            // 
-            this.label21.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(13, 385);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(226, 22);
-            this.label21.TabIndex = 19;
-            this.label21.Text = "Alamat";
             // 
             // FrmMain
             // 

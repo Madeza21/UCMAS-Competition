@@ -98,9 +98,9 @@ D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCal
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.FrmLogin.resources
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.FrmMain.resources
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.Properties.Resources.resources
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.View.FrmResetPswd.resources
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.GenerateResource.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.CoreCompileInputs.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.CopyComplete
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.exe
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.pdb
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.View.FrmResetPswd.resources
