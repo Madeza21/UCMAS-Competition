@@ -12,7 +12,7 @@
       <Value Profile="(Default)">ucmasidn.com</Value>
     </Setting>
     <Setting Name="api_address" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://api.ucmasidn.com/</Value>
+      <Value Profile="(Default)">http://127.0.0.1:8000</Value>
     </Setting>
     <Setting Name="bahasa" Type="System.String" Scope="User">
       <Value Profile="(Default)">indonesia</Value>

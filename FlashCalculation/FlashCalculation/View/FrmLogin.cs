@@ -318,7 +318,7 @@ namespace FlashCalculation
 
         private void LoadDataFromApi()
         {
-            url = client.GetRequestUrl("api/url");            
+            url = client.GetRequestUrl("/api/url");            
             
             for(int i = 0; i < url.Length; i++)
             {
@@ -414,7 +414,7 @@ namespace FlashCalculation
         {
             //Peserta perserta = new Peserta();
 
-            peserta = client.PostRequestCheckPeserta("api/user/GetPeserta", textBox1.Text);
+            peserta = client.PostRequestCheckPeserta("/api/user/GetPeserta", textBox1.Text);
 
             if(peserta.ID_PESERTA == null)
             {

@@ -61,7 +61,7 @@ namespace FlashCalculation.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://api.ucmasidn.com/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://127.0.0.1:8000")]
         public string api_address {
             get {
                 return ((string)(this["api_address"]));

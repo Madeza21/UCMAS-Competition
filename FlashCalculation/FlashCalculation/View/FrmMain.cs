@@ -20,8 +20,11 @@ namespace FlashCalculation
         Peserta peserta;
 
         DataTable dtSoal = new DataTable();
+        Random rnd = new Random();
+        CultureInfo culture = new CultureInfo("en-US");
 
         DbBase db = new DbBase();
+
         private PrivateFontCollection pfc;
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(
@@ -54,6 +57,7 @@ namespace FlashCalculation
         private void FrmMain_Load(object sender, EventArgs e)
         {
             //Properties.Settings.Default.siswa_id = "TES UBAH";
+            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             textBox10.Font = new Font(this.pfc.Families[0], 34, FontStyle.Bold);
 
             textBox1.Text = peserta.ID_PESERTA;
@@ -90,6 +94,7 @@ namespace FlashCalculation
             //Load dummy soal kompetisi
             dtSoal = db.GetSoalKompetisi("");
             SetSoalKompetisi();
+            this.Cursor = System.Windows.Forms.Cursors.Default;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -100,8 +105,6 @@ namespace FlashCalculation
         private string RandomAngka(int pdigit)
         {
             string ret = "";
-            
-            Random rnd = new Random();
 
             ret = rnd.Next(1, 10).ToString() + rnd.Next(1, 10).ToString() + rnd.Next(1, 11).ToString() + rnd.Next(1, 11).ToString() + rnd.Next(1, 11).ToString() + 
                 rnd.Next(1, 11).ToString() + rnd.Next(1, 11).ToString() + rnd.Next(1, 11).ToString() + rnd.Next(1, 11).ToString() + rnd.Next(1, 11).ToString() + 
@@ -114,7 +117,6 @@ namespace FlashCalculation
         private string RandomAngkaDec(int pdigit)
         {
             string ret = "";
-            Random rnd = new Random();
 
             ret = rnd.Next(1, 10).ToString() + rnd.Next(1, 10).ToString() + rnd.Next(1, 10).ToString() + rnd.Next(1, 10).ToString() + rnd.Next(1, 10).ToString() +
                 rnd.Next(1, 10).ToString() + rnd.Next(1, 10).ToString() + rnd.Next(1, 10).ToString() + rnd.Next(1, 10).ToString() + rnd.Next(1, 10).ToString() + 
@@ -127,65 +129,68 @@ namespace FlashCalculation
         private string RandomFlash(int soaldari, int soalsampai, int pjgdigit, int jmlrow, string idperlombaan, int jmlbarispermuncul, int jmlmuncul, string munculminus, decimal kecepatan)
         {
             string ret = "";
-            decimal kunci = 0, decangkarandom = 0;
-            int angkamuncul = 0, angkamunculke = 0;
-            string strangka = "", strrandomprev = "", strrandom = "", strrandomformat = "";
-            DataRow dr;
-
-            for (int idx = soaldari; idx <= soalsampai; idx++)
+            try
             {
-                kunci = 0;
-                angkamuncul = jmlbarispermuncul;
-                angkamunculke = 0;
-                strangka = "";
-                strrandomprev = "0";
-                strrandom = "0";
+                decimal kunci = 0, decangkarandom = 0;
+                int angkamuncul = 0, angkamunculke = 0;
+                string strangka = "", strrandomprev = "", strrandom = "", strrandomformat = "";
+                DataRow dr;
 
-                dr = (DataRow)dtSoal.NewRow();
-
-                for (int row = 1; row <= jmlrow; row++)
+                for (int idx = soaldari; idx <= soalsampai; idx++)
                 {
-                    strrandom = RandomAngka(pjgdigit);
-                    //Angka sama
-                    if ((strrandomprev == strrandom) || (strrandomprev.Substring(0,1) == strrandom.Substring(0, 1))  || (strrandomprev.Substring(strrandomprev.Length-1) == strrandom.Substring(strrandom.Length - 1)))
+                    kunci = 0;
+                    angkamuncul = jmlbarispermuncul;
+                    angkamunculke = 0;
+                    strangka = "";
+                    strrandomprev = "0";
+                    strrandom = "0";
+
+                    dr = (DataRow)dtSoal.NewRow();
+
+                    for (int row = 1; row <= jmlrow; row++)
                     {
                         strrandom = RandomAngka(pjgdigit);
-                        //Angka sama 2
+                        //Angka sama
                         if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                         {
                             strrandom = RandomAngka(pjgdigit);
-                            //Angka sama 3
+                            //Angka sama 2
                             if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                             {
                                 strrandom = RandomAngka(pjgdigit);
-                                //Angka sama 4
+                                //Angka sama 3
                                 if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                 {
                                     strrandom = RandomAngka(pjgdigit);
-                                    //Angka sama 5
+                                    //Angka sama 4
                                     if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                     {
                                         strrandom = RandomAngka(pjgdigit);
-                                        //Angka sama 6
+                                        //Angka sama 5
                                         if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                         {
                                             strrandom = RandomAngka(pjgdigit);
-                                            //Angka sama 7
+                                            //Angka sama 6
                                             if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                             {
                                                 strrandom = RandomAngka(pjgdigit);
-                                                //Angka sama 8
+                                                //Angka sama 7
                                                 if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                                 {
                                                     strrandom = RandomAngka(pjgdigit);
-                                                    //Angka sama 9
+                                                    //Angka sama 8
                                                     if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                                     {
                                                         strrandom = RandomAngka(pjgdigit);
-                                                        //Angka sama 10
+                                                        //Angka sama 9
                                                         if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                                         {
                                                             strrandom = RandomAngka(pjgdigit);
+                                                            //Angka sama 10
+                                                            if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                                            {
+                                                                strrandom = RandomAngka(pjgdigit);
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -195,54 +200,58 @@ namespace FlashCalculation
                                 }
                             }
                         }
-                    }
 
-                    if(munculminus == "Y")
-                    {
-                        if (Convert.ToDecimal(strrandomprev) > Convert.ToDecimal(strrandom))
+                        if (munculminus == "Y")
                         {
-                            strrandom = '-' + strrandom;
-                            dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
+                            if (Convert.ToDecimal(strrandomprev, culture) > Convert.ToDecimal(strrandom, culture))
+                            {
+                                strrandom = '-' + strrandom;
+                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                            }
+                            else
+                            {
+                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                            }
                         }
                         else
                         {
-                            dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
+                            dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                        }
+
+                        decangkarandom = Convert.ToDecimal(strrandom, culture);
+                        kunci = kunci + decangkarandom;
+                        strrandomprev = strrandom;
+
+                        strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###"); //("#,#",CultureInfo.InvariantCulture)
+                        strangka = strangka + strrandomformat + Environment.NewLine;
+
+                        if (angkamuncul == row)
+                        {
+                            angkamunculke = angkamunculke + 1;
+                            angkamuncul = angkamuncul + jmlbarispermuncul;
+                            dr["angkamuncul" + angkamunculke.ToString()] = strangka;
+                            strangka = "";
                         }
                     }
-                    else
-                    {
-                        dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
-                    }
 
-                    decangkarandom = Convert.ToDecimal(strrandom);
-                    kunci = kunci + decangkarandom;
-                    strrandomprev = strrandom;
+                    dr["kunci_jawaban"] = kunci;
+                    dr["row_id_kompetisi"] = idperlombaan;
+                    dr["no_soal"] = idx;
+                    dr["jml_baris_per_muncul"] = jmlbarispermuncul;
+                    dr["jumlah_muncul"] = jmlmuncul;
+                    dr["kecepatan"] = kecepatan;
+                    dr["max_jml_digit_per_soal"] = 0;
 
-                    strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###"); //("#,#",CultureInfo.InvariantCulture)
-                    strangka = strangka + strrandomformat + Environment.NewLine;
-
-                    if (angkamuncul == row)
-                    {
-                        angkamunculke = angkamunculke + 1;
-                        angkamuncul = angkamuncul + jmlbarispermuncul;
-                        dr["angkamuncul" + angkamunculke.ToString()] = strangka;
-                        strangka = "";
-                    }
+                    dtSoal.Rows.Add(dr);
                 }
 
-                dr["kunci_jawaban"] = kunci;
-                dr["row_id_kompetisi"] = idperlombaan;
-                dr["no_soal"] = idx;
-                dr["jml_baris_per_muncul"] = jmlbarispermuncul;
-                dr["jumlah_muncul"] = jmlmuncul;
-                dr["kecepatan"] = kecepatan;
-                dr["max_jml_digit_per_soal"] = 0;
-
-                dtSoal.Rows.Add(dr);
+                strrandomprev = "";
+                strrandom = "";
             }
-
-            strrandomprev = "";
-            strrandom = "";
+            catch (Exception e)
+            {
+                MessageBox.Show("Error : " + e.Message + " On Soal Dari : " + soaldari.ToString(), "Visual");
+            }
 
             return ret;
         }
@@ -250,70 +259,73 @@ namespace FlashCalculation
         private string RandomListening(int soaldari, int soalsampai, int pjgdigit, int jmlrow, string idperlombaan, int jmlbarispermuncul, int jmlmuncul, string munculminus, decimal kecepatan)
         {
             string ret = "";
-            decimal kunci = 0, decangkarandom = 0;
-            int angkamuncul = 0, angkamunculke = 0;
-            string strangka = "", strrandomprev = "", strrandom = "";
-            string strangkalisten = "";
-            bool bminus = false;
-
-            DataRow dr;
-
-            for (int idx = soaldari; idx <= soalsampai; idx++)
+            try
             {
-                kunci = 0;
-                angkamuncul = jmlbarispermuncul;
-                angkamunculke = 0;
-                strangka = "";
-                strangkalisten = "";
-                strrandomprev = "0";
-                strrandom = "0";
-                bminus = false;
+                decimal kunci = 0, decangkarandom = 0;
+                int angkamuncul = 0, angkamunculke = 0;
+                string strangka = "", strrandomprev = "", strrandom = "";
+                string strangkalisten = "";
+                bool bminus = false;
 
-                dr = (DataRow)dtSoal.NewRow();
+                DataRow dr;
 
-                for (int row = 1; row <= jmlrow; row++)
+                for (int idx = soaldari; idx <= soalsampai; idx++)
                 {
-                    strrandom = RandomAngka(pjgdigit);
-                    //Angka sama
-                    if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                    kunci = 0;
+                    angkamuncul = jmlbarispermuncul;
+                    angkamunculke = 0;
+                    strangka = "";
+                    strangkalisten = "";
+                    strrandomprev = "0";
+                    strrandom = "0";
+                    bminus = false;
+
+                    dr = (DataRow)dtSoal.NewRow();
+
+                    for (int row = 1; row <= jmlrow; row++)
                     {
                         strrandom = RandomAngka(pjgdigit);
-                        //Angka sama 2
+                        //Angka sama
                         if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                         {
                             strrandom = RandomAngka(pjgdigit);
-                            //Angka sama 3
+                            //Angka sama 2
                             if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                             {
                                 strrandom = RandomAngka(pjgdigit);
-                                //Angka sama 4
+                                //Angka sama 3
                                 if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                 {
                                     strrandom = RandomAngka(pjgdigit);
-                                    //Angka sama 5
+                                    //Angka sama 4
                                     if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                     {
                                         strrandom = RandomAngka(pjgdigit);
-                                        //Angka sama 6
+                                        //Angka sama 5
                                         if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                         {
                                             strrandom = RandomAngka(pjgdigit);
-                                            //Angka sama 7
+                                            //Angka sama 6
                                             if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                             {
                                                 strrandom = RandomAngka(pjgdigit);
-                                                //Angka sama 8
+                                                //Angka sama 7
                                                 if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                                 {
                                                     strrandom = RandomAngka(pjgdigit);
-                                                    //Angka sama 9
+                                                    //Angka sama 8
                                                     if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                                     {
                                                         strrandom = RandomAngka(pjgdigit);
-                                                        //Angka sama 10
+                                                        //Angka sama 9
                                                         if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                                         {
                                                             strrandom = RandomAngka(pjgdigit);
+                                                            //Angka sama 10
+                                                            if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                                            {
+                                                                strrandom = RandomAngka(pjgdigit);
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -323,85 +335,89 @@ namespace FlashCalculation
                                 }
                             }
                         }
-                    }
 
-                    if (munculminus == "Y")
-                    {
-                        if (Convert.ToDecimal(strrandomprev) > Convert.ToDecimal(strrandom))
+                        if (munculminus == "Y")
                         {
-                            strangka = strangka + "minus " + NumberInWordEnglish(Convert.ToDecimal(strrandom)) + Environment.NewLine;
-                            strangkalisten = strangkalisten + "(-" + strrandom + ") " + "minus " + NumberInWordEnglish(Convert.ToDecimal(strrandom)) + Environment.NewLine;
+                            if (Convert.ToDecimal(strrandomprev, culture) > Convert.ToDecimal(strrandom, culture))
+                            {
+                                strangka = strangka + "minus " + NumberInWordEnglish(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                strangkalisten = strangkalisten + "(-" + strrandom + ") " + "minus " + NumberInWordEnglish(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
 
-                            bminus = true;
+                                bminus = true;
 
-                            strrandom = '-' + strrandom;
-                            dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
+                                strrandom = '-' + strrandom;
+                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                            }
+                            else
+                            {
+                                if (bminus)
+                                {
+                                    strangka = strangka + "plus " + NumberInWordEnglish(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                    strangkalisten = strangkalisten + "(" + strrandom + ") " + "plus " + NumberInWordEnglish(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                }
+                                else
+                                {
+                                    strangka = strangka + NumberInWordEnglish(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                    strangkalisten = strangkalisten + "(" + strrandom + ") " + NumberInWordEnglish(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                }
+
+                                bminus = false;
+                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                            }
                         }
                         else
                         {
                             if (bminus)
                             {
-                                strangka = strangka + "plus " + NumberInWordEnglish(Convert.ToDecimal(strrandom)) + Environment.NewLine;
-                                strangkalisten = strangkalisten + "(" + strrandom + ") " + "plus " + NumberInWordEnglish(Convert.ToDecimal(strrandom)) + Environment.NewLine;
+                                strangka = strangka + "plus " + NumberInWordEnglish(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                strangkalisten = strangkalisten + "(" + strrandom + ") " + "plus " + NumberInWordEnglish(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
                             }
                             else
                             {
-                                strangka = strangka + NumberInWordEnglish(Convert.ToDecimal(strrandom)) + Environment.NewLine;
-                                strangkalisten = strangkalisten + "(" + strrandom + ") " + NumberInWordEnglish(Convert.ToDecimal(strrandom)) + Environment.NewLine;
+                                strangka = strangka + NumberInWordEnglish(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                strangkalisten = strangkalisten + "(" + strrandom + ") " + NumberInWordEnglish(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
                             }
 
                             bminus = false;
-                            dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
+                            dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
                         }
-                    }
-                    else
-                    {
-                        if (bminus)
+
+                        decangkarandom = Convert.ToDecimal(strrandom, culture);
+                        kunci = kunci + decangkarandom;
+                        strrandomprev = strrandom;
+
+                        //strrandomformat = Convert.ToInt32(strrandom).ToString("#,#"); //("#,#",CultureInfo.InvariantCulture)
+                        //strangka = strangka + strrandomformat + Environment.NewLine;
+
+                        if (angkamuncul == row)
                         {
-                            strangka = strangka + "plus " + NumberInWordEnglish(Convert.ToDecimal(strrandom)) + Environment.NewLine;
-                            strangkalisten = strangkalisten + "(" + strrandom + ") " + "plus " + NumberInWordEnglish(Convert.ToDecimal(strrandom)) + Environment.NewLine;
+                            angkamunculke = angkamunculke + 1;
+                            angkamuncul = angkamuncul + jmlbarispermuncul;
+                            dr["angkamuncul" + angkamunculke.ToString()] = strangka;
+                            dr["angkalistening" + angkamunculke.ToString()] = strangkalisten;
+                            strangka = "";
+                            strangkalisten = "";
                         }
-                        else
-                        {
-                            strangka = strangka + NumberInWordEnglish(Convert.ToDecimal(strrandom)) + Environment.NewLine;
-                            strangkalisten = strangkalisten + "(" + strrandom + ") " + NumberInWordEnglish(Convert.ToDecimal(strrandom)) + Environment.NewLine;
-                        }
-
-                        bminus = false;
-                        dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
                     }
 
-                    decangkarandom = Convert.ToDecimal(strrandom);
-                    kunci = kunci + decangkarandom;
-                    strrandomprev = strrandom;
+                    dr["kunci_jawaban"] = kunci;
+                    dr["row_id_kompetisi"] = idperlombaan;
+                    dr["no_soal"] = idx;
+                    dr["jml_baris_per_muncul"] = jmlbarispermuncul;
+                    dr["jumlah_muncul"] = jmlmuncul;
+                    dr["kecepatan"] = kecepatan;
+                    dr["max_jml_digit_per_soal"] = 0;
 
-                    //strrandomformat = Convert.ToInt32(strrandom).ToString("#,#"); //("#,#",CultureInfo.InvariantCulture)
-                    //strangka = strangka + strrandomformat + Environment.NewLine;
-
-                    if (angkamuncul == row)
-                    {
-                        angkamunculke = angkamunculke + 1;
-                        angkamuncul = angkamuncul + jmlbarispermuncul;
-                        dr["angkamuncul" + angkamunculke.ToString()] = strangka;
-                        dr["angkalistening" + angkamunculke.ToString()] = strangkalisten;
-                        strangka = "";
-                        strangkalisten = "";
-                    }
+                    dtSoal.Rows.Add(dr);
                 }
 
-                dr["kunci_jawaban"] = kunci;
-                dr["row_id_kompetisi"] = idperlombaan;
-                dr["no_soal"] = idx;
-                dr["jml_baris_per_muncul"] = jmlbarispermuncul;
-                dr["jumlah_muncul"] = jmlmuncul;
-                dr["kecepatan"] = kecepatan;
-                dr["max_jml_digit_per_soal"] = 0;
-
-                dtSoal.Rows.Add(dr);
+                strrandomprev = "";
+                strrandom = "";
             }
-
-            strrandomprev = "";
-            strrandom = "";
+            catch (Exception e)
+            {
+                MessageBox.Show("Error : " + e.Message + " On Soal Dari : " + soaldari.ToString(), "Listening");
+            }            
 
             return ret;
         }
@@ -410,69 +426,76 @@ namespace FlashCalculation
             string munculperkalian, int digitperkalian, string munculpembagian, int digitpembagian, string munculdec, int digitdec, decimal kecepatan, int maxdigitsoal)
         {
             string ret = "";
-            decimal kunci = 0, decangkarandom = 0, dtest = 0, dmod = 0;
-            int angkamuncul = 0, angkamunculke = 0, totaldigitpersoal = 0;
-            string strangka = "", strrandomprev = "", strrandom = "", strrandomformat = "";
-            string strrandomdecimal = "", strrandomperkalian = "", strrandompembagian = "";
-            DataRow dr;
-
-            for (int idx = soaldari; idx <= soalsampai; idx++)
+            try
             {
-                kunci = 0;
-                angkamuncul = jmlbarispermuncul;
-                angkamunculke = 0;
-                strangka = "";
-                strrandomprev = "0";
-                strrandom = "0";
-                totaldigitpersoal = 0;
+                decimal kunci = 0, decangkarandom = 0, dtest = 0, dmod = 0;
+                int angkamuncul = 0, angkamunculke = 0, totaldigitpersoal = 0;
+                string strangka = "", strrandomprev = "", strrandom = "", strrandomformat = "";
+                string strrandomdecimal = "", strrandomperkalian = "", strrandompembagian = "";
+                DataRow dr;
 
-                dr = (DataRow)dtSoal.NewRow();
-
-                for (int row = 1; row <= jmlrow; row++)
+                for (int idx = soaldari; idx <= soalsampai; idx++)
                 {
-                    strrandom = RandomAngka(pjgdigit);
-                    totaldigitpersoal = totaldigitpersoal + pjgdigit;
+                    kunci = 0;
+                    angkamuncul = jmlbarispermuncul;
+                    angkamunculke = 0;
+                    strangka = "";
+                    strrandomprev = "0";
+                    strrandom = "0";
+                    totaldigitpersoal = 0;
 
-                    //Angka sama
-                    if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                    dr = (DataRow)dtSoal.NewRow();
+                    /*if(soaldari == 151)
+                    {
+                        strangka = "";
+                    }*/
+
+                    for (int row = 1; row <= jmlrow; row++)
                     {
                         strrandom = RandomAngka(pjgdigit);
-                        //Angka sama 2
+                        totaldigitpersoal = totaldigitpersoal + pjgdigit;
+
+                        //Angka sama
                         if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                         {
                             strrandom = RandomAngka(pjgdigit);
-                            //Angka sama 3
+                            //Angka sama 2
                             if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                             {
                                 strrandom = RandomAngka(pjgdigit);
-                                //Angka sama 4
+                                //Angka sama 3
                                 if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                 {
                                     strrandom = RandomAngka(pjgdigit);
-                                    //Angka sama 5
+                                    //Angka sama 4
                                     if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                     {
                                         strrandom = RandomAngka(pjgdigit);
-                                        //Angka sama 6
+                                        //Angka sama 5
                                         if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                         {
                                             strrandom = RandomAngka(pjgdigit);
-                                            //Angka sama 7
+                                            //Angka sama 6
                                             if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                             {
                                                 strrandom = RandomAngka(pjgdigit);
-                                                //Angka sama 8
+                                                //Angka sama 7
                                                 if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                                 {
                                                     strrandom = RandomAngka(pjgdigit);
-                                                    //Angka sama 9
+                                                    //Angka sama 8
                                                     if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                                     {
                                                         strrandom = RandomAngka(pjgdigit);
-                                                        //Angka sama 10
+                                                        //Angka sama 9
                                                         if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
                                                         {
                                                             strrandom = RandomAngka(pjgdigit);
+                                                            //Angka sama 10
+                                                            if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                                            {
+                                                                strrandom = RandomAngka(pjgdigit);
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -482,78 +505,149 @@ namespace FlashCalculation
                                 }
                             }
                         }
-                    }
 
-                    if(munculpembagian == "Y" || munculperkalian == "Y")
-                    {
-                        //Pembagian
-                        if (munculpembagian == "Y")
+                        if (munculpembagian == "Y" || munculperkalian == "Y")
                         {
-                            //random 						
-                            strrandompembagian = RandomAngkaDec(digitpembagian);
-                            if(strrandompembagian.Trim() == "1")
+                            //Pembagian
+                            if (munculpembagian == "Y")
                             {
+                                //random 						
                                 strrandompembagian = RandomAngkaDec(digitpembagian);
                                 if (strrandompembagian.Trim() == "1")
                                 {
                                     strrandompembagian = RandomAngkaDec(digitpembagian);
+                                    if (strrandompembagian.Trim() == "1")
+                                    {
+                                        strrandompembagian = RandomAngkaDec(digitpembagian);
+                                    }
+                                }
+
+                                dtest = Convert.ToDecimal(strrandom, culture) % Convert.ToDecimal(strrandompembagian, culture);
+                                if (dtest == 0)
+                                {
+
+                                }
+                                else
+                                {
+                                    dmod = (Convert.ToDecimal(strrandom, culture) - dtest);
+                                    dtest = dmod % Convert.ToDecimal(strrandompembagian, culture);
+                                    strrandom = dmod.ToString();
+                                }
+                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                                dr["pembagian" + row.ToString()] = Convert.ToDecimal(strrandompembagian, culture);
+
+                                //kunci jawaban
+                                decangkarandom = Convert.ToDecimal(strrandom, culture);
+                                kunci = decangkarandom / Convert.ToDecimal(strrandompembagian, culture);
+                                strrandomprev = strrandom;
+
+                                strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###");
+                                strangka = strangka + strrandomformat + " ÷ " + strrandompembagian + Environment.NewLine;
+
+                                if (angkamuncul == row)
+                                {
+                                    angkamunculke = angkamunculke + 1;
+                                    angkamuncul = angkamuncul + jmlbarispermuncul;
+                                    dr["angkamuncul" + angkamunculke.ToString()] = strangka;
+                                    strangka = "";
                                 }
                             }
-
-                            dtest = Convert.ToDecimal(strrandom) % Convert.ToDecimal(strrandompembagian);
-                            if(dtest == 0)
+                            //PERKALIAN
+                            if (munculperkalian == "Y")
                             {
-
-                            }
-                            else
-                            {
-                                dmod = (Convert.ToDecimal(strrandom) - dtest);
-                                dtest = dmod % Convert.ToDecimal(strrandompembagian);
-                                strrandom = dmod.ToString();
-                            }
-                            dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
-                            dr["pembagian" + row.ToString()] = Convert.ToDecimal(strrandompembagian);
-
-                            //kunci jawaban
-                            decangkarandom = Convert.ToDecimal(strrandom);
-                            kunci = decangkarandom / Convert.ToDecimal(strrandompembagian);
-                            strrandomprev = strrandom;
-
-                            strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###");
-                            strangka = strangka + strrandomformat + " ÷ " + strrandompembagian + Environment.NewLine;
-
-                            if (angkamuncul == row)
-                            {
-                                angkamunculke = angkamunculke + 1;
-                                angkamuncul = angkamuncul + jmlbarispermuncul;
-                                dr["angkamuncul" + angkamunculke.ToString()] = strangka;
-                                strangka = "";
-                            }
-                        }
-                        //PERKALIAN
-                        if (munculperkalian == "Y")
-                        {
-                            //angka digit
-                            dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
-                            strrandomperkalian = RandomAngkaDec(digitperkalian);
-                            if (strrandomperkalian.Trim() == "1")
-                            {
+                                //angka digit
+                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
                                 strrandomperkalian = RandomAngkaDec(digitperkalian);
                                 if (strrandomperkalian.Trim() == "1")
                                 {
                                     strrandomperkalian = RandomAngkaDec(digitperkalian);
+                                    if (strrandomperkalian.Trim() == "1")
+                                    {
+                                        strrandomperkalian = RandomAngkaDec(digitperkalian);
+                                    }
+                                }
+                                dr["perkalian" + row.ToString()] = Convert.ToDecimal(strrandomperkalian, culture);
+
+                                //kunci jawaban
+                                decangkarandom = Convert.ToDecimal(strrandom, culture);
+                                kunci = (decangkarandom * Convert.ToDecimal(strrandomperkalian, culture));
+                                strrandomprev = strrandom;
+
+                                strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###");
+                                strangka = strangka + strrandomformat + " x " + strrandomperkalian + Environment.NewLine;
+
+                                if (angkamuncul == row)
+                                {
+                                    angkamunculke = angkamunculke + 1;
+                                    angkamuncul = angkamuncul + jmlbarispermuncul;
+                                    dr["angkamuncul" + angkamunculke.ToString()] = strangka;
+                                    strangka = "";
                                 }
                             }
-                            dr["perkalian" + row.ToString()] = Convert.ToDecimal(strrandomperkalian);
+                        }
+                        else
+                        {
+                            if (munculdec == "Y")
+                            {
+                                strrandomdecimal = RandomAngkaDec(digitdec);
+                                strrandom = strrandom + "." + strrandomdecimal;
+                            }
+
+                            if (munculminus == "Y")
+                            {
+                                if (Convert.ToDecimal(strrandomprev, culture) > Convert.ToDecimal(strrandom, culture))
+                                {
+                                    strrandom = '-' + strrandom;
+                                    dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                                }
+                                else
+                                {
+                                    dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                                }
+                            }
+                            else
+                            {
+                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                            }
 
                             //kunci jawaban
-                            decangkarandom = Convert.ToDecimal(strrandom);
-                            kunci = (decangkarandom * Convert.ToDecimal(strrandomperkalian));
+                            decangkarandom = Convert.ToDecimal(strrandom, culture);
+                            kunci = kunci + decangkarandom;
                             strrandomprev = strrandom;
 
-                            strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###");
-                            strangka = strangka + strrandomformat + " x " + strrandomperkalian + Environment.NewLine;
+                            if (munculdec == "Y")
+                            {
+                                if (digitdec == 1)
+                                {
+                                    strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.#");
+                                }
+                                else if (digitdec == 2)
+                                {
+                                    strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.##");
+                                }
+                                else if (digitdec == 3)
+                                {
+                                    strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.###");
+                                }
+                                else if (digitdec == 4)
+                                {
+                                    strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.####");
+                                }
+                                else if (digitdec == 5)
+                                {
+                                    strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.#####");
+                                }
+                                else if (digitdec == 6)
+                                {
+                                    strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.######");
+                                }
+                            }
+                            else
+                            {
+                                strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###");
+                            }
 
+                            strangka = strangka + strrandomformat + Environment.NewLine;
                             if (angkamuncul == row)
                             {
                                 angkamunculke = angkamunculke + 1;
@@ -563,94 +657,28 @@ namespace FlashCalculation
                             }
                         }
                     }
-                    else
-                    {
-                        if (munculdec == "Y")
-                        {
-                            strrandomdecimal = RandomAngkaDec(digitdec);
-                            strrandom = strrandom + "." + strrandomdecimal;
-                        }
 
-                        if (munculminus == "Y")
-                        {
-                            if (Convert.ToDecimal(strrandomprev) > Convert.ToDecimal(strrandom))
-                            {
-                                strrandom = '-' + strrandom;
-                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
-                            }
-                            else
-                            {
-                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
-                            }
-                        }
-                        else
-                        {
-                            dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom);
-                        }
+                    dr["kunci_jawaban"] = kunci;
+                    dr["row_id_kompetisi"] = idperlombaan;
+                    dr["no_soal"] = idx;
+                    dr["jml_baris_per_muncul"] = jmlbarispermuncul;
+                    dr["jumlah_muncul"] = jmlmuncul;
+                    dr["kecepatan"] = kecepatan;
+                    dr["max_jml_digit_per_soal"] = maxdigitsoal;
+                    dr["total_digit_per_soal"] = totaldigitpersoal;
+                    dr["muncul_angka_decimal"] = munculdec;
+                    dr["digit_decimal"] = digitdec;
 
-                        //kunci jawaban
-                        decangkarandom = Convert.ToDecimal(strrandom);
-                        kunci = kunci + decangkarandom;
-                        strrandomprev = strrandom;
-
-                        if (munculdec == "Y")
-                        {
-                            if (digitdec == 1)
-                            {
-                                strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.#");
-                            }else if (digitdec == 2)
-                            {
-                                strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.##");
-                            }
-                            else if (digitdec == 3)
-                            {
-                                strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.###");
-                            }
-                            else if (digitdec == 4)
-                            {
-                                strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.####");
-                            }
-                            else if (digitdec == 5)
-                            {
-                                strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.#####");
-                            }
-                            else if (digitdec == 6)
-                            {
-                                strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###.######");
-                            }
-                        }
-                        else
-                        {
-                            strrandomformat = Convert.ToInt32(strrandom).ToString("###,###,###");
-                        }
-
-                        strangka = strangka + strrandomformat + Environment.NewLine;
-                        if (angkamuncul == row)
-                        {
-                            angkamunculke = angkamunculke + 1;
-                            angkamuncul = angkamuncul + jmlbarispermuncul;
-                            dr["angkamuncul" + angkamunculke.ToString()] = strangka;
-                            strangka = "";
-                        }
-                    }                    
+                    dtSoal.Rows.Add(dr);
                 }
 
-                dr["kunci_jawaban"] = kunci;
-                dr["row_id_kompetisi"] = idperlombaan;
-                dr["no_soal"] = idx;
-                dr["jml_baris_per_muncul"] = jmlbarispermuncul;
-                dr["jumlah_muncul"] = jmlmuncul;
-                dr["kecepatan"] = kecepatan;
-                dr["max_jml_digit_per_soal"] = maxdigitsoal;
-                dr["total_digit_per_soal"] = totaldigitpersoal;
-                dr["muncul_angka_decimal"] = munculdec;
-                dr["digit_decimal"] = digitdec;
-
-                dtSoal.Rows.Add(dr);
+                strrandomprev = "";
+                strrandom = "";
             }
-
-            strrandomprev = "";
-            strrandom = "";
+            catch (Exception e)
+            {
+                MessageBox.Show("Error : " + e.Message + " On Soal Dari : " + soaldari.ToString(), "Visual");
+            }            
 
             return ret;
         }
@@ -825,11 +853,11 @@ namespace FlashCalculation
                         {
                             if(munculangkadecimal == "Y")
                             {
-                                angkax = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString()), digitdecimal);                                
+                                angkax = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString(), culture), digitdecimal);                                
                             }
                             else
                             {
-                                angkax = dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString());
+                                angkax = dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString(), culture);
                             }
                             angka = angkax.ToString();
                             if (angka.Contains("-"))
@@ -864,11 +892,11 @@ namespace FlashCalculation
                         {
                             if (munculangkadecimal == "Y")
                             {
-                                angkax = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString()), digitdecimal);
+                                angkax = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString(), culture), digitdecimal);
                             }
                             else
                             {
-                                angkax = dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString());
+                                angkax = dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString(), culture);
                             }
                             angka = angkax.ToString();
                             if (angka.Contains("-"))
@@ -901,11 +929,11 @@ namespace FlashCalculation
                     {
                         if (munculangkadecimal == "Y")
                         {
-                            angkax = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString()), digitdecimal);
+                            angkax = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString(), culture), digitdecimal);
                         }
                         else
                         {
-                            angkax = dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString());
+                            angkax = dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString(), culture);
                         }
                         angka = angkax.ToString();
                         if(angka == "")
@@ -914,7 +942,7 @@ namespace FlashCalculation
                         }
                         else
                         {
-                            dangka = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString()), digitdecimal);
+                            dangka = Decimal.Round(dtSoal.Rows[i]["angka" + x.ToString()].ToString() == "" ? 0 : Convert.ToDecimal(dtSoal.Rows[i]["angka" + x.ToString()].ToString(), culture), digitdecimal);
                             if (munculangkadecimal == "Y")
                             {
                                 if (digitdecimal == 1)
@@ -958,101 +986,124 @@ namespace FlashCalculation
 
         private void SetSoalKompetisi()
         {
-            string idperlombaan, parameterid, munculangkaminus, munculangkaperkalian, munculangkapembagian, munculangkadecimal, type;
-            int soaldari, soalsampai, panjangdigit, jumlahmuncul, jmlbarispermuncul, maxpanjangdigit, maxjmldigitpersoal;
-            int digitperkalian, digitpembagian, digitdecimal, fontsize, totalrow;
-            decimal kecepatan;
-            string idperlombaanprev = "";
-            int soalsampaiprev = 0;
-            string strtglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
-            DataTable dtparm = db.GetParameterKompetisi(peserta.ID_PESERTA, strtglkompetisi);
-
-            if (dtparm.Rows.Count > 0)
+            try
             {
-                for(int i = 0;i < dtparm.Rows.Count; i++)
+                string idperlombaan, parameterid, munculangkaminus, munculangkaperkalian, munculangkapembagian, munculangkadecimal, type;
+                int soaldari, soalsampai, panjangdigit, jumlahmuncul, jmlbarispermuncul, maxpanjangdigit, maxjmldigitpersoal;
+                int digitperkalian, digitpembagian, digitdecimal, fontsize, totalrow;
+                decimal kecepatan;
+                string idperlombaanprev = "";
+                int soalsampaiprev = 0;
+                string strtglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
+                DataTable dtparm = db.GetParameterKompetisi(peserta.ID_PESERTA, strtglkompetisi);
+
+                if (dtparm.Rows.Count > 0)
                 {
-                    idperlombaan = dtparm.Rows[i]["row_id_kompetisi"].ToString();
-                    parameterid = dtparm.Rows[i]["parameter_id"].ToString();
-                    munculangkaminus = dtparm.Rows[i]["muncul_angka_minus"].ToString();
-                    munculangkaperkalian = dtparm.Rows[i]["muncul_angka_perkalian"].ToString();
-                    munculangkapembagian = dtparm.Rows[i]["muncul_angka_pembagian"].ToString();
-                    munculangkadecimal = dtparm.Rows[i]["muncul_angka_decimal"].ToString();
-                    type = dtparm.Rows[i]["tipe"].ToString();
-
-                    soaldari = dtparm.Rows[i]["soal_dari"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["soal_dari"].ToString());
-                    soalsampai = dtparm.Rows[i]["soal_sampai"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["soal_sampai"].ToString());
-                    panjangdigit = dtparm.Rows[i]["panjang_digit"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["panjang_digit"].ToString());
-                    jumlahmuncul = dtparm.Rows[i]["jumlah_muncul"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["jumlah_muncul"].ToString());
-                    jmlbarispermuncul = dtparm.Rows[i]["jml_baris_per_muncul"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["jml_baris_per_muncul"].ToString());
-                    maxpanjangdigit = dtparm.Rows[i]["max_panjang_digit"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["max_panjang_digit"].ToString());
-                    maxjmldigitpersoal = dtparm.Rows[i]["max_jml_digit_per_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["max_jml_digit_per_soal"].ToString());
-
-                    digitperkalian = dtparm.Rows[i]["digit_perkalian"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["digit_perkalian"].ToString());
-                    digitpembagian = dtparm.Rows[i]["digit_pembagian"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["digit_pembagian"].ToString());
-                    digitdecimal = dtparm.Rows[i]["digit_decimal"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["digit_decimal"].ToString());
-                    fontsize = dtparm.Rows[i]["font_size"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["font_size"].ToString());
-
-                    kecepatan = dtparm.Rows[i]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtparm.Rows[i]["kecepatan"].ToString());
-
-                    if(kecepatan <= 0)
+                    for (int i = 0; i < dtparm.Rows.Count; i++)
                     {
-                        kecepatan = 1;
-                    }
+                        idperlombaan = dtparm.Rows[i]["row_id_kompetisi"].ToString();
+                        parameterid = dtparm.Rows[i]["parameter_id"].ToString();
+                        munculangkaminus = dtparm.Rows[i]["muncul_angka_minus"].ToString();
+                        munculangkaperkalian = dtparm.Rows[i]["muncul_angka_perkalian"].ToString();
+                        munculangkapembagian = dtparm.Rows[i]["muncul_angka_pembagian"].ToString();
+                        munculangkadecimal = dtparm.Rows[i]["muncul_angka_decimal"].ToString();
+                        type = dtparm.Rows[i]["tipe"].ToString();
 
-                    totalrow = jmlbarispermuncul * jumlahmuncul;
+                        soaldari = dtparm.Rows[i]["soal_dari"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["soal_dari"].ToString());
+                        soalsampai = dtparm.Rows[i]["soal_sampai"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["soal_sampai"].ToString());
+                        panjangdigit = dtparm.Rows[i]["panjang_digit"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["panjang_digit"].ToString());
+                        jumlahmuncul = dtparm.Rows[i]["jumlah_muncul"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["jumlah_muncul"].ToString());
+                        jmlbarispermuncul = dtparm.Rows[i]["jml_baris_per_muncul"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["jml_baris_per_muncul"].ToString());
+                        maxpanjangdigit = dtparm.Rows[i]["max_panjang_digit"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["max_panjang_digit"].ToString());
+                        maxjmldigitpersoal = dtparm.Rows[i]["max_jml_digit_per_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["max_jml_digit_per_soal"].ToString());
 
-                    //delete soal
-                    db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaan + "' AND no_soal between " + soaldari.ToString() + " and " + soalsampai.ToString());
+                        digitperkalian = dtparm.Rows[i]["digit_perkalian"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["digit_perkalian"].ToString());
+                        digitpembagian = dtparm.Rows[i]["digit_pembagian"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["digit_pembagian"].ToString());
+                        digitdecimal = dtparm.Rows[i]["digit_decimal"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["digit_decimal"].ToString());
+                        fontsize = dtparm.Rows[i]["font_size"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["font_size"].ToString());
 
-                    if(i == dtparm.Rows.Count - 1)
-                    {
-                        db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaanprev + "' AND no_soal = " + (soalsampai +1).ToString());
-                    }
-                    else
-                    {
-                        if(idperlombaanprev != idperlombaan && i > 0)
+                        kecepatan = dtparm.Rows[i]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtparm.Rows[i]["kecepatan"].ToString(), culture);
+
+                        if (kecepatan <= 0)
                         {
-                            db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaanprev + "' AND no_soal = " + (soalsampaiprev + 1).ToString());
+                            kecepatan = 1;
                         }
-                    }                    
 
-                    if(type == "F")
-                    {                        
-                        RandomFlash(soaldari, soalsampai, panjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, kecepatan);
-                    }
-                    else if (type == "V")
-                    {                        
-                        RandomVisual(soaldari, soalsampai, maxpanjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, munculangkaperkalian, digitperkalian, munculangkapembagian, digitpembagian, munculangkadecimal, digitdecimal, kecepatan, maxjmldigitpersoal);
-                    }
-                    else if (type == "L")
-                    {		
-                        RandomListening(soaldari, soalsampai, panjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, kecepatan);
-                    }
+                        totalrow = jmlbarispermuncul * jumlahmuncul;
 
-                    //Thanks
-                    if (i == dtparm.Rows.Count - 1)
-                    {
-                        Thanks(idperlombaanprev, soalsampai + 1);
-                    }
-                    else
-                    {
-                        if (idperlombaanprev != idperlombaan && i > 0)
+                        //delete soal
+                        db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaan + "' AND no_soal between " + soaldari.ToString() + " and " + soalsampai.ToString());
+
+                        if (i == dtparm.Rows.Count - 1)
                         {
-                            Thanks(idperlombaanprev, soalsampaiprev + 1);
+                            db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaanprev + "' AND no_soal = " + (soalsampai + 1).ToString());
                         }
-                    }
+                        else
+                        {
+                            if (idperlombaanprev != idperlombaan && i > 0)
+                            {
+                                db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaanprev + "' AND no_soal = " + (soalsampaiprev + 1).ToString());
+                            }
+                        }
 
-                    idperlombaanprev = idperlombaan;
-                    soalsampaiprev = soalsampai;
+                        if (type == "F")
+                        {
+                            RandomFlash(soaldari, soalsampai, panjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, kecepatan);
+                        }
+                        else if (type == "V")
+                        {
+                            if (munculangkaperkalian == "Y")
+                            {
+                                if (digitperkalian == 0)
+                                {
+                                    digitperkalian = 1;
+                                }
+                            }
+                            if (munculangkapembagian == "Y")
+                            {
+                                if (digitpembagian == 0)
+                                {
+                                    digitpembagian = 1;
+                                }
+                            }
+                            if (munculangkadecimal == "Y")
+                            {
+                                if (digitdecimal == 0)
+                                {
+                                    digitdecimal = 1;
+                                }
+                            }
+                            RandomVisual(soaldari, soalsampai, maxpanjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, munculangkaperkalian, digitperkalian, munculangkapembagian, digitpembagian, munculangkadecimal, digitdecimal, kecepatan, maxjmldigitpersoal);
+                        }
+                        else if (type == "L")
+                        {
+                            RandomListening(soaldari, soalsampai, panjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, kecepatan);
+                        }
+
+                        //Thanks
+                        if (i == dtparm.Rows.Count - 1)
+                        {
+                            Thanks(idperlombaanprev, soalsampai + 1);
+                        }
+                        else
+                        {
+                            if (idperlombaanprev != idperlombaan && i > 0)
+                            {
+                                Thanks(idperlombaanprev, soalsampaiprev + 1);
+                            }
+                        }
+
+                        idperlombaanprev = idperlombaan;
+                        soalsampaiprev = soalsampai;
+                    }
                 }
-            }
 
-            //ZigZag
-            ZigZag();
+                //ZigZag
+                ZigZag();
 
-            //Save Data dtSoal
-            string[] lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol;
-            lstrPrmHdrUpdateCol = new string[235]{
+                //Save Data dtSoal
+                string[] lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol;
+                lstrPrmHdrUpdateCol = new string[235]{
                                "row_id_kompetisi", "no_soal", "jumlah_muncul", "jml_baris_per_muncul", "angka1", "angka2", "angka3", "angka4", "angka5", "angka6", "angka7",
                                 "angka8", "angka9", "angka10", "angka11", "angka12", "angka13", "angka14", "angka15", "angka16", "angka17", "angka18", "angka19", "angka20",
                                 "angka21", "angka22", "angka23", "angka24", "angka25", "angka26", "angka27", "angka28", "angka29", "angka30", "angka31", "angka32", "angka33",
@@ -1075,11 +1126,16 @@ namespace FlashCalculation
                                 "angkamuncul42", "angkamuncul43", "angkamuncul44", "angkamuncul45", "angkamuncul46", "angkamuncul47", "angkamuncul48", "angkamuncul49", "angkamuncul50",
                                 "kecepatan", "angkalistening1", "angkalistening2", "angkalistening3", "angkalistening4", "angkalistening5", "max_jml_digit_per_soal", "total_digit_per_soal",
                                 "MUNCUL_ANGKA_DECIMAL", "DIGIT_DECIMAL" };
-            lstrPrmHdrKeyCol = new string[2] { "row_id_kompetisi", "no_soal" };
-            if(db.UpdateDataTable(dtSoal, "tb_soal_kompetisi", lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol) != "OK")
-            {
+                lstrPrmHdrKeyCol = new string[2] { "row_id_kompetisi", "no_soal" };
+                if (db.UpdateDataTable(dtSoal, "tb_soal_kompetisi", lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol) != "OK")
+                {
 
+                }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }           
 
         }
     }
