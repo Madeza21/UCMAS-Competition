@@ -23,6 +23,8 @@ namespace FlashCalculation
         Random rnd = new Random();
         CultureInfo culture = new CultureInfo("en-US");
 
+        int errex = 0;
+
         DbBase db = new DbBase();
 
         private PrivateFontCollection pfc;
@@ -83,7 +85,7 @@ namespace FlashCalculation
 
             //set tittle
             this.Text = db.GetAppConfig("LBL");
-            label1.Text = db.GetAppConfig("LBK");
+            label11.Text = db.GetAppConfig("LBK");
 
             //Load Kompetisi
             DataTable dtkom = db.GetKompetisi(peserta.ID_PESERTA, DateTime.Now.ToString("yyyy-MM-dd"), Properties.Settings.Default.trial);
@@ -1102,6 +1104,7 @@ namespace FlashCalculation
                 ZigZag();
 
                 //Save Data dtSoal
+                #region Save Soal
                 string[] lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol;
                 lstrPrmHdrUpdateCol = new string[235]{
                                "row_id_kompetisi", "no_soal", "jumlah_muncul", "jml_baris_per_muncul", "angka1", "angka2", "angka3", "angka4", "angka5", "angka6", "angka7",
@@ -1131,10 +1134,12 @@ namespace FlashCalculation
                 {
 
                 }
+                #endregion Save Soal
+                
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(e.Message + " Row : " + errex);
             }           
 
         }

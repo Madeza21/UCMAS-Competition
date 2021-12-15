@@ -522,9 +522,11 @@ namespace FlashCalculation.Help
         {
             SQLiteCommand sqlite_cmd;
             sqlite_cmd = sqlite_conn.CreateCommand();
+            
             sqlite_cmd.CommandText = query;
 
             sqlite_cmd.ExecuteNonQuery();
+            
         }
 
         public string UpdateDataTable(DataTable dt, string astrUpdateTable,
@@ -537,295 +539,24 @@ namespace FlashCalculation.Help
             string sqlString = "";
             string sqlString2 = "";
             string lstrUpdateColumn;
-            string lstrWhereColumn;
-            SQLiteCommand cmd;
             SQLiteParameter prm = new SQLiteParameter();
             string lstrTypeTest = "";
             DateTime ldtTypeTest = DateTime.Now;
             decimal ldTypetest = 0;
-            //int liTypetest = 0;
-            
+
+            SQLiteConnection connection = new SQLiteConnection("Data Source=ucmas.db3; Version = 3; New = True; Compress = True;");
+            connection.Open();
+            SQLiteCommand command = connection.CreateCommand();
+            SQLiteTransaction transaction = connection.BeginTransaction();
 
             foreach (DataRow therow in dt.Rows)
-            {
-                //Unchanged
-                if (therow.RowState == DataRowState.Unchanged)
-                {
-                    continue;
-                }
-                //Updating
-                else if (therow.RowState == DataRowState.Modified)
-                {
-                    try
-                    {
-                        cmd = sqlite_conn.CreateCommand();
-                        cmd.CommandType = CommandType.Text;
-                        //updatable column
-                        sqlString = "Update " + astrUpdateTable;
-                        sqlString += " Set";
-                        lstrUpdateColumn = "";
-                        lblnFirst = true;
-                        Boolean ismodified = false;
-                        foreach (string astrUpdateColumn in astrUpdateColumns)
-                        {
-                            lblnTest = false;
-                            foreach (DataColumn thecol1 in dt.Columns)
-                            {
-                                if (astrUpdateColumn == thecol1.ColumnName)
-                                {
-                                    lstrUpdateColumn = astrUpdateColumn;
-                                    lblnTest = true;
-                                    break;
-                                }
-                            }
-                            if (lblnTest == false)
-                            {
-                                throw new Exception("The column '" + astrUpdateColumn + "' not exists while update!");
-                            }
-
-                            DataColumn thecol = dt.Columns[astrUpdateColumn.ToUpper()];
-                            if (therow[thecol.ColumnName, DataRowVersion.Original].ToString() ==
-                                therow[thecol.ColumnName, DataRowVersion.Current].ToString()
-                                & thecol.ColumnName.ToUpper().Trim() != "UPDATE_USER"
-                                & thecol.ColumnName.ToUpper().Trim() != "UPDATE_DATE")
-                            {
-                                //do not update the field
-                            }
-                            else
-                            {
-                                if (therow[thecol.ColumnName, DataRowVersion.Original].ToString() !=
-                                    therow[thecol.ColumnName, DataRowVersion.Current].ToString())
-                                {
-                                    ismodified = true;
-                                }
-                                if (lblnFirst)
-                                {
-                                    sqlString += " ";
-                                    lblnFirst = false;
-                                }
-                                else
-                                {
-                                    sqlString += ", ";
-                                }
-                                sqlString += thecol.ColumnName + " = @" + thecol.ColumnName;
-                                //prm = GetDbParameter();
-
-                                prm.ParameterName = lstrUpdateColumn;
-
-                                if (thecol.DataType == lstrTypeTest.GetType())
-                                {
-                                    prm.DbType = DbType.String;
-                                    prm.Size = 0;
-                                    prm.Direction = ParameterDirection.Input;
-                                    //if (thecol.ColumnName.ToUpper().Trim() == "UPDATE_USER")
-                                    //{
-                                    //    prm.Value = GetUserCode();
-                                    //}
-                                    //else
-                                    //{
-                                        prm.Value = therow[thecol.ColumnName, DataRowVersion.Current];
-                                    //}
-                                }
-                                else if (thecol.DataType == ldTypetest.GetType())
-                                {
-                                    prm.DbType = DbType.Decimal;
-                                    prm.Size = 0;
-                                    prm.Direction = ParameterDirection.Input;
-                                    prm.Value = therow[thecol.ColumnName, DataRowVersion.Current];
-                                }
-                                else if (thecol.DataType == ldtTypeTest.GetType())
-                                {
-                                    prm.DbType = DbType.DateTime;
-                                    prm.Size = 0;
-                                    prm.Direction = ParameterDirection.Input;
-                                    if (thecol.ColumnName.ToUpper().Trim() == "UPDATE_DATE")
-                                    {
-                                        prm.Value = DateTime.Now;
-                                    }
-                                    else
-                                    {
-                                        prm.Value = therow[thecol.ColumnName, DataRowVersion.Current];
-                                    }
-                                }
-                                else
-                                {
-                                    prm.DbType = DbType.String;
-                                    prm.Size = 0;
-                                    prm.Direction = ParameterDirection.Input;
-                                    prm.Value = therow[thecol.ColumnName, DataRowVersion.Current];
-                                }
-
-                                cmd.Parameters.Add(prm);
-                            }
-                        }
-                        //Where clause
-                        lstrWhereColumn = "";
-                        lblnFirst = true;
-                        foreach (string astrUpdateKey in astrUpdateKeys)
-                        {
-                            lblnTest = false;
-                            foreach (DataColumn thecol1 in dt.Columns)
-                            {
-                                if (astrUpdateKey == thecol1.ColumnName)
-                                {
-                                    lstrWhereColumn = astrUpdateKey;
-                                    lblnTest = true;
-                                    break;
-                                }
-                            }
-                            if (lblnTest == false)
-                            {
-                                throw new Exception("The column '" + astrUpdateKey + "' not exists while update!");
-                            }
-
-                            DataColumn thecol = dt.Columns[astrUpdateKey];
-                            if (lblnFirst)
-                            {
-                                sqlString += " where ";
-                                lblnFirst = false;
-                            }
-                            else
-                            {
-                                sqlString += " and ";
-                            }
-                            sqlString += thecol.ColumnName + " = @VOriginal_" + thecol.ColumnName;
-                            //prm = GetDbParameter();
-
-                            prm.ParameterName = "@VOriginal_" + lstrWhereColumn;
-
-                            if (thecol.DataType == lstrTypeTest.GetType())
-                            {
-                                prm.DbType = DbType.String;
-                                prm.Size = 0;
-                                prm.Direction = ParameterDirection.Input;
-                                prm.Value = therow[thecol.ColumnName, DataRowVersion.Original];
-                            }
-                            else if (thecol.DataType == ldTypetest.GetType())
-                            {
-                                prm.DbType = DbType.Decimal;
-                                prm.Size = 0;
-                                prm.Direction = ParameterDirection.Input;
-                                prm.Value = therow[thecol.ColumnName, DataRowVersion.Original];
-                            }
-                            else if (thecol.DataType == ldtTypeTest.GetType())
-                            {
-                                prm.DbType = DbType.DateTime;
-                                prm.Size = 0;
-                                prm.Direction = ParameterDirection.Input;
-                                prm.Value = therow[thecol.ColumnName, DataRowVersion.Original];
-                            }
-                            else
-                            {
-                                prm.DbType = DbType.String;
-                                prm.Size = 0;
-                                prm.Direction = ParameterDirection.Input;
-                                prm.Value = therow[thecol.ColumnName, DataRowVersion.Original];
-                            }
-
-                            cmd.Parameters.Add(prm);
-                        }
-
-                        if (ismodified)
-                        {
-                            cmd.CommandText = sqlString;
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    catch (Exception ee)
-                    {
-                        throw new Exception(ee.Message);
-                    }
-                }
-                //Deleting
-                else if (therow.RowState == DataRowState.Deleted)
-                {
-                    try
-                    {
-                        cmd = sqlite_conn.CreateCommand();
-                        cmd.CommandType = CommandType.Text;
-                        //delete table
-                        sqlString = "Delete " + astrUpdateTable;
-                        lstrWhereColumn = "";
-                        lblnFirst = true;
-                        foreach (string astrUpdateKey in astrUpdateKeys)
-                        {
-                            lblnTest = false;
-                            foreach (DataColumn thecol1 in dt.Columns)
-                            {
-                                if (astrUpdateKey == thecol1.ColumnName)
-                                {
-                                    lstrWhereColumn = astrUpdateKey;
-                                    lblnTest = true;
-                                    break;
-                                }
-                            }
-                            if (lblnTest == false)
-                            {
-                                throw new Exception("The column '" + astrUpdateKey + "' not exists while update!");
-                            }
-
-                            DataColumn thecol = dt.Columns[astrUpdateKey];
-                            if (lblnFirst)
-                            {
-                                sqlString += " where ";
-                                lblnFirst = false;
-                            }
-                            else
-                            {
-                                sqlString += " and ";
-                            }
-                            sqlString += thecol.ColumnName + " = @VOriginal_" + thecol.ColumnName;
-                            //prm = GetDbParameter();
-
-                            prm.ParameterName = "@VOriginal_" + lstrWhereColumn;
-
-                            if (thecol.DataType == lstrTypeTest.GetType())
-                            {
-                                prm.DbType = DbType.String;
-                                prm.Size = 0;
-                                prm.Direction = ParameterDirection.Input;
-                                prm.Value = therow[thecol.ColumnName, DataRowVersion.Original];
-                            }
-                            else if (thecol.DataType == ldTypetest.GetType())
-                            {
-                                prm.DbType = DbType.Decimal;
-                                prm.Size = 0;
-                                prm.Direction = ParameterDirection.Input;
-                                prm.Value = therow[thecol.ColumnName, DataRowVersion.Original];
-                            }
-                            else if (thecol.DataType == ldtTypeTest.GetType())
-                            {
-                                prm.DbType = DbType.DateTime;
-                                prm.Size = 0;
-                                prm.Direction = ParameterDirection.Input;
-                                prm.Value = therow[thecol.ColumnName, DataRowVersion.Original];
-                            }
-                            else
-                            {
-                                prm.DbType = DbType.String;
-                                prm.Size = 0;
-                                prm.Direction = ParameterDirection.Input;
-                                prm.Value = therow[thecol.ColumnName, DataRowVersion.Original];
-                            }
-
-                            cmd.Parameters.Add(prm);
-                        }
-                        cmd.CommandText = sqlString;
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ee)
-                    {
-                        throw new Exception(ee.Message);
-                    }
-                }
+            {                
                 //Inserting
-                else if (therow.RowState == DataRowState.Added)
+                if (therow.RowState == DataRowState.Added)
                 {
                     try
                     {
-                        cmd = sqlite_conn.CreateCommand();
-                        //cmd.CommandType = CommandType.Text;
-                        cmd.Parameters.Clear();
+                        command.Parameters.Clear();
                         //updatable column
                         sqlString = "Insert Into " + astrUpdateTable;
                         lstrUpdateColumn = "";
@@ -844,6 +575,10 @@ namespace FlashCalculation.Help
                             }
                             if (lblnTest == false)
                             {
+                                transaction.Rollback();
+                                command.Dispose();
+                                connection.Dispose();
+
                                 throw new Exception("The column '" + astrUpdateColumn + "' not exists while insert!");
                             }
 
@@ -861,9 +596,6 @@ namespace FlashCalculation.Help
                             }
                             sqlString += thecol.ColumnName;
                             sqlString2 += "@" + thecol.ColumnName;
-                            //prm = GetDbParameter();
-
-                            //prm.ParameterName = "@" + lstrUpdateColumn;
 
                             if (thecol.DataType == lstrTypeTest.GetType())
                             {
@@ -882,21 +614,29 @@ namespace FlashCalculation.Help
                             }
                             else
                             {
-                                prm = SqlParam("@" + lstrUpdateColumn, DbType.Decimal, ParameterDirection.Input);
+                                prm = SqlParam("@" + lstrUpdateColumn, DbType.String, ParameterDirection.Input);
                                 prm.Value = therow[thecol.ColumnName, DataRowVersion.Current];
                             }
 
-                            cmd.Parameters.Add(prm);
+                            command.Parameters.Add(prm);
                         }
-                        cmd.CommandText = sqlString + ")" + sqlString2 + ")";
-                        cmd.ExecuteNonQuery();
+                        command.CommandText = sqlString + ")" + sqlString2 + ")";
+                        command.ExecuteNonQuery();
                     }
                     catch (Exception ee)
                     {
+                        transaction.Rollback();
+                        command.Dispose();
+                        connection.Dispose();
+
                         throw new Exception(ee.Message);
                     }
                 }
             }
+
+            transaction.Commit();
+            command.Dispose();
+            connection.Dispose();
 
             return "OK";
         }
