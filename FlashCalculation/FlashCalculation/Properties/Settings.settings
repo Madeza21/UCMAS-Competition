@@ -9,7 +9,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ip_address" Type="System.String" Scope="User">
-      <Value Profile="(Default)">ucmasidn.com</Value>
+      <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
     <Setting Name="api_address" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://127.0.0.1:8000</Value>

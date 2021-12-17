@@ -29,6 +29,7 @@ namespace FlashCalculation
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -76,7 +77,13 @@ namespace FlashCalculation
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.tdurlomba = new System.Windows.Forms.Timer(this.components);
+            this.tlomba = new System.Windows.Forms.Timer(this.components);
+            this.lblSoal = new System.Windows.Forms.Label();
+            this.lblNo = new System.Windows.Forms.Label();
+            this.lblDur = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel8.SuspendLayout();
@@ -97,15 +104,17 @@ namespace FlashCalculation
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1032, 527);
+            this.panel1.Size = new System.Drawing.Size(1125, 527);
             this.panel1.TabIndex = 0;
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.lblNo);
+            this.panel6.Controls.Add(this.lblSoal);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(267, 96);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(765, 380);
+            this.panel6.Size = new System.Drawing.Size(858, 380);
             this.panel6.TabIndex = 4;
             // 
             // panel5
@@ -114,7 +123,7 @@ namespace FlashCalculation
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel5.Location = new System.Drawing.Point(267, 476);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(765, 51);
+            this.panel5.Size = new System.Drawing.Size(858, 51);
             this.panel5.TabIndex = 3;
             // 
             // textBox10
@@ -123,7 +132,7 @@ namespace FlashCalculation
             this.textBox10.Font = new System.Drawing.Font("Tahoma", 33.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox10.Location = new System.Drawing.Point(0, 0);
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(765, 62);
+            this.textBox10.Size = new System.Drawing.Size(858, 62);
             this.textBox10.TabIndex = 0;
             this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -134,7 +143,7 @@ namespace FlashCalculation
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(267, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(765, 96);
+            this.panel4.Size = new System.Drawing.Size(858, 96);
             this.panel4.TabIndex = 2;
             // 
             // panel8
@@ -147,7 +156,7 @@ namespace FlashCalculation
             this.panel8.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel8.Location = new System.Drawing.Point(0, 59);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(765, 37);
+            this.panel8.Size = new System.Drawing.Size(858, 37);
             this.panel8.TabIndex = 1;
             // 
             // button3
@@ -207,16 +216,17 @@ namespace FlashCalculation
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(765, 53);
+            this.panel7.Size = new System.Drawing.Size(858, 53);
             this.panel7.TabIndex = 0;
             // 
             // panel10
             // 
+            this.panel10.Controls.Add(this.lblDur);
             this.panel10.Controls.Add(this.label11);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel10.Location = new System.Drawing.Point(54, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(711, 53);
+            this.panel10.Size = new System.Drawing.Size(804, 53);
             this.panel10.TabIndex = 1;
             // 
             // label11
@@ -229,9 +239,8 @@ namespace FlashCalculation
             this.label11.ForeColor = System.Drawing.Color.Navy;
             this.label11.Location = new System.Drawing.Point(3, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(716, 42);
+            this.label11.Size = new System.Drawing.Size(0, 42);
             this.label11.TabIndex = 0;
-            this.label11.Text = "International Mathematics Competition";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel9
@@ -304,7 +313,7 @@ namespace FlashCalculation
             // 
             this.label21.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(13, 385);
+            this.label21.Location = new System.Drawing.Point(13, 392);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(226, 22);
             this.label21.TabIndex = 19;
@@ -314,7 +323,7 @@ namespace FlashCalculation
             // 
             this.label20.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(11, 336);
+            this.label20.Location = new System.Drawing.Point(11, 343);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(226, 22);
             this.label20.TabIndex = 19;
@@ -324,7 +333,7 @@ namespace FlashCalculation
             // 
             this.label19.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.ForeColor = System.Drawing.Color.White;
-            this.label19.Location = new System.Drawing.Point(12, 288);
+            this.label19.Location = new System.Drawing.Point(12, 295);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(226, 22);
             this.label19.TabIndex = 19;
@@ -334,7 +343,7 @@ namespace FlashCalculation
             // 
             this.label18.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.White;
-            this.label18.Location = new System.Drawing.Point(13, 244);
+            this.label18.Location = new System.Drawing.Point(13, 251);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(226, 22);
             this.label18.TabIndex = 19;
@@ -344,7 +353,7 @@ namespace FlashCalculation
             // 
             this.label17.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.White;
-            this.label17.Location = new System.Drawing.Point(13, 198);
+            this.label17.Location = new System.Drawing.Point(13, 205);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(226, 22);
             this.label17.TabIndex = 19;
@@ -354,7 +363,7 @@ namespace FlashCalculation
             // 
             this.label16.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.White;
-            this.label16.Location = new System.Drawing.Point(13, 153);
+            this.label16.Location = new System.Drawing.Point(13, 160);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(226, 22);
             this.label16.TabIndex = 19;
@@ -364,7 +373,7 @@ namespace FlashCalculation
             // 
             this.label15.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.White;
-            this.label15.Location = new System.Drawing.Point(13, 108);
+            this.label15.Location = new System.Drawing.Point(13, 112);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(226, 22);
             this.label15.TabIndex = 19;
@@ -374,7 +383,7 @@ namespace FlashCalculation
             // 
             this.label14.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.White;
-            this.label14.Location = new System.Drawing.Point(13, 63);
+            this.label14.Location = new System.Drawing.Point(13, 70);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(226, 22);
             this.label14.TabIndex = 19;
@@ -384,7 +393,7 @@ namespace FlashCalculation
             // 
             this.label13.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.White;
-            this.label13.Location = new System.Drawing.Point(12, 438);
+            this.label13.Location = new System.Drawing.Point(12, 445);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(226, 67);
             this.label13.TabIndex = 19;
@@ -513,7 +522,7 @@ namespace FlashCalculation
             // 
             this.label10.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(12, 411);
+            this.label10.Location = new System.Drawing.Point(12, 418);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(118, 23);
             this.label10.TabIndex = 9;
@@ -523,7 +532,7 @@ namespace FlashCalculation
             // 
             this.label9.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(12, 362);
+            this.label9.Location = new System.Drawing.Point(12, 369);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(118, 23);
             this.label9.TabIndex = 8;
@@ -533,7 +542,7 @@ namespace FlashCalculation
             // 
             this.label8.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(12, 314);
+            this.label8.Location = new System.Drawing.Point(12, 321);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(118, 23);
             this.label8.TabIndex = 7;
@@ -543,7 +552,7 @@ namespace FlashCalculation
             // 
             this.label7.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(12, 269);
+            this.label7.Location = new System.Drawing.Point(12, 276);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(118, 23);
             this.label7.TabIndex = 6;
@@ -553,7 +562,7 @@ namespace FlashCalculation
             // 
             this.label6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(12, 223);
+            this.label6.Location = new System.Drawing.Point(12, 230);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(118, 23);
             this.label6.TabIndex = 5;
@@ -563,7 +572,7 @@ namespace FlashCalculation
             // 
             this.label5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(12, 178);
+            this.label5.Location = new System.Drawing.Point(12, 185);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(118, 23);
             this.label5.TabIndex = 4;
@@ -573,7 +582,7 @@ namespace FlashCalculation
             // 
             this.label4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(12, 134);
+            this.label4.Location = new System.Drawing.Point(12, 141);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(118, 23);
             this.label4.TabIndex = 3;
@@ -583,7 +592,7 @@ namespace FlashCalculation
             // 
             this.label3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(12, 89);
+            this.label3.Location = new System.Drawing.Point(12, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 2;
@@ -593,7 +602,7 @@ namespace FlashCalculation
             // 
             this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(11, 17);
+            this.label2.Location = new System.Drawing.Point(11, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(235, 18);
             this.label2.TabIndex = 1;
@@ -604,17 +613,61 @@ namespace FlashCalculation
             // 
             this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(12, 44);
+            this.label1.Location = new System.Drawing.Point(12, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "ID Peserta";
             // 
+            // tdurlomba
+            // 
+            this.tdurlomba.Interval = 1000;
+            this.tdurlomba.Tick += new System.EventHandler(this.tdurlomba_Tick);
+            // 
+            // tlomba
+            // 
+            this.tlomba.Interval = 1000;
+            this.tlomba.Tick += new System.EventHandler(this.tlomba_Tick);
+            // 
+            // lblSoal
+            // 
+            this.lblSoal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSoal.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSoal.Location = new System.Drawing.Point(0, 0);
+            this.lblSoal.Name = "lblSoal";
+            this.lblSoal.Size = new System.Drawing.Size(858, 380);
+            this.lblSoal.TabIndex = 0;
+            this.lblSoal.Text = "123";
+            this.lblSoal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblNo
+            // 
+            this.lblNo.AutoSize = true;
+            this.lblNo.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lblNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNo.Location = new System.Drawing.Point(0, 0);
+            this.lblNo.Name = "lblNo";
+            this.lblNo.Size = new System.Drawing.Size(44, 16);
+            this.lblNo.TabIndex = 1;
+            this.lblNo.Text = "No. 1";
+            // 
+            // lblDur
+            // 
+            this.lblDur.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblDur.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDur.ForeColor = System.Drawing.Color.Red;
+            this.lblDur.Location = new System.Drawing.Point(607, 0);
+            this.lblDur.Name = "lblDur";
+            this.lblDur.Size = new System.Drawing.Size(197, 53);
+            this.lblDur.TabIndex = 1;
+            this.lblDur.Text = "Remaining Time :";
+            this.lblDur.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1032, 527);
+            this.ClientSize = new System.Drawing.Size(1125, 527);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMain";
@@ -622,6 +675,8 @@ namespace FlashCalculation
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.panel1.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             this.panel4.ResumeLayout(false);
@@ -686,5 +741,10 @@ namespace FlashCalculation
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Timer tdurlomba;
+        private System.Windows.Forms.Timer tlomba;
+        private System.Windows.Forms.Label lblSoal;
+        private System.Windows.Forms.Label lblNo;
+        private System.Windows.Forms.Label lblDur;
     }
 }

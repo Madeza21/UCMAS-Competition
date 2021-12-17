@@ -49,7 +49,7 @@ namespace FlashCalculation.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ucmasidn.com")]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
         public string ip_address {
             get {
                 return ((string)(this["ip_address"]));

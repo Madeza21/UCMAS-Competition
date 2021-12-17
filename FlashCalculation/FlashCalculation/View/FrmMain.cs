@@ -9,6 +9,7 @@ using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Speech.Synthesis;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,8 +23,11 @@ namespace FlashCalculation
         DataTable dtSoal = new DataTable();
         Random rnd = new Random();
         CultureInfo culture = new CultureInfo("en-US");
+        SpeechSynthesizer speechSynthesizerObj;
 
-        int errex = 0;
+        int errex = 0, datarow, jumlahmuncul, speechRate = 0;
+        decimal lamalomba, lamalombaori, speedmuncul, speedjeda;
+        string ptype, strvoice = "";
 
         DbBase db = new DbBase();
 
@@ -61,6 +65,8 @@ namespace FlashCalculation
             //Properties.Settings.Default.siswa_id = "TES UBAH";
             this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             textBox10.Font = new Font(this.pfc.Families[0], 34, FontStyle.Bold);
+            lblSoal.Font = new Font(this.pfc.Families[0], 72, FontStyle.Bold);
+            lblNo.Font = new Font(this.pfc.Families[0], 10, FontStyle.Bold);
 
             textBox1.Text = peserta.ID_PESERTA;
             label14.Text = peserta.ID_PESERTA;
@@ -96,12 +102,105 @@ namespace FlashCalculation
             //Load dummy soal kompetisi
             dtSoal = db.GetSoalKompetisi("");
             SetSoalKompetisi();
+
+            lblNo.Visible = false;
+            lblDur.Visible = false;
+
+            speechSynthesizerObj = new SpeechSynthesizer();
+
             this.Cursor = System.Windows.Forms.Cursors.Default;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            string pilihperlombaan;
+            string tglkompetisi;
+            decimal dlamalomba;
+
+            pilihperlombaan = comboBox1.SelectedValue.ToString();
+            tglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
+
+            if(pilihperlombaan == "")
+            {
+                if(Properties.Settings.Default.bahasa == "indonesia")
+                {
+                    MessageBox.Show("Mohon Kompetisi dipilih terlebih dahulu.");
+                }
+                else
+                {
+                    MessageBox.Show("Please choose the competition first.");
+                }
+                return;
+            }
+            else
+            {
+                ptype = db.GetTypeKompetisi(pilihperlombaan, tglkompetisi);
+                if(Properties.Settings.Default.trial == "Y")
+                {
+                    db.Query("DELETE FROM  tb_jawaban_kompetisi WHERE ROW_ID_KOMPETISI = '" + pilihperlombaan + "' AND ID_PESERTA = '" + peserta.ID_PESERTA + "'");
+                }
+                //Sudah ikut kompetisi
+                if(db.GetJawabanKompetisi(pilihperlombaan, peserta.ID_PESERTA) > 0)
+                {
+                    if (Properties.Settings.Default.bahasa == "indonesia")
+                    {
+                        MessageBox.Show("Anda sudah pernah berpartisipasi dalam kompetisi ini sebelumnya.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("You have participated this competition before.");
+                    }
+                    return;
+                }
+
+                textBox10.Enabled = false;
+                if(ptype == "V")
+                {
+                    textBox10.Enabled = true;
+                }
+                else
+                {
+                    textBox10.Enabled = false;
+                }
+                lblSoal.Text = "READY ??";
+                comboBox1.Enabled = false;
+
+                DataTable dtkompetisi = db.GetKompetisiID(peserta.ID_PESERTA, pilihperlombaan);
+                DataTable dtsoal = db.GetSoalKompetisiID(peserta.ID_PESERTA, pilihperlombaan);
+
+                if (dtkompetisi.Rows.Count > 0)
+                {
+                    dlamalomba = dtkompetisi.Rows[0]["lama_perlombaan"].ToString() == "" ? 0 : Convert.ToDecimal(dtkompetisi.Rows[0]["lama_perlombaan"].ToString());
+                    lamalombaori = dlamalomba + 1;
+
+                    if (ptype == "L")
+                    {                        
+                        dlamalomba = dlamalomba + 7;
+                    }
+                    else
+                    {
+                        dlamalomba = dlamalomba + 4;
+                    }
+
+                    lamalomba = dlamalomba;
+                    if (dtsoal.Rows.Count > 0)
+                    {
+                        //set kecepatan per soal
+                        speedmuncul = dtsoal.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtsoal.Rows[0]["kecepatan"].ToString());
+                        speedjeda = dtsoal.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtsoal.Rows[0]["kecepatan"].ToString());
+
+                        datarow = 0;
+                        jumlahmuncul = 0;
+
+                    }
+                    //Start Waktu Perlombaan
+                    Start();
+                }
+
+                button1.Enabled = false;
+                button2.Enabled = false;
+                button3.Enabled = false;
+            }
         }
 
         private string RandomAngka(int pdigit)
@@ -1142,6 +1241,109 @@ namespace FlashCalculation
                 MessageBox.Show(e.Message + " Row : " + errex);
             }           
 
+        }
+
+        private void tdurlomba_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tlomba_Tick(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Start()
+        {
+            FuncTimer();
+            
+            tdurlomba.Interval = 1000;
+            tdurlomba.Start();
+        }
+
+        private void stop()
+        {
+            tdurlomba.Stop();
+        }
+
+        private void StartLomba()
+        {
+
+        }
+
+        private void StopLomba()
+        {
+            tlomba.Stop();
+            if(ptype == "L")
+            {
+                if(strvoice == "")
+                {
+                    //START SISA WAKTU LOMBA
+                    Start();
+                }
+                else
+                {
+                    //STOP SISA WAKTU LOMBA
+                    stop();
+
+                    speechSynthesizerObj.Dispose();
+                    speechSynthesizerObj = new SpeechSynthesizer();
+                    speechSynthesizerObj.Volume = 100; // от 0 до 100
+                    speechSynthesizerObj.Rate = 0; //от -10 до 10
+                    speechSynthesizerObj.SelectVoice(Properties.Settings.Default.voice);
+                    speechSynthesizerObj.SpeakAsync(strvoice);
+                    speechSynthesizerObj.SpeakCompleted += SpeakComplete;
+                    lblSoal.Text = "";
+                }
+            }
+            else
+            {
+                lblSoal.Text = "";
+            }
+        }
+
+        private void FuncTimer()
+        {
+            lamalomba = lamalomba - 1;
+            if(lamalomba == lamalombaori)
+            {
+                lblDur.Visible = true;
+                lblSoal.Text = "";
+
+                if(ptype == "L" || ptype == "F")
+                {
+                    stop();
+                }
+                //Start Perlombaan
+                StartLomba();
+            }
+
+            if(lamalomba <= 0)
+            {
+                lblSoal.Text = "";
+                speechRate = 0;
+
+                button1.Enabled = false;
+                button2.Enabled = true;
+                button3.Enabled = true;
+
+                lblDur.Visible = false;
+                textBox10.Text = "";
+                textBox10.Enabled = false;
+                comboBox1.Enabled = true;
+
+                stop();
+                StopLomba();
+            }
+            else
+            {
+                lblDur.Text = lamalomba.ToString();
+            }
+        }
+
+        public void SpeakComplete(object sender, EventArgs e)
+        {
+            Start();
         }
     }
 }

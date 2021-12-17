@@ -471,8 +471,14 @@ namespace FlashCalculation
                 speechSynthesizerObj.Rate = 0; //от -10 до 10
                 speechSynthesizerObj.SelectVoice(comboBox2.Text);
                 speechSynthesizerObj.SpeakAsync(textSpeech);
+                //speechSynthesizerObj.SpeakCompleted += SpeakComplete;
+
+                //MessageBox.Show("SELESAI Riyan Madeza");
             }
         }
-       
+        public void SpeakComplete(object sender, EventArgs e)
+        {
+            //MessageBox.Show("SELESAI");
+        }
     }
 }

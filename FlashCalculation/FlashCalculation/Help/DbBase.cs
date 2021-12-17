@@ -640,5 +640,354 @@ namespace FlashCalculation.Help
 
             return "OK";
         }
+
+        public string GetTypeKompetisi(string prowid, string ptgl)
+        {
+            string str = "";
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT TIPE
+	                                    FROM tb_kompetisi
+	                                    WHERE ROW_ID =@prowid
+	                                    AND TANGGAL_KOMPETISI =@ptgl";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
+            parm.Value = prowid;
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@ptgl", DbType.String, ParameterDirection.Input);
+            parm.Value = ptgl;
+            sqlite_cmd.Parameters.Add(parm);
+
+            str = Convert.ToString(sqlite_cmd.ExecuteScalar());
+
+            return str;
+        }
+
+        public int GetJawabanKompetisi(string prowid, string ppeserta)
+        {
+            int str = 0;
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT COUNT(*)
+	                                    FROM  tb_jawaban_kompetisi 
+	                                    WHERE ROW_ID_KOMPETISI =@prowid
+	                                    AND ID_PESERTA =@ppeserta";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
+            parm.Value = prowid;
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@ppeserta", DbType.String, ParameterDirection.Input);
+            parm.Value = ppeserta;
+            sqlite_cmd.Parameters.Add(parm);
+
+            str = Convert.ToInt32(sqlite_cmd.ExecuteScalar());
+
+            return str;
+        }
+
+        public DataTable GetKompetisiID(string pid, string prowid)
+        {
+            DataTable dt = new DataTable();
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT tb_kompetisi.ROW_ID,   
+                                              tb_kompetisi.CABANG_CODE,   
+                                              tb_kompetisi.KOMPETISI_NAME,   
+                                              tb_kompetisi.TANGGAL_KOMPETISI,   
+                                              tb_kompetisi.JAM_MULAI,   
+                                              tb_kompetisi.JAM_SAMPAI,   
+                                              tb_kompetisi.JENIS_CODE,   
+                                              tb_kompetisi.JENIS_NAME,   
+                                              tb_kompetisi.TIPE,   
+                                              tb_kompetisi.ROW_ID_KATEGORI,   
+                                              tb_kompetisi.KATEGORI_CODE,   
+                                              tb_kompetisi.KATEGORI_NAME,   
+                                              tb_kompetisi.LAMA_PERLOMBAAN,   
+                                              tb_kompetisi.KECEPATAN  
+                                         FROM tb_peserta_kompetisi, tb_kompetisi
+                                        WHERE tb_peserta_kompetisi.ROW_ID_KOMPETISI = tb_kompetisi.ROW_ID
+                                          AND tb_peserta_kompetisi.ID_PESERTA =@pid
+                                          AND tb_kompetisi.ROW_ID =@prowid";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
+            parm.Value = pid;
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
+            parm.Value = prowid;
+            sqlite_cmd.Parameters.Add(parm);
+
+            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
+
+            dda.Fill(dt);
+
+            return dt;
+        }
+
+        public DataTable GetSoalKompetisiID(string pid, string prowid)
+        {
+            DataTable dt = new DataTable();
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT tb_soal_kompetisi.row_id_kompetisi,   
+                                                tb_soal_kompetisi.no_soal,   
+                                                tb_soal_kompetisi.jumlah_muncul,   
+                                                tb_soal_kompetisi.jml_baris_per_muncul,   
+                                                tb_soal_kompetisi.angka1,   
+                                                tb_soal_kompetisi.angka2,   
+                                                tb_soal_kompetisi.angka3,   
+                                                tb_soal_kompetisi.angka4,   
+                                                tb_soal_kompetisi.angka5,   
+                                                tb_soal_kompetisi.angka6,   
+                                                tb_soal_kompetisi.angka7,   
+                                                tb_soal_kompetisi.angka8,   
+                                                tb_soal_kompetisi.angka9,   
+                                                tb_soal_kompetisi.angka10,   
+                                                tb_soal_kompetisi.angka11,   
+                                                tb_soal_kompetisi.angka12,   
+                                                tb_soal_kompetisi.angka13,   
+                                                tb_soal_kompetisi.angka14,   
+                                                tb_soal_kompetisi.angka15,   
+                                                tb_soal_kompetisi.angka16,   
+                                                tb_soal_kompetisi.angka17,   
+                                                tb_soal_kompetisi.angka18,   
+                                                tb_soal_kompetisi.angka19,   
+                                                tb_soal_kompetisi.angka20,   
+                                                tb_soal_kompetisi.angka21,   
+                                                tb_soal_kompetisi.angka22,   
+                                                tb_soal_kompetisi.angka23,   
+                                                tb_soal_kompetisi.angka24,   
+                                                tb_soal_kompetisi.angka25,   
+                                                tb_soal_kompetisi.angka26,   
+                                                tb_soal_kompetisi.angka27,   
+                                                tb_soal_kompetisi.angka28,   
+                                                tb_soal_kompetisi.angka29,   
+                                                tb_soal_kompetisi.angka30,   
+                                                tb_soal_kompetisi.angka31,   
+                                                tb_soal_kompetisi.angka32,   
+                                                tb_soal_kompetisi.angka33,   
+                                                tb_soal_kompetisi.angka34,   
+                                                tb_soal_kompetisi.angka35,   
+                                                tb_soal_kompetisi.angka36,   
+                                                tb_soal_kompetisi.angka37,   
+                                                tb_soal_kompetisi.angka38,   
+                                                tb_soal_kompetisi.angka39,   
+                                                tb_soal_kompetisi.angka40,   
+                                                tb_soal_kompetisi.angka41,   
+                                                tb_soal_kompetisi.angka42,   
+                                                tb_soal_kompetisi.angka43,   
+                                                tb_soal_kompetisi.angka44,   
+                                                tb_soal_kompetisi.angka45,   
+                                                tb_soal_kompetisi.angka46,   
+                                                tb_soal_kompetisi.angka47,   
+                                                tb_soal_kompetisi.angka48,   
+                                                tb_soal_kompetisi.angka49,   
+                                                tb_soal_kompetisi.angka50,   
+                                                tb_soal_kompetisi.angka51,   
+                                                tb_soal_kompetisi.angka52,   
+                                                tb_soal_kompetisi.angka53,   
+                                                tb_soal_kompetisi.angka54,   
+                                                tb_soal_kompetisi.angka55,   
+                                                tb_soal_kompetisi.angka56,   
+                                                tb_soal_kompetisi.angka57,   
+                                                tb_soal_kompetisi.angka58,   
+                                                tb_soal_kompetisi.angka59,   
+                                                tb_soal_kompetisi.angka60,   
+                                                tb_soal_kompetisi.angka61,   
+                                                tb_soal_kompetisi.angka62,   
+                                                tb_soal_kompetisi.angka63,   
+                                                tb_soal_kompetisi.angka64,   
+                                                tb_soal_kompetisi.angka65,   
+                                                tb_soal_kompetisi.angka66,   
+                                                tb_soal_kompetisi.angka67,   
+                                                tb_soal_kompetisi.angka68,   
+                                                tb_soal_kompetisi.angka69,   
+                                                tb_soal_kompetisi.angka70,   
+                                                tb_soal_kompetisi.angka71,   
+                                                tb_soal_kompetisi.angka72,   
+                                                tb_soal_kompetisi.angka73,   
+                                                tb_soal_kompetisi.angka74,   
+                                                tb_soal_kompetisi.angka75,   
+                                                tb_soal_kompetisi.angka76,   
+                                                tb_soal_kompetisi.angka77,   
+                                                tb_soal_kompetisi.angka78,   
+                                                tb_soal_kompetisi.angka79,   
+                                                tb_soal_kompetisi.angka80,   
+                                                tb_soal_kompetisi.angka81,   
+                                                tb_soal_kompetisi.angka82,   
+                                                tb_soal_kompetisi.angka83,   
+                                                tb_soal_kompetisi.angka84,   
+                                                tb_soal_kompetisi.angka85,   
+                                                tb_soal_kompetisi.angka86,   
+                                                tb_soal_kompetisi.angka87,   
+                                                tb_soal_kompetisi.angka88,   
+                                                tb_soal_kompetisi.angka89,   
+                                                tb_soal_kompetisi.angka90,   
+                                                tb_soal_kompetisi.angka91,   
+                                                tb_soal_kompetisi.angka92,   
+                                                tb_soal_kompetisi.angka93,   
+                                                tb_soal_kompetisi.angka94,   
+                                                tb_soal_kompetisi.angka95,   
+                                                tb_soal_kompetisi.angka96,   
+                                                tb_soal_kompetisi.angka97,   
+                                                tb_soal_kompetisi.angka98,   
+                                                tb_soal_kompetisi.angka99,   
+                                                tb_soal_kompetisi.angka100,   
+                                                tb_soal_kompetisi.angka101,   
+                                                tb_soal_kompetisi.angka102,   
+                                                tb_soal_kompetisi.angka103,   
+                                                tb_soal_kompetisi.angka104,   
+                                                tb_soal_kompetisi.angka105,   
+                                                tb_soal_kompetisi.angka106,   
+                                                tb_soal_kompetisi.angka107,   
+                                                tb_soal_kompetisi.angka108,   
+                                                tb_soal_kompetisi.angka109,   
+                                                tb_soal_kompetisi.angka110,   
+                                                tb_soal_kompetisi.angka111,   
+                                                tb_soal_kompetisi.angka112,   
+                                                tb_soal_kompetisi.angka113,   
+                                                tb_soal_kompetisi.angka114,   
+                                                tb_soal_kompetisi.angka115,   
+                                                tb_soal_kompetisi.angka116,   
+                                                tb_soal_kompetisi.angka117,   
+                                                tb_soal_kompetisi.angka118,   
+                                                tb_soal_kompetisi.angka119,   
+                                                tb_soal_kompetisi.angka120,   
+                                                tb_soal_kompetisi.angka121,   
+                                                tb_soal_kompetisi.angka122,   
+                                                tb_soal_kompetisi.angka123,   
+                                                tb_soal_kompetisi.angka124,   
+                                                tb_soal_kompetisi.angka125,   
+                                                tb_soal_kompetisi.angka126,   
+                                                tb_soal_kompetisi.angka127,   
+                                                tb_soal_kompetisi.angka128,   
+                                                tb_soal_kompetisi.angka129,   
+                                                tb_soal_kompetisi.angka130,   
+                                                tb_soal_kompetisi.angka131,   
+                                                tb_soal_kompetisi.angka132,   
+                                                tb_soal_kompetisi.angka133,   
+                                                tb_soal_kompetisi.angka134,   
+                                                tb_soal_kompetisi.angka135,   
+                                                tb_soal_kompetisi.angka136,   
+                                                tb_soal_kompetisi.angka137,   
+                                                tb_soal_kompetisi.angka138,   
+                                                tb_soal_kompetisi.angka139,   
+                                                tb_soal_kompetisi.angka140,   
+                                                tb_soal_kompetisi.angka141,   
+                                                tb_soal_kompetisi.angka142,   
+                                                tb_soal_kompetisi.angka143,   
+                                                tb_soal_kompetisi.angka144,   
+                                                tb_soal_kompetisi.angka145,   
+                                                tb_soal_kompetisi.angka146,   
+                                                tb_soal_kompetisi.angka147,   
+                                                tb_soal_kompetisi.angka148,   
+                                                tb_soal_kompetisi.angka149,   
+                                                tb_soal_kompetisi.angka150,   
+                                                tb_soal_kompetisi.perkalian1,   
+                                                tb_soal_kompetisi.perkalian2,   
+                                                tb_soal_kompetisi.perkalian3,   
+                                                tb_soal_kompetisi.perkalian4,   
+                                                tb_soal_kompetisi.perkalian5,   
+                                                tb_soal_kompetisi.perkalian6,   
+                                                tb_soal_kompetisi.perkalian7,   
+                                                tb_soal_kompetisi.perkalian8,   
+                                                tb_soal_kompetisi.perkalian9,   
+                                                tb_soal_kompetisi.perkalian10,   
+                                                tb_soal_kompetisi.pembagian1,   
+                                                tb_soal_kompetisi.pembagian2,   
+                                                tb_soal_kompetisi.pembagian3,   
+                                                tb_soal_kompetisi.pembagian4,   
+                                                tb_soal_kompetisi.pembagian5,   
+                                                tb_soal_kompetisi.pembagian6,   
+                                                tb_soal_kompetisi.pembagian7,   
+                                                tb_soal_kompetisi.pembagian8,   
+                                                tb_soal_kompetisi.pembagian9,   
+                                                tb_soal_kompetisi.pembagian10,   
+                                                tb_soal_kompetisi.kunci_jawaban,   
+                                                tb_soal_kompetisi.angkamuncul1,   
+                                                tb_soal_kompetisi.angkamuncul2,   
+                                                tb_soal_kompetisi.angkamuncul3,   
+                                                tb_soal_kompetisi.angkamuncul4,   
+                                                tb_soal_kompetisi.angkamuncul5,   
+                                                tb_soal_kompetisi.angkamuncul6,   
+                                                tb_soal_kompetisi.angkamuncul7,   
+                                                tb_soal_kompetisi.angkamuncul8,   
+                                                tb_soal_kompetisi.angkamuncul9,   
+                                                tb_soal_kompetisi.angkamuncul10,   
+                                                tb_soal_kompetisi.angkamuncul11,   
+                                                tb_soal_kompetisi.angkamuncul12,   
+                                                tb_soal_kompetisi.angkamuncul13,   
+                                                tb_soal_kompetisi.angkamuncul14,   
+                                                tb_soal_kompetisi.angkamuncul15,   
+                                                tb_soal_kompetisi.angkamuncul16,   
+                                                tb_soal_kompetisi.angkamuncul17,   
+                                                tb_soal_kompetisi.angkamuncul18,   
+                                                tb_soal_kompetisi.angkamuncul19,   
+                                                tb_soal_kompetisi.angkamuncul20,   
+                                                tb_soal_kompetisi.angkamuncul21,   
+                                                tb_soal_kompetisi.angkamuncul22,   
+                                                tb_soal_kompetisi.angkamuncul23,   
+                                                tb_soal_kompetisi.angkamuncul24,   
+                                                tb_soal_kompetisi.angkamuncul25,   
+                                                tb_soal_kompetisi.angkamuncul26,   
+                                                tb_soal_kompetisi.angkamuncul27,   
+                                                tb_soal_kompetisi.angkamuncul28,   
+                                                tb_soal_kompetisi.angkamuncul29,   
+                                                tb_soal_kompetisi.angkamuncul30,   
+                                                tb_soal_kompetisi.angkamuncul31,   
+                                                tb_soal_kompetisi.angkamuncul32,   
+                                                tb_soal_kompetisi.angkamuncul33,   
+                                                tb_soal_kompetisi.angkamuncul34,   
+                                                tb_soal_kompetisi.angkamuncul35,   
+                                                tb_soal_kompetisi.angkamuncul36,   
+                                                tb_soal_kompetisi.angkamuncul37,   
+                                                tb_soal_kompetisi.angkamuncul38,   
+                                                tb_soal_kompetisi.angkamuncul39,   
+                                                tb_soal_kompetisi.angkamuncul40,   
+                                                tb_soal_kompetisi.angkamuncul41,   
+                                                tb_soal_kompetisi.angkamuncul42,   
+                                                tb_soal_kompetisi.angkamuncul43,   
+                                                tb_soal_kompetisi.angkamuncul44,   
+                                                tb_soal_kompetisi.angkamuncul45,   
+                                                tb_soal_kompetisi.angkamuncul46,   
+                                                tb_soal_kompetisi.angkamuncul47,   
+                                                tb_soal_kompetisi.angkamuncul48,   
+                                                tb_soal_kompetisi.angkamuncul49,   
+                                                tb_soal_kompetisi.angkamuncul50,   
+                                                tb_soal_kompetisi.kecepatan,
+                                                tb_soal_kompetisi.angkalistening1,
+                                                tb_soal_kompetisi.angkalistening2,
+                                                tb_soal_kompetisi.angkalistening3,
+                                                tb_soal_kompetisi.angkalistening4,
+                                                tb_soal_kompetisi.angkalistening5  
+                                         FROM tb_soal_kompetisi, tb_peserta_kompetisi 
+                                        WHERE tb_peserta_kompetisi.ROW_ID_KOMPETISI = tb_soal_kompetisi.ROW_ID_KOMPETISI
+                                          AND tb_peserta_kompetisi.ID_PESERTA =@pid
+                                          AND tb_soal_kompetisi.row_id_kompetisi =@prowid";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
+            parm.Value = pid;
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
+            parm.Value = prowid;
+            sqlite_cmd.Parameters.Add(parm);
+
+            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
+
+            dda.Fill(dt);
+
+            return dt;
+        }
     }
 }
