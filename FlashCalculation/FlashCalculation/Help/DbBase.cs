@@ -989,5 +989,28 @@ namespace FlashCalculation.Help
 
             return dt;
         }
+
+        public DataTable GetJawabanKompetisi(string pid)
+        {
+            DataTable dt = new DataTable();
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT *
+                                         FROM tb_jawaban_kompetisi
+                                        WHERE tb_jawaban_kompetisi.ROW_ID_KOMPETISI =@pid";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
+            parm.Value = pid;
+            sqlite_cmd.Parameters.Add(parm);
+
+            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
+
+            dda.Fill(dt);
+
+            return dt;
+        }
     }
 }

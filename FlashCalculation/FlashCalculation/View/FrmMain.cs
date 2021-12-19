@@ -24,6 +24,8 @@ namespace FlashCalculation
         DataTable dtSoal = new DataTable();
         DataTable dtkompetisi = new DataTable();
         DataTable dtSoalLomba = new DataTable();
+        DataTable dtJawaban = new DataTable();
+
         Random rnd = new Random();
         CultureInfo culture = new CultureInfo("en-US");
         SpeechSynthesizer speechSynthesizerObj;
@@ -105,6 +107,8 @@ namespace FlashCalculation
             //Load dummy soal kompetisi
             dtSoal = db.GetSoalKompetisi("");
             SetSoalKompetisi();
+
+            dtJawaban = db.GetJawabanKompetisi("");
 
             lblNo.Visible = false;
             lblDur.Visible = false;
@@ -1252,7 +1256,7 @@ namespace FlashCalculation
             {
                 int idwsoal = 0;
                 decimal idetikberapa = 0, ikuncijawaban = 0, ijawaban = 0, isoalno;
-                string strrowidkomp = "";
+                string strrowidkomp = "", strpertanyaanloop = "", strangkamuncul = "";                
 
                 if (lamalomba <= 0)
                 {
@@ -1283,7 +1287,7 @@ namespace FlashCalculation
                         }
                     }
 
-                    if(datarow > 0)
+                    if(datarow >= 0)
                     {
                         if(ptype == "V")
                         {
@@ -1293,16 +1297,124 @@ namespace FlashCalculation
                         {
                             idwsoal = datarow + 1;
                         }
-                    }
-                    if(textBox10.Text != "")
-                    {
-                        ijawaban = Convert.ToDecimal(textBox10.Text);
-                    }
-                    idetikberapa = lamalombaori - lamalomba;
-                    strrowidkomp = dtSoalLomba.Rows[idwsoal]["row_id_kompetisi"].ToString();
-                    ikuncijawaban = dtSoalLomba.Rows[idwsoal]["kunci_jawaban"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[idwsoal]["kunci_jawaban"].ToString());
-                    isoalno = dtSoalLomba.Rows[idwsoal]["no_soal"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[idwsoal]["no_soal"].ToString());
 
+                        if (textBox10.Text != "")
+                        {
+                            ijawaban = Convert.ToDecimal(textBox10.Text);
+                        }
+                        idetikberapa = lamalombaori - lamalomba;
+                        strrowidkomp = dtSoalLomba.Rows[idwsoal]["row_id_kompetisi"].ToString();
+                        ikuncijawaban = dtSoalLomba.Rows[idwsoal]["kunci_jawaban"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[idwsoal]["kunci_jawaban"].ToString());
+                        isoalno = dtSoalLomba.Rows[idwsoal]["no_soal"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[idwsoal]["no_soal"].ToString());
+
+                        strpertanyaanloop = "";
+                        if (ptype == "L")
+                        {
+                            for (int i = 1; 1 <= 5; i++)
+                            {
+                                strangkamuncul = dtSoalLomba.Rows[idwsoal]["angkalistening" + i].ToString();
+                                if (strangkamuncul == "")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    strpertanyaanloop = strpertanyaanloop + strangkamuncul;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 1; 1 <= 50; i++)
+                            {
+                                strangkamuncul = dtSoalLomba.Rows[idwsoal]["angkamuncul" + i].ToString();
+                                if (strangkamuncul == "")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    strpertanyaanloop = strpertanyaanloop + strangkamuncul;
+                                }
+                            }
+                        }
+
+                        DataTable idtJawaban = db.GetJawabanKompetisi("");
+                        DataRow dr, dr2;
+
+                        dr = (DataRow)dtJawaban.NewRow();
+                        dr2 = (DataRow)idtJawaban.NewRow();
+
+                        dr["row_id_kompetisi"] = strrowidkomp;
+                        dr["id_peserta"] = peserta.ID_PESERTA;
+                        dr["soal_no"] = isoalno;
+                        dr["pertanyaan"] = strpertanyaanloop;
+                        dr["jawaban_peserta"] = ijawaban;
+                        dr["jawab_detik_berapa"] = idetikberapa;
+                        dr["jawab_date"] = DateTime.Now;
+                        dr["kunci_jawaban"] = ikuncijawaban;
+                        if (ijawaban == ikuncijawaban)
+                        {
+                            dr["score_peserta"] = 100;
+                        }
+                        else
+                        {
+                            dr["score_peserta"] = 0;
+                        }
+
+                        dr["is_kirim"] = "N";
+
+                        dr2["row_id_kompetisi"] = strrowidkomp;
+                        dr2["id_peserta"] = peserta.ID_PESERTA;
+                        dr2["soal_no"] = isoalno;
+                        dr2["pertanyaan"] = strpertanyaanloop;
+                        dr2["jawaban_peserta"] = ijawaban;
+                        dr2["jawab_detik_berapa"] = idetikberapa;
+                        dr2["jawab_date"] = DateTime.Now;
+                        dr2["kunci_jawaban"] = ikuncijawaban;
+                        if (ijawaban == ikuncijawaban)
+                        {
+                            dr2["score_peserta"] = 100;
+                        }
+                        else
+                        {
+                            dr2["score_peserta"] = 0;
+                        }
+
+                        dr2["is_kirim"] = "N";
+
+                        dtJawaban.Rows.Add(dr);
+                        idtJawaban.Rows.Add(dr2);
+
+                        string[] lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol;
+                        lstrPrmHdrUpdateCol = new string[10]{
+                               "ROW_ID_KOMPETISI", "ID_PESERTA", "SOAL_NO", "PERTANYAAN", "JAWABAN_PESERTA", "JAWAB_DETIK_BERAPA",
+                                "JAWAB_DATE", "KUNCI_JAWABAN", "SCORE_PESERTA", "IS_KIRIM" };
+                        lstrPrmHdrKeyCol = new string[3] { "ROW_ID_KOMPETISI", "ID_PESERTA", "SOAL_NO" };
+                        if (db.UpdateDataTable(dtSoal, "tb_jawaban_kompetisi", lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol) != "OK")
+                        {
+
+                        }
+                    }
+                    
+                    if(ptype == "V")
+                    {
+                        textBox10.Enabled = true;
+                        textBox10.Text = "";
+                        textBox10.Focus();
+                        datarow = datarow + 1;
+                    }
+                    else
+                    {
+                        textBox10.Enabled = false;
+                    }
+
+                    if (ptype == "V" || ptype == "L" || ptype == "F")
+                    {
+                        lamalomba = lamalomba + 1;
+                    }
+
+                    StartLomba();
                 }
             }
         }
