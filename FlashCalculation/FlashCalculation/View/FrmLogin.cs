@@ -198,7 +198,7 @@ namespace FlashCalculation
 
                 
                 db.CloseConnection();
-
+                timer1.Stop();
                 //Open Main Form
                 this.Hide();
                 FrmMain frm = new FrmMain(peserta);

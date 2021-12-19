@@ -110,8 +110,8 @@ namespace FlashCalculation
 
             dtJawaban = db.GetJawabanKompetisi("");
 
-            lblNo.Visible = false;
-            lblDur.Visible = false;
+            lblNo.Text = "";
+            lblDur.Text = "";
 
             speechSynthesizerObj = new SpeechSynthesizer();
 
@@ -1285,8 +1285,9 @@ namespace FlashCalculation
                         {
                             MessageBox.Show("Please input valid number.");
                         }
+                        return;
                     }
-
+                    lblSoal.Text = "";
                     if(datarow >= 0)
                     {
                         if(ptype == "V")
@@ -1310,7 +1311,7 @@ namespace FlashCalculation
                         strpertanyaanloop = "";
                         if (ptype == "L")
                         {
-                            for (int i = 1; 1 <= 5; i++)
+                            for (int i = 1; i <= 5; i++)
                             {
                                 strangkamuncul = dtSoalLomba.Rows[idwsoal]["angkalistening" + i].ToString();
                                 if (strangkamuncul == "")
@@ -1320,12 +1321,12 @@ namespace FlashCalculation
                                 else
                                 {
                                     strpertanyaanloop = strpertanyaanloop + strangkamuncul;
-                                }
+                                }                                 
                             }
                         }
                         else
                         {
-                            for (int i = 1; 1 <= 50; i++)
+                            for (int i = 1; i <= 50; i++)
                             {
                                 strangkamuncul = dtSoalLomba.Rows[idwsoal]["angkamuncul" + i].ToString();
                                 if (strangkamuncul == "")
@@ -1335,7 +1336,7 @@ namespace FlashCalculation
                                 else
                                 {
                                     strpertanyaanloop = strpertanyaanloop + strangkamuncul;
-                                }
+                                }                             
                             }
                         }
 
@@ -1391,7 +1392,7 @@ namespace FlashCalculation
                                "ROW_ID_KOMPETISI", "ID_PESERTA", "SOAL_NO", "PERTANYAAN", "JAWABAN_PESERTA", "JAWAB_DETIK_BERAPA",
                                 "JAWAB_DATE", "KUNCI_JAWABAN", "SCORE_PESERTA", "IS_KIRIM" };
                         lstrPrmHdrKeyCol = new string[3] { "ROW_ID_KOMPETISI", "ID_PESERTA", "SOAL_NO" };
-                        if (db.UpdateDataTable(dtSoal, "tb_jawaban_kompetisi", lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol) != "OK")
+                        if (db.UpdateDataTable(idtJawaban, "tb_jawaban_kompetisi", lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol) != "OK")
                         {
 
                         }
@@ -1483,10 +1484,6 @@ namespace FlashCalculation
                     lblSoal.Text = "";
                 }
             }
-            else
-            {
-                lblSoal.Text = "";
-            }
         }
 
         private void FuncTimer()
@@ -1494,7 +1491,7 @@ namespace FlashCalculation
             lamalomba = lamalomba - 1;
             if(lamalomba == lamalombaori)
             {
-                lblDur.Visible = true;
+                lblDur.Text = "";
                 lblSoal.Text = "";
 
                 if(ptype == "L" || ptype == "F")
@@ -1514,7 +1511,7 @@ namespace FlashCalculation
                 button2.Enabled = true;
                 button3.Enabled = true;
 
-                lblDur.Visible = false;
+                lblDur.Text = "";
                 textBox10.Text = "";
                 textBox10.Enabled = false;
                 comboBox1.Enabled = true;
@@ -1534,15 +1531,6 @@ namespace FlashCalculation
             decimal djumlahmuncul, djmlbarispermuncul = 0;
             string strAngka = "";
 
-            if (ptype == "L")
-            {
-                lblSoal.Text = "";
-            }
-            else
-            {
-                lblSoal.Text = "=";
-            }
-
             if (idatarow > 0)
             {
                 djumlahmuncul = dtSoalLomba.Rows[datarow]["jumlah_muncul"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[datarow]["jumlah_muncul"].ToString());
@@ -1550,12 +1538,10 @@ namespace FlashCalculation
                 {
                     if (ptype == "V")
                     {
-                        lblSoal.Text = "";
-                        //datarow = datarow;
+                        //
                     }
                     else
-                    {
-                        //lblSoal.Text = "=";
+                    {                        
                         datarow = datarow + 1;
                     }
 
@@ -1569,6 +1555,15 @@ namespace FlashCalculation
                     }
 
                     StopLomba();
+                    
+                    if (ptype == "F")
+                    {
+                        lblNo.Text = "";
+                        lblSoal.Text = " = ";
+                        lblSoal.Font = new Font(this.pfc.Families[0], 400, FontStyle.Bold);
+                    }
+                    
+                    return;
                 }
                 else
                 {
@@ -1606,8 +1601,10 @@ namespace FlashCalculation
                 }
                 else
                 {
-                    lblNo.Text = "No. " + datarow.ToString();
+                    lblNo.Text = "No. " + (datarow + 1).ToString();
                     //lblSoal.Text = strAngka.;
+
+                    lblSoal.Font = new Font(this.pfc.Families[0], 72, FontStyle.Bold);
 
                     if (ptype == "V")
                     {
@@ -1622,7 +1619,8 @@ namespace FlashCalculation
                         else
                         {
                             strAngka = strAngka.TrimEnd(Environment.NewLine.ToCharArray());
-                            string[] arr = strAngka.Split(Environment.NewLine.ToCharArray());
+                            strAngka = strAngka.Replace(Environment.NewLine, "|");
+                            string[] arr = strAngka.Split('|');
                             int maxdigit = 0;
                             if (arr.Length > 0)
                             {
@@ -1647,16 +1645,16 @@ namespace FlashCalculation
                                         {
                                             if (maxdigit - arr[i].Length > 0)
                                             {
-                                                strAngka += "-" + arr[i].Substring(1).PadLeft(maxdigit - arr[i].Length, ' ') + Environment.NewLine;
+                                                strAngka += "-" + arr[i].Substring(1).PadLeft(maxdigit - 1, ' ') + Environment.NewLine;
                                             }
                                             else
                                             {
-                                                strAngka += arr[i].PadLeft(maxdigit - arr[i].Length, ' ') + Environment.NewLine;
+                                                strAngka += arr[i].PadLeft(maxdigit, ' ') + Environment.NewLine;
                                             }
                                         }
                                         else
                                         {
-                                            strAngka += arr[i].PadLeft(maxdigit - arr[i].Length, ' ') + Environment.NewLine;
+                                            strAngka += arr[i].PadLeft(maxdigit, ' ') + Environment.NewLine;
                                         }
                                     }
                                 }

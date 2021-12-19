@@ -124,9 +124,8 @@ namespace FlashCalculation
             this.lblNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNo.Location = new System.Drawing.Point(0, 0);
             this.lblNo.Name = "lblNo";
-            this.lblNo.Size = new System.Drawing.Size(44, 16);
+            this.lblNo.Size = new System.Drawing.Size(0, 16);
             this.lblNo.TabIndex = 1;
-            this.lblNo.Text = "No. 1";
             // 
             // lblSoal
             // 
@@ -254,7 +253,7 @@ namespace FlashCalculation
             // lblDur
             // 
             this.lblDur.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblDur.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDur.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDur.ForeColor = System.Drawing.Color.Red;
             this.lblDur.Location = new System.Drawing.Point(607, 0);
             this.lblDur.Name = "lblDur";
