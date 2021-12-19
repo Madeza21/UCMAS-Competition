@@ -104,3 +104,4 @@ D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCal
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.CopyComplete
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.exe
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.pdb
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.View.FrmResetPswd.resources

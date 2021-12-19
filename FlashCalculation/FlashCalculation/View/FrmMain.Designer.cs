@@ -33,6 +33,8 @@ namespace FlashCalculation
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.lblNo = new System.Windows.Forms.Label();
+            this.lblSoal = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -44,6 +46,7 @@ namespace FlashCalculation
             this.label12 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
+            this.lblDur = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -79,9 +82,6 @@ namespace FlashCalculation
             this.label1 = new System.Windows.Forms.Label();
             this.tdurlomba = new System.Windows.Forms.Timer(this.components);
             this.tlomba = new System.Windows.Forms.Timer(this.components);
-            this.lblSoal = new System.Windows.Forms.Label();
-            this.lblNo = new System.Windows.Forms.Label();
-            this.lblDur = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -117,6 +117,27 @@ namespace FlashCalculation
             this.panel6.Size = new System.Drawing.Size(858, 380);
             this.panel6.TabIndex = 4;
             // 
+            // lblNo
+            // 
+            this.lblNo.AutoSize = true;
+            this.lblNo.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lblNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNo.Location = new System.Drawing.Point(0, 0);
+            this.lblNo.Name = "lblNo";
+            this.lblNo.Size = new System.Drawing.Size(44, 16);
+            this.lblNo.TabIndex = 1;
+            this.lblNo.Text = "No. 1";
+            // 
+            // lblSoal
+            // 
+            this.lblSoal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSoal.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSoal.Location = new System.Drawing.Point(0, 0);
+            this.lblSoal.Name = "lblSoal";
+            this.lblSoal.Size = new System.Drawing.Size(858, 380);
+            this.lblSoal.TabIndex = 0;
+            this.lblSoal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // panel5
             // 
             this.panel5.Controls.Add(this.textBox10);
@@ -135,6 +156,7 @@ namespace FlashCalculation
             this.textBox10.Size = new System.Drawing.Size(858, 62);
             this.textBox10.TabIndex = 0;
             this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox10.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox10_KeyDown);
             // 
             // panel4
             // 
@@ -228,6 +250,18 @@ namespace FlashCalculation
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(804, 53);
             this.panel10.TabIndex = 1;
+            // 
+            // lblDur
+            // 
+            this.lblDur.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblDur.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDur.ForeColor = System.Drawing.Color.Red;
+            this.lblDur.Location = new System.Drawing.Point(607, 0);
+            this.lblDur.Name = "lblDur";
+            this.lblDur.Size = new System.Drawing.Size(197, 53);
+            this.lblDur.TabIndex = 1;
+            this.lblDur.Text = "Remaining Time :";
+            this.lblDur.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label11
             // 
@@ -628,40 +662,6 @@ namespace FlashCalculation
             // 
             this.tlomba.Interval = 1000;
             this.tlomba.Tick += new System.EventHandler(this.tlomba_Tick);
-            // 
-            // lblSoal
-            // 
-            this.lblSoal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSoal.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSoal.Location = new System.Drawing.Point(0, 0);
-            this.lblSoal.Name = "lblSoal";
-            this.lblSoal.Size = new System.Drawing.Size(858, 380);
-            this.lblSoal.TabIndex = 0;
-            this.lblSoal.Text = "123";
-            this.lblSoal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblNo
-            // 
-            this.lblNo.AutoSize = true;
-            this.lblNo.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNo.Location = new System.Drawing.Point(0, 0);
-            this.lblNo.Name = "lblNo";
-            this.lblNo.Size = new System.Drawing.Size(44, 16);
-            this.lblNo.TabIndex = 1;
-            this.lblNo.Text = "No. 1";
-            // 
-            // lblDur
-            // 
-            this.lblDur.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblDur.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDur.ForeColor = System.Drawing.Color.Red;
-            this.lblDur.Location = new System.Drawing.Point(607, 0);
-            this.lblDur.Name = "lblDur";
-            this.lblDur.Size = new System.Drawing.Size(197, 53);
-            this.lblDur.TabIndex = 1;
-            this.lblDur.Text = "Remaining Time :";
-            this.lblDur.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FrmMain
             // 

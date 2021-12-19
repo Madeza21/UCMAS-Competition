@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Speech.Synthesis;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,12 +22,14 @@ namespace FlashCalculation
         Peserta peserta;
 
         DataTable dtSoal = new DataTable();
+        DataTable dtkompetisi = new DataTable();
+        DataTable dtSoalLomba = new DataTable();
         Random rnd = new Random();
         CultureInfo culture = new CultureInfo("en-US");
         SpeechSynthesizer speechSynthesizerObj;
 
-        int errex = 0, datarow, jumlahmuncul, speechRate = 0;
-        decimal lamalomba, lamalombaori, speedmuncul, speedjeda;
+        int errex = 0, datarow, speechRate = 0;
+        decimal lamalomba, lamalombaori, speedmuncul, speedjeda, jumlahmuncul, speedbicara, lamajeda;
         string ptype, strvoice = "";
 
         DbBase db = new DbBase();
@@ -165,8 +168,8 @@ namespace FlashCalculation
                 lblSoal.Text = "READY ??";
                 comboBox1.Enabled = false;
 
-                DataTable dtkompetisi = db.GetKompetisiID(peserta.ID_PESERTA, pilihperlombaan);
-                DataTable dtsoal = db.GetSoalKompetisiID(peserta.ID_PESERTA, pilihperlombaan);
+                dtkompetisi = db.GetKompetisiID(peserta.ID_PESERTA, pilihperlombaan);
+                dtSoalLomba = db.GetSoalKompetisiID(peserta.ID_PESERTA, pilihperlombaan);
 
                 if (dtkompetisi.Rows.Count > 0)
                 {
@@ -183,11 +186,11 @@ namespace FlashCalculation
                     }
 
                     lamalomba = dlamalomba;
-                    if (dtsoal.Rows.Count > 0)
+                    if (dtSoalLomba.Rows.Count > 0)
                     {
                         //set kecepatan per soal
-                        speedmuncul = dtsoal.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtsoal.Rows[0]["kecepatan"].ToString());
-                        speedjeda = dtsoal.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtsoal.Rows[0]["kecepatan"].ToString());
+                        speedmuncul = dtSoalLomba.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[0]["kecepatan"].ToString());
+                        speedjeda = dtSoalLomba.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[0]["kecepatan"].ToString());
 
                         datarow = 0;
                         jumlahmuncul = 0;
@@ -1243,14 +1246,75 @@ namespace FlashCalculation
 
         }
 
+        private void textBox10_KeyDown(object sender, KeyEventArgs e)
+        {            
+            if(e.KeyCode == Keys.Enter)
+            {
+                int idwsoal = 0;
+                decimal idetikberapa = 0, ikuncijawaban = 0, ijawaban = 0, isoalno;
+                string strrowidkomp = "";
+
+                if (lamalomba <= 0)
+                {
+                    lblSoal.Text = "";
+                    textBox10.Text = "";
+                    textBox10.Enabled = false;
+                    if (Properties.Settings.Default.bahasa == "indonesia")
+                    {
+                        MessageBox.Show("Waktu sudah berakhir.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Time is over.");
+                    }
+                    return;
+                }
+                else
+                {
+                    if (Regex.IsMatch(textBox10.Text, "[^0-9]"))
+                    {
+                        if (Properties.Settings.Default.bahasa == "indonesia")
+                        {
+                            MessageBox.Show("Tolong masukan angka yang valid.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please input valid number.");
+                        }
+                    }
+
+                    if(datarow > 0)
+                    {
+                        if(ptype == "V")
+                        {
+                            idwsoal = datarow;
+                        }
+                        else
+                        {
+                            idwsoal = datarow + 1;
+                        }
+                    }
+                    if(textBox10.Text != "")
+                    {
+                        ijawaban = Convert.ToDecimal(textBox10.Text);
+                    }
+                    idetikberapa = lamalombaori - lamalomba;
+                    strrowidkomp = dtSoalLomba.Rows[idwsoal]["row_id_kompetisi"].ToString();
+                    ikuncijawaban = dtSoalLomba.Rows[idwsoal]["kunci_jawaban"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[idwsoal]["kunci_jawaban"].ToString());
+                    isoalno = dtSoalLomba.Rows[idwsoal]["no_soal"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[idwsoal]["no_soal"].ToString());
+
+                }
+            }
+        }
+
         private void tdurlomba_Tick(object sender, EventArgs e)
         {
-
+            FuncTimer();
         }
 
         private void tlomba_Tick(object sender, EventArgs e)
         {
-            
+            TimerLomba();
         }
 
         private void Start()
@@ -1264,11 +1328,22 @@ namespace FlashCalculation
         private void stop()
         {
             tdurlomba.Stop();
-        }
+        }       
 
         private void StartLomba()
         {
+            FuncTimer();
 
+            if(ptype == "V")
+            {
+                tlomba.Interval = 200;
+            }
+            else
+            {
+                //1sec = 1000
+                tlomba.Interval = Convert.ToInt32(speedmuncul * 1000);
+            }
+            tlomba.Start();
         }
 
         private void StopLomba()
@@ -1338,6 +1413,224 @@ namespace FlashCalculation
             else
             {
                 lblDur.Text = lamalomba.ToString();
+            }
+        }
+
+        private void TimerLomba()
+        {
+            int idatarow = dtSoalLomba.Rows.Count;
+            decimal djumlahmuncul, djmlbarispermuncul = 0;
+            string strAngka = "";
+
+            if (ptype == "L")
+            {
+                lblSoal.Text = "";
+            }
+            else
+            {
+                lblSoal.Text = "=";
+            }
+
+            if (idatarow > 0)
+            {
+                djumlahmuncul = dtSoalLomba.Rows[datarow]["jumlah_muncul"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[datarow]["jumlah_muncul"].ToString());
+                if (jumlahmuncul == djumlahmuncul)
+                {
+                    if (ptype == "V")
+                    {
+                        lblSoal.Text = "";
+                        //datarow = datarow;
+                    }
+                    else
+                    {
+                        //lblSoal.Text = "=";
+                        datarow = datarow + 1;
+                    }
+
+                    textBox10.Text = "";
+                    textBox10.Enabled = true;
+                    textBox10.Focus();
+                    jumlahmuncul = 0;
+                    if (ptype == "F")
+                    {
+                        Start();
+                    }
+
+                    StopLomba();
+                }
+                else
+                {
+                    lblSoal.Text = "";
+                    if (ptype == "F")
+                    {
+                        stop();
+                    }
+                }
+
+                jumlahmuncul = jumlahmuncul + 1;
+                if (datarow > idatarow)
+                {
+                    //
+                }
+                else
+                {
+                    //set kecepatan per soal
+                    speedmuncul = dtSoalLomba.Rows[datarow]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[datarow]["kecepatan"].ToString());
+                    speedbicara = dtSoalLomba.Rows[datarow]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[datarow]["kecepatan"].ToString());
+                    if (ptype == "V")
+                    {
+                        lamajeda = speedmuncul;
+                    }
+
+                    strAngka = dtSoalLomba.Rows[datarow]["angkamuncul" + jumlahmuncul].ToString();
+                    djmlbarispermuncul = dtSoalLomba.Rows[datarow]["jml_baris_per_muncul"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[datarow]["jml_baris_per_muncul"].ToString());
+
+                }
+
+                if (idatarow == datarow)
+                {
+                    lblNo.Text = "";
+                    lblSoal.Text = "";
+                }
+                else
+                {
+                    lblNo.Text = "No. " + datarow.ToString();
+                    //lblSoal.Text = strAngka.;
+
+                    if (ptype == "V")
+                    {
+                        if (strAngka.Contains("÷"))
+                        {
+                            lblSoal.Text = strAngka.TrimEnd(Environment.NewLine.ToCharArray());
+                        }
+                        else if (strAngka.Contains("x"))
+                        {
+                            lblSoal.Text = strAngka.TrimEnd(Environment.NewLine.ToCharArray());
+                        }
+                        else
+                        {
+                            strAngka = strAngka.TrimEnd(Environment.NewLine.ToCharArray());
+                            string[] arr = strAngka.Split(Environment.NewLine.ToCharArray());
+                            int maxdigit = 0;
+                            if (arr.Length > 0)
+                            {
+                                for (int i = 0; i < arr.Length; i++)
+                                {
+                                    if (maxdigit < arr[i].Length)
+                                    {
+                                        maxdigit = arr[i].Length;
+                                    }
+                                }
+
+                                strAngka = "";
+                                for (int i = 0; i < arr.Length; i++)
+                                {
+                                    if (maxdigit - arr[i].Length == 0)
+                                    {
+                                        strAngka += arr[i] + Environment.NewLine;
+                                    }
+                                    else if (maxdigit - arr[i].Length > 0)
+                                    {
+                                        if (arr[i].Substring(0, 1) == "-")
+                                        {
+                                            if (maxdigit - arr[i].Length > 0)
+                                            {
+                                                strAngka += "-" + arr[i].Substring(1).PadLeft(maxdigit - arr[i].Length, ' ') + Environment.NewLine;
+                                            }
+                                            else
+                                            {
+                                                strAngka += arr[i].PadLeft(maxdigit - arr[i].Length, ' ') + Environment.NewLine;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            strAngka += arr[i].PadLeft(maxdigit - arr[i].Length, ' ') + Environment.NewLine;
+                                        }
+                                    }
+                                }
+                            }
+
+                            lblSoal.Text = strAngka.TrimEnd(Environment.NewLine.ToCharArray());
+                        }
+
+                        if (djmlbarispermuncul <= 4)
+                        {
+                            lblSoal.Font = new Font(this.pfc.Families[0], 72, FontStyle.Bold);
+                        }
+
+                        if (djmlbarispermuncul == 5)
+                        {
+                            lblSoal.Font = new Font(this.pfc.Families[0], 40, FontStyle.Bold);
+                        }
+
+                        if (djmlbarispermuncul == 6)
+                        {
+                            lblSoal.Font = new Font(this.pfc.Families[0], 35, FontStyle.Bold);
+                        }
+
+                        if (djmlbarispermuncul == 7)
+                        {
+                            lblSoal.Font = new Font(this.pfc.Families[0], 30, FontStyle.Bold);
+                        }
+
+                        if (djmlbarispermuncul == 8)
+                        {
+                            lblSoal.Font = new Font(this.pfc.Families[0], 25, FontStyle.Bold);
+                        }
+
+                        if (djmlbarispermuncul >= 9)
+                        {
+                            lblSoal.Font = new Font(this.pfc.Families[0], 20, FontStyle.Bold);
+                        }
+
+                    }
+                    if (ptype == "F")
+                    {
+                        lblSoal.Text = strAngka.TrimEnd(Environment.NewLine.ToCharArray());
+                    }
+                    if (ptype == "L")
+                    {
+                        if (strAngka.Contains("thanks"))
+                        {
+                            speechRate = 0;
+                            strvoice = "";
+                        }
+                        else
+                        {
+                            if (strAngka == "")
+                            {
+                                speechRate = 0;
+                                strvoice = "";
+                            }
+                            else
+                            {
+                                speechRate = Convert.ToInt32(speedbicara);
+                                strvoice = "ready?" + Environment.NewLine + Environment.NewLine + strAngka + Environment.NewLine + Environment.NewLine + "that is";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        speechRate = 0;
+                        strvoice = "";
+                    }
+
+                    if (idatarow < datarow)
+                    {
+                        button1.Enabled = false;
+                        button2.Enabled = true;
+                        button3.Enabled = true;
+
+                        textBox10.Enabled = false;
+                        textBox10.Text = "";
+                        comboBox1.Enabled = true;
+
+                        lblNo.Text = "";
+                        lblSoal.Text = "";
+
+                        StopLomba();
+                    }
+                }
             }
         }
 
