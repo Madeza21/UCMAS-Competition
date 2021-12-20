@@ -19,7 +19,7 @@ namespace FlashCalculationUpdate
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new FrmUpdate());
 
-            //Process Update
+            //Process Update https://github.com/jrz-soft-mx/MD5-Update
             //string strUrl = "http://update.ucmasidn.com/";
             if (MD5Update.Check(Properties.Settings.Default.url, true))
             {
