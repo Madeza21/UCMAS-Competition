@@ -23,7 +23,7 @@ namespace FlashCalculationUpdate
             //string strUrl = "http://update.ucmasidn.com/";
             if (MD5Update.Check(Properties.Settings.Default.url, true))
             {
-                Process.Start(AppDomain.CurrentDomain.BaseDirectory + @"updt.exe", AppDomain.CurrentDomain.FriendlyName + " " + Process.GetCurrentProcess().ProcessName);
+                //
             }
             else
             {

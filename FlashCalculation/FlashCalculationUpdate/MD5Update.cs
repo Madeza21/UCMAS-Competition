@@ -20,6 +20,7 @@ namespace FlashCalculationUpdate
             public string StrFil { get; set; }
             public string StrMd5 { get; set; }
             public long LonSiz { get; set; }
+            public DateTime LastModif { get; set; }
         }
         #endregion
 
