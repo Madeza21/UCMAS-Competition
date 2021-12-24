@@ -63,18 +63,27 @@ namespace FlashCalculation.Help
         {
             //https://stackoverflow.com/questions/32716174/call-and-consume-web-api-in-winform-using-c-net/32716351            
 
-            HttpResponseMessage response = new HttpResponseMessage();            
-            response = client.GetAsync(url).Result;
-            
-            if (response.IsSuccessStatusCode)
+            HttpResponseMessage response = new HttpResponseMessage();
+            try
             {
-                license = (arrurl)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(arrurl));
+                response = client.GetAsync(url).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    license = (arrurl)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(arrurl));
+                }
+
+                Url[] obj = new Url[license.license.Length];
+                license.license.CopyTo(obj, 0);
+
+                return obj;
+
             }
-
-            Url[] obj = new Url[license.license.Length];
-            license.license.CopyTo(obj, 0);
-
-            return obj;
+            catch(Exception ex)
+            {
+                new Exception("");
+                return null;
+            }    
         }
 
         public Cabang[] GetRequestCabang(string url)

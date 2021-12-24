@@ -28,11 +28,10 @@ namespace FlashCalculation
         SpeechSynthesizer speechSynthesizerObj;
 
         string urlconfig, loadSpeech, textSpeech;
-        bool isdispose = false;
+        bool isdispose = false, isload = false;
         public FrmLogin()
         {
-            InitializeComponent();
-            timer1.Start();
+            InitializeComponent();            
         }
               
         private void button2_Click(object sender, EventArgs e)
@@ -229,6 +228,17 @@ namespace FlashCalculation
             {
                 lblStatus.Text = "Internet Connected";
                 lblStatus.ForeColor = Color.Green;
+
+                if (!isload)
+                {                    
+                    LoadDataFromApi();
+                    if (url != null)
+                    {
+                        UpdateDb("FrmLoad");
+                    }
+
+                    isload = true;
+                }
             }
             else
             {
@@ -242,17 +252,30 @@ namespace FlashCalculation
             try
             {
                 db.OpenConnection();
-                if (client.IsConnectedToInternet())
+                client.initialize();
+                timer1.Start();
+                /*if (client.IsConnectedToInternet())
                 {
                     client.initialize();
                     LoadDataFromApi();
-                }
+                    UpdateDb("FrmLoad");
+                }*/
 
-                LoadListSpeech();
-                UpdateDb("FrmLoad");
+                LoadListSpeech();                
                 loadSpeech = "N";
                 SetImg();
                 radioButton1_CheckedChanged(null, null);
+                if (url == null)
+                {
+                    if (Properties.Settings.Default.bahasa == "indonesia")
+                    {
+                        MessageBox.Show("Tidak ada akses ke server");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Can't access to server");
+                    }
+                }
                 textBox1.Focus();
             }
             catch(Exception ex)
@@ -318,30 +341,45 @@ namespace FlashCalculation
 
         private void LoadDataFromApi()
         {
-            url = client.GetRequestUrl("/api/url");            
-            
-            for(int i = 0; i < url.Length; i++)
+            try
             {
-                if(url[i].URL_CODE == "GetAllCabang")
+                url = client.GetRequestUrl("/api/url");
+                if(url != null)
                 {
-                    cabang = client.GetRequestCabang(url[i].URL_PARAM);
-                }
-                else if (url[i].URL_CODE == "GetAllConfigCabang")
-                {
-                    urlconfig = url[i].URL_PARAM;
+                    for (int i = 0; i < url.Length; i++)
+                    {
+                        if (url[i].URL_CODE == "GetAllCabang")
+                        {
+                            cabang = client.GetRequestCabang(url[i].URL_PARAM);
+                        }
+                        else if (url[i].URL_CODE == "GetAllConfigCabang")
+                        {
+                            urlconfig = url[i].URL_PARAM;
+                        }
+                    }
+
+                    Dictionary<string, string> item = new Dictionary<string, string>();
+                    for (int i = 0; i < cabang.Length; i++)
+                    {
+                        item.Add(cabang[i].CABANG_CODE, cabang[i].CABANG_NAME);
+                    }
+
+                    comboBox1.DataSource = new BindingSource(item, null);
+                    comboBox1.DisplayMember = "Value";
+                    comboBox1.ValueMember = "Key";
                 }
             }
-
-            Dictionary<string, string> item = new Dictionary<string, string>();
-            for (int i = 0; i < cabang.Length; i++)
+            catch(Exception ex)
             {
-                item.Add(cabang[i].CABANG_CODE, cabang[i].CABANG_NAME);
+                if (Properties.Settings.Default.bahasa == "indonesia")
+                {
+                    MessageBox.Show("Tidak ada akses internet");
+                }
+                else
+                {
+                    MessageBox.Show("Can't access internet");
+                }                    
             }
-
-            comboBox1.DataSource = new BindingSource(item, null);
-            comboBox1.DisplayMember = "Value";
-            comboBox1.ValueMember = "Key";
-            
         }
 
         private void SetImg()
@@ -476,6 +514,7 @@ namespace FlashCalculation
                 //MessageBox.Show("SELESAI Riyan Madeza");
             }
         }
+
         public void SpeakComplete(object sender, EventArgs e)
         {
             //MessageBox.Show("SELESAI");

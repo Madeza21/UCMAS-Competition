@@ -113,6 +113,8 @@ namespace FlashCalculation
             lblNo.Text = "";
             lblDur.Text = "";
 
+            TranslateControl();
+
             speechSynthesizerObj = new SpeechSynthesizer();
 
             this.Cursor = System.Windows.Forms.Cursors.Default;
@@ -1747,6 +1749,46 @@ namespace FlashCalculation
         public void SpeakComplete(object sender, EventArgs e)
         {
             Start();
+        }
+
+        private void TranslateControl()
+        {
+            if (Properties.Settings.Default.bahasa == "indonesia")
+            {
+                label1.Text = "ID Peserta";
+                //label2.Text = "";
+                label3.Text = "Nama";
+                label4.Text = "Jenis Kelamin";
+                label5.Text = "Tempat Lahir";
+                label6.Text = "Tanggal Lahir";
+                label7.Text = "Sekolah";
+                label8.Text = "Email";
+                label9.Text = "Telp";
+                label10.Text = "Alamat";
+                label12.Text = "Competition";
+
+                button1.Text = "Start";
+                button2.Text = "Setting";
+                button3.Text = "Result";
+            }
+            else
+            {
+                label1.Text = "Participant ID";
+                //label2.Text = "";
+                label3.Text = "Name";
+                label4.Text = "Gender";
+                label5.Text = "Place of birth";
+                label6.Text = "'Date of birth";
+                label7.Text = "School";
+                label8.Text = "Email";
+                label9.Text = "Phone";
+                label10.Text = "Address";
+                label12.Text = "Kompetisi";
+
+                button1.Text = "Mulai";
+                button2.Text = "Peraturan";
+                button3.Text = "Hasil";
+            }
         }
     }
 }
