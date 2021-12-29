@@ -1012,5 +1012,66 @@ namespace FlashCalculation.Help
 
             return dt;
         }
+
+        public DataTable GetKompetisiView(string pid)
+        {
+            DataTable dt = new DataTable();
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT tb_kompetisi.ROW_ID,   
+                                             tb_kompetisi.CABANG_CODE,      
+                                             (SELECT 	tb_cabang.CABANG_NAME FROM tb_cabang WHERE tb_cabang.CABANG_CODE = tb_kompetisi.CABANG_CODE) as CABANG_NAME,   
+                                             tb_kompetisi.KOMPETISI_NAME,   
+                                             tb_kompetisi.TANGGAL_KOMPETISI,   
+                                             tb_kompetisi.JAM_MULAI,   
+                                             tb_kompetisi.JAM_SAMPAI,   
+                                             tb_kompetisi.JENIS_CODE,   
+                                             tb_kompetisi.JENIS_NAME,   
+                                             tb_kompetisi.TIPE,   
+                                             tb_kompetisi.ROW_ID_KATEGORI,   
+                                             tb_kompetisi.KATEGORI_CODE,   
+                                             tb_kompetisi.KATEGORI_NAME,   
+                                             tb_kompetisi.LAMA_PERLOMBAAN,   
+                                             tb_kompetisi.KECEPATAN  
+                                        FROM tb_kompetisi   
+                                    WHERE tb_kompetisi.ROW_ID =@pid";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
+            parm.Value = pid;
+            sqlite_cmd.Parameters.Add(parm);
+
+            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
+
+            dda.Fill(dt);
+
+            return dt;
+        }
+
+        public DataTable GetParameterKompetisiView(string pid)
+        {
+            DataTable dt = new DataTable();
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT *    
+                                        FROM tb_parameter_kompetisi   
+                                    where tb_parameter_kompetisi.ROW_ID_KOMPETISI =@pid
+                                     order by tb_parameter_kompetisi.SOAL_DARI ASC";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
+            parm.Value = pid;
+            sqlite_cmd.Parameters.Add(parm);
+
+            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
+
+            dda.Fill(dt);
+
+            return dt;
+        }
     }
 }

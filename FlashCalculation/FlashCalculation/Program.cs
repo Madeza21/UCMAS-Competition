@@ -1,4 +1,5 @@
 ﻿using FlashCalculation.Model;
+using FlashCalculation.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace FlashCalculation
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FrmLogin());
+            //Application.Run(new FrmParameter());
             //FrmLogin fLogin = new FrmLogin(peserta);
             /*if (fLogin.ShowDialog() == DialogResult.OK)
             {

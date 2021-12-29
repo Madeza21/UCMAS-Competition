@@ -1,5 +1,6 @@
 ﻿using FlashCalculation.Help;
 using FlashCalculation.Model;
+using FlashCalculation.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -1425,6 +1426,19 @@ namespace FlashCalculation
         private void tdurlomba_Tick(object sender, EventArgs e)
         {
             FuncTimer();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            FrmParameter frm = new FrmParameter();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                //Jika Berhasil
+            }
+            else
+            {
+                //Jika Batal
+            }
         }
 
         private void tlomba_Tick(object sender, EventArgs e)
