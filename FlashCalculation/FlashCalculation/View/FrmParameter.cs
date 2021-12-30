@@ -17,20 +17,24 @@ namespace FlashCalculation.View
         DataTable dthdr = new DataTable();
         DataTable dtdtl = new DataTable();
 
-        public FrmParameter()
+        string rowid;
+
+        public FrmParameter(string prowid)
         {
             InitializeComponent();
+
+            rowid = prowid;
         }
 
         private void FrmParameter_Load(object sender, EventArgs e)
         {
             db.OpenConnection();
 
-            dthdr = db.GetKompetisiView("567b3dca-80ec-4f51-b5e6-15fca7e523d8");
+            dthdr = db.GetKompetisiView(rowid);
 
             SetHeader();
 
-            dtdtl = db.GetParameterKompetisiView("567b3dca-80ec-4f51-b5e6-15fca7e523d8");            
+            dtdtl = db.GetParameterKompetisiView(rowid);            
 
             dataGridView1.AutoGenerateColumns = false;
             dataGridView2.AutoGenerateColumns = false;
@@ -41,6 +45,7 @@ namespace FlashCalculation.View
             dataGridView3.DataSource = dtdtl;
 
             ChangeColor();
+            Translate();
         }
 
         private void SetHeader()
@@ -109,6 +114,108 @@ namespace FlashCalculation.View
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void Translate()
+        {
+            if (Properties.Settings.Default.bahasa == "indonesia")
+            {
+                //header
+                label1.Text = "Cabang :";
+                label2.Text = "Nama Kompetisi :";
+                label3.Text = "Tanggal :";
+                label4.Text = "Jam Mulai :";
+                label5.Text = "Tipe :";
+                label6.Text = "Jenis Kompetisi :";
+                label7.Text = "Kategori :";
+                label8.Text = "Waktu Kompetisi :";
+                //label9.Text = "";
+                label10.Text = "Detik";
+                label11.Text = "Kecepatan :";
+                label12.Text = "Detik";
+
+                //Visual
+                Visual_1.HeaderText = "Soal Dari";
+                Visual_2.HeaderText = "Soal Sampai";
+                Visual_3.HeaderText = "Panjang Digit";
+                Visual_4.HeaderText = "Maksimum Panjang Digit";
+                Visual_5.HeaderText = "Jumlah Baris Per Soal";
+                Visual_6.HeaderText = "Maksimum Jumlah Digit Per Soal";
+                Visual_7.HeaderText = "Muncul Angka Minus";
+                Visual_8.HeaderText = "Muncul Angka Perkalian";
+                Visual_9.HeaderText = "Digit Perkalian";
+                Visual_10.HeaderText = "Muncul Angka Pembagian";
+                Visual_11.HeaderText = "Digit Pembagian";
+                Visual_12.HeaderText = "Muncul Angka Decimal";
+                Visual_13.HeaderText = "Digit Decimal";
+                Visual_14.HeaderText = "Jumlah Muncul";
+                Visual_15.HeaderText = "Jumlah Baris Per Muncul";
+                Visual_16.HeaderText = "Kecepatan (Detik)";
+
+                //Flash
+                Flash_1.HeaderText = "Soal Dari";
+                Flash_2.HeaderText = "Soal Sampai";
+                Flash_3.HeaderText = "Panjang Digit";
+                Flash_4.HeaderText = "Jumlah Muncul";
+                Flash_5.HeaderText = "Muncul Angka Minus";
+                Flash_6.HeaderText = "Kecepatan (Detik)";
+
+                //Listening
+                Listen_1.HeaderText = "Soal Dari";
+                Listen_2.HeaderText = "Soal Sampai";
+                Listen_3.HeaderText = "Panjang Digit";
+                Listen_4.HeaderText = "Muncul Angka Minus";
+                Listen_5.HeaderText = "Kecepatan";
+            }
+            else
+            {
+                //header
+                label1.Text = "Branch :";
+                label2.Text = "Competition Name :";
+                label3.Text = "Date :";
+                label4.Text = "Start Time :";
+                label5.Text = "Type :";
+                label6.Text = "Competition Type :";
+                label7.Text = "Category :";
+                label8.Text = "Competition Time :";
+                //label9.Text = "";
+                label10.Text = "Second";
+                label11.Text = "Speed :";
+                label12.Text = "Second";
+
+                //Visual
+                Visual_1.HeaderText = "Question From";
+                Visual_2.HeaderText = "Question To";
+                Visual_3.HeaderText = "Digit Length";
+                Visual_4.HeaderText = "Maximum Digit Length";
+                Visual_5.HeaderText = "Number Of Rows Per Question";
+                Visual_6.HeaderText = "Maximum Digit Length Per Question";
+                Visual_7.HeaderText = "Subtraction";
+                Visual_8.HeaderText = "Multiplication";
+                Visual_9.HeaderText = "Multiply Digits";
+                Visual_10.HeaderText = "Division";
+                Visual_11.HeaderText = "Division Digits";
+                Visual_12.HeaderText = "Decimal";
+                Visual_13.HeaderText = "Decimal Digits";
+                Visual_14.HeaderText = "Number Of Display";
+                Visual_15.HeaderText = "Number Of Rows Per Display";
+                Visual_16.HeaderText = "Speed (Second)";
+
+                //Flash
+                Flash_1.HeaderText = "Question From";
+                Flash_2.HeaderText = "Question To";
+                Flash_3.HeaderText = "Digit Length";
+                Flash_4.HeaderText = "Number Of Display";
+                Flash_5.HeaderText = "Subtraction";
+                Flash_6.HeaderText = "Speed (Second)";
+
+                //Listening
+                Listen_1.HeaderText = "Question From";
+                Listen_2.HeaderText = "Question To";
+                Listen_3.HeaderText = "Digit Length";
+                Listen_4.HeaderText = "Subtraction";
+                Listen_5.HeaderText = "Speed";
+            }
         }
     }
 }

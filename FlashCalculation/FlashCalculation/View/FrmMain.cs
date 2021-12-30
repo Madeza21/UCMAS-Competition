@@ -1430,7 +1430,7 @@ namespace FlashCalculation
 
         private void button2_Click(object sender, EventArgs e)
         {
-            FrmParameter frm = new FrmParameter();
+            FrmParameter frm = new FrmParameter(comboBox1.SelectedValue.ToString());
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 //Jika Berhasil
