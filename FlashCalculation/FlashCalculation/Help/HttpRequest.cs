@@ -181,6 +181,33 @@ namespace FlashCalculation.Help
             return data.message;
         }
 
+        public ArrLogin PostKirimJawaban(string url, string id, string password, string cabangcode)
+        {
+            HttpClient http = new HttpClient();
+
+            http.BaseAddress = new Uri(Properties.Settings.Default.api_address);
+            http.DefaultRequestHeaders.Accept.Clear();
+            http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Properties.Settings.Default.token);
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            prmlogin prm = new prmlogin() { ID_PESERTA = id, PASSWORD_PESERTA = password, CABANG_CODE = cabangcode };
+            response = http.PostAsJsonAsync(url, prm).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                login = (ArrLogin)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(ArrLogin));
+                login.Status = "OK";
+            }
+            else
+            {
+                login = (ArrLogin)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(ArrLogin));
+                login.Status = "Error";
+            }
+
+            return login;
+        }
+
         public class prmlogin
         {
             public string ID_PESERTA { get; set; }

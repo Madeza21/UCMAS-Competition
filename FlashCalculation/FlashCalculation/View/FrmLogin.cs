@@ -61,13 +61,13 @@ namespace FlashCalculation
             {
                 ArrLogin login;
 
-                string urllogin = "/api/login/pesertanet"; 
+                string urllogin = "/api/login/peserta"; 
 
                 if (chkTrial.Checked)
                 {
                     textBox1.Text = "TRL000000001";
                     textBox2.Text = "Peserta Trial";
-                    urllogin = "/api/kompetisitrial/searchnet";
+                    urllogin = "/api/kompetisitrial/search";
                 }
 
                 if(textBox1.Text.Trim() == "")
@@ -193,8 +193,6 @@ namespace FlashCalculation
                     MessageBox.Show("Internet Disconnected");
                     return;
                 }
-                                    
-
                 
                 db.CloseConnection();
                 timer1.Stop();

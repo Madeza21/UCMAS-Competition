@@ -120,6 +120,8 @@ namespace FlashCalculation.View
         {
             if (Properties.Settings.Default.bahasa == "indonesia")
             {
+                this.Text = "Parameter Perlombaan";
+
                 //header
                 label1.Text = "Cabang :";
                 label2.Text = "Nama Kompetisi :";
@@ -169,6 +171,8 @@ namespace FlashCalculation.View
             }
             else
             {
+                this.Text = "Competition Parameters";
+
                 //header
                 label1.Text = "Branch :";
                 label2.Text = "Competition Name :";

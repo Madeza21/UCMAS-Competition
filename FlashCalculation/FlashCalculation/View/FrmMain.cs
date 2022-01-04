@@ -1441,6 +1441,19 @@ namespace FlashCalculation
             }
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FrmResult frm = new FrmResult(comboBox1.SelectedValue.ToString());
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                //Jika Berhasil
+            }
+            else
+            {
+                //Jika Batal
+            }
+        }
+
         private void tlomba_Tick(object sender, EventArgs e)
         {
             TimerLomba();
