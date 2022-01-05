@@ -252,6 +252,10 @@ namespace FlashCalculation
                 db.OpenConnection();
                 client.initialize();
                 timer1.Start();
+                this.Cursor = Cursors.WaitCursor;
+                this.Enabled = false;
+                WaitSomeTime();
+
                 /*if (client.IsConnectedToInternet())
                 {
                     client.initialize();
@@ -263,17 +267,7 @@ namespace FlashCalculation
                 loadSpeech = "N";
                 SetImg();
                 radioButton1_CheckedChanged(null, null);
-                if (url == null)
-                {
-                    if (Properties.Settings.Default.bahasa == "indonesia")
-                    {
-                        MessageBox.Show("Tidak ada akses ke server");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Can't access to server");
-                    }
-                }
+                
                 textBox1.Focus();
             }
             catch(Exception ex)
@@ -516,6 +510,25 @@ namespace FlashCalculation
         public void SpeakComplete(object sender, EventArgs e)
         {
             //MessageBox.Show("SELESAI");
+        }
+
+        public async void WaitSomeTime()
+        {
+            await Task.Delay(1200);
+            this.Enabled = true;
+            this.Cursor = Cursors.Default;
+
+            if (url == null)
+            {
+                if (Properties.Settings.Default.bahasa == "indonesia")
+                {
+                    MessageBox.Show("Tidak ada akses ke server");
+                }
+                else
+                {
+                    MessageBox.Show("Can't access to server");
+                }
+            }
         }
     }
 }

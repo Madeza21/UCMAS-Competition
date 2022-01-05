@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "a9ac1279-d748-4f8d-89a8-485c6bbc6b6d": {
+      "ProjectGuid": "a9ac1279-d748-4f8d-89a8-485c6bbc6b6d",
+      "DisplayName": "FlashCalculation",
+      "ColorIndex": 0
+    },
+    "8c42d826-34b8-4831-aad5-3a79595a8c4d": {
+      "ProjectGuid": "8c42d826-34b8-4831-aad5-3a79595a8c4d",
+      "DisplayName": "FlashCalculationUpdate",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}

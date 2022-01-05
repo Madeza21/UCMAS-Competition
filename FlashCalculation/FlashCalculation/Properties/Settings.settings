@@ -9,10 +9,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ip_address" Type="System.String" Scope="User">
-      <Value Profile="(Default)">127.0.0.1</Value>
+      <Value Profile="(Default)">api.ucmasidn.com</Value>
     </Setting>
     <Setting Name="api_address" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://127.0.0.1:8000</Value>
+      <Value Profile="(Default)">http://api.ucmasidn.com</Value>
     </Setting>
     <Setting Name="bahasa" Type="System.String" Scope="User">
       <Value Profile="(Default)">indonesia</Value>
