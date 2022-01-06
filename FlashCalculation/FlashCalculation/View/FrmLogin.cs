@@ -196,6 +196,18 @@ namespace FlashCalculation
                 
                 db.CloseConnection();
                 timer1.Stop();
+
+                if (!isdispose)
+                {
+                    //Gets the current speaking state of the SpeechSynthesizer object.   
+                    if (speechSynthesizerObj.State == SynthesizerState.Speaking)
+                    {
+                        //close the SpeechSynthesizer object.   
+                        speechSynthesizerObj.SpeakAsyncCancelAll();
+                    }
+                    speechSynthesizerObj.Dispose();
+                }
+
                 //Open Main Form
                 this.Hide();
                 FrmMain frm = new FrmMain(peserta);

@@ -96,7 +96,8 @@ namespace FlashCalculation.Help
                                         WHERE tb_peserta_kompetisi.ROW_ID_KOMPETISI = tb_kompetisi.ROW_ID
                                           AND tb_peserta_kompetisi.ID_PESERTA =@pid
                                           AND tb_kompetisi.TANGGAL_KOMPETISI =@ptgl
-                                          AND tb_kompetisi.IS_TRIAL =@pflag";
+                                          AND tb_kompetisi.IS_TRIAL =@pflag
+                                        ORDER BY tb_kompetisi.KOMPETISI_NAME ASC";
 
             SQLiteParameter parm = new SQLiteParameter();
 
@@ -972,7 +973,8 @@ namespace FlashCalculation.Help
                                          FROM tb_soal_kompetisi, tb_peserta_kompetisi 
                                         WHERE tb_peserta_kompetisi.ROW_ID_KOMPETISI = tb_soal_kompetisi.ROW_ID_KOMPETISI
                                           AND tb_peserta_kompetisi.ID_PESERTA =@pid
-                                          AND tb_soal_kompetisi.row_id_kompetisi =@prowid";
+                                          AND tb_soal_kompetisi.row_id_kompetisi =@prowid
+                                        ORDER BY tb_soal_kompetisi.no_soal ASC";
 
             SQLiteParameter parm = new SQLiteParameter();
 

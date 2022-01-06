@@ -68,6 +68,7 @@ namespace FlashCalculation
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            timer1.Start();
             //Properties.Settings.Default.siswa_id = "TES UBAH";
             this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             textBox10.Font = new Font(this.pfc.Families[0], 34, FontStyle.Bold);
@@ -340,7 +341,7 @@ namespace FlashCalculation
                         {
                             angkamunculke = angkamunculke + 1;
                             angkamuncul = angkamuncul + jmlbarispermuncul;
-                            dr["angkamuncul" + angkamunculke.ToString()] = strangka;
+                            dr["angkamuncul" + angkamunculke.ToString()] = strangka.TrimEnd(Environment.NewLine.ToCharArray());
                             strangka = "";
                         }
                     }
@@ -504,8 +505,8 @@ namespace FlashCalculation
                         {
                             angkamunculke = angkamunculke + 1;
                             angkamuncul = angkamuncul + jmlbarispermuncul;
-                            dr["angkamuncul" + angkamunculke.ToString()] = strangka;
-                            dr["angkalistening" + angkamunculke.ToString()] = strangkalisten;
+                            dr["angkamuncul" + angkamunculke.ToString()] = strangka.TrimEnd(Environment.NewLine.ToCharArray());
+                            dr["angkalistening" + angkamunculke.ToString()] = strangkalisten.TrimEnd(Environment.NewLine.ToCharArray());
                             strangka = "";
                             strangkalisten = "";
                         }
@@ -659,7 +660,7 @@ namespace FlashCalculation
                                 {
                                     angkamunculke = angkamunculke + 1;
                                     angkamuncul = angkamuncul + jmlbarispermuncul;
-                                    dr["angkamuncul" + angkamunculke.ToString()] = strangka;
+                                    dr["angkamuncul" + angkamunculke.ToString()] = strangka.TrimEnd(Environment.NewLine.ToCharArray());
                                     strangka = "";
                                 }
                             }
@@ -691,7 +692,7 @@ namespace FlashCalculation
                                 {
                                     angkamunculke = angkamunculke + 1;
                                     angkamuncul = angkamuncul + jmlbarispermuncul;
-                                    dr["angkamuncul" + angkamunculke.ToString()] = strangka;
+                                    dr["angkamuncul" + angkamunculke.ToString()] = strangka.TrimEnd(Environment.NewLine.ToCharArray());
                                     strangka = "";
                                 }
                             }
@@ -763,7 +764,7 @@ namespace FlashCalculation
                             {
                                 angkamunculke = angkamunculke + 1;
                                 angkamuncul = angkamuncul + jmlbarispermuncul;
-                                dr["angkamuncul" + angkamunculke.ToString()] = strangka;
+                                dr["angkamuncul" + angkamunculke.ToString()] = strangka.TrimEnd(Environment.NewLine.ToCharArray());
                                 strangka = "";
                             }
                         }
@@ -1090,7 +1091,7 @@ namespace FlashCalculation
                         kuncijwb = kuncijwb + dangka;
                     }
                     dtSoal.Rows[i]["kunci_jawaban"] = kuncijwb;
-                    dtSoal.Rows[i]["angkamuncul1"] = angka1;
+                    dtSoal.Rows[i]["angkamuncul1"] = angka1.TrimEnd(Environment.NewLine.ToCharArray());
                 }
             }
         }
@@ -1299,7 +1300,7 @@ namespace FlashCalculation
                         }
                         else
                         {
-                            idwsoal = datarow + 1;
+                            idwsoal = datarow - 1;
                         }
 
                         if (textBox10.Text != "")
@@ -1454,6 +1455,32 @@ namespace FlashCalculation
             }
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button1.Enabled = true;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label22.Text = DateTime.Now.ToString("dddd, dd-MMM-yyyy hh:mm:ss");
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (lamalomba > 0)
+            {
+                if (Properties.Settings.Default.bahasa == "indonesia")
+                {
+                    MessageBox.Show("Waktu masih tersedia, aplikasi tidak dapat di tutup");
+                }
+                else
+                {
+                    MessageBox.Show("Time is still available, the application cannot be closed");
+                }
+                e.Cancel = true;
+            }
+        }
+
         private void tlomba_Tick(object sender, EventArgs e)
         {
             TimerLomba();
@@ -1503,10 +1530,12 @@ namespace FlashCalculation
                     //STOP SISA WAKTU LOMBA
                     stop();
 
+                    textBox10.Enabled = false;
+
                     speechSynthesizerObj.Dispose();
                     speechSynthesizerObj = new SpeechSynthesizer();
                     speechSynthesizerObj.Volume = 100; // от 0 до 100
-                    speechSynthesizerObj.Rate = 0; //от -10 до 10
+                    speechSynthesizerObj.Rate = speechRate; //от -10 до 10
                     speechSynthesizerObj.SelectVoice(Properties.Settings.Default.voice);
                     speechSynthesizerObj.SpeakAsync(strvoice);
                     speechSynthesizerObj.SpeakCompleted += SpeakComplete;
@@ -1534,6 +1563,7 @@ namespace FlashCalculation
             if(lamalomba <= 0)
             {
                 lblSoal.Text = "";
+                lblNo.Text = "";
                 speechRate = 0;
 
                 button1.Enabled = false;
@@ -1547,6 +1577,17 @@ namespace FlashCalculation
 
                 stop();
                 StopLomba();
+                if (ptype == "L")
+                {
+                    //Gets the current speaking state of the SpeechSynthesizer object.   
+                    if (speechSynthesizerObj.State == SynthesizerState.Speaking)
+                    {
+                        //close the SpeechSynthesizer object.   
+                        speechSynthesizerObj.SpeakAsyncCancelAll();
+                    }
+                    speechSynthesizerObj.Dispose();
+                }
+
             }
             else
             {
@@ -1630,7 +1671,11 @@ namespace FlashCalculation
                 }
                 else
                 {
-                    lblNo.Text = "No. " + (datarow + 1).ToString();
+                    if (ptype != "L")
+                    {
+                        lblNo.Text = "No. " + (datarow + 1).ToString();
+                    }
+                    
                     //lblSoal.Text = strAngka.;
 
                     lblSoal.Font = new Font(this.pfc.Families[0], 72, FontStyle.Bold);
@@ -1776,6 +1821,10 @@ namespace FlashCalculation
         public void SpeakComplete(object sender, EventArgs e)
         {
             Start();
+
+            textBox10.Text = "";
+            textBox10.Enabled = true;
+            textBox10.Focus();
         }
 
         private void TranslateControl()

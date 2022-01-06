@@ -52,6 +52,7 @@ namespace FlashCalculation
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -82,6 +83,7 @@ namespace FlashCalculation
             this.label1 = new System.Windows.Forms.Label();
             this.tdurlomba = new System.Windows.Forms.Timer(this.components);
             this.tlomba = new System.Windows.Forms.Timer(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -220,6 +222,7 @@ namespace FlashCalculation
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(340, 21);
             this.comboBox1.TabIndex = 1;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label12
             // 
@@ -310,6 +313,7 @@ namespace FlashCalculation
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.DodgerBlue;
+            this.panel2.Controls.Add(this.label22);
             this.panel2.Controls.Add(this.label21);
             this.panel2.Controls.Add(this.label20);
             this.panel2.Controls.Add(this.label19);
@@ -343,6 +347,17 @@ namespace FlashCalculation
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(256, 527);
             this.panel2.TabIndex = 0;
+            // 
+            // label22
+            // 
+            this.label22.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.ForeColor = System.Drawing.Color.White;
+            this.label22.Location = new System.Drawing.Point(14, 17);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(226, 18);
+            this.label22.TabIndex = 0;
+            this.label22.Text = "Time";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label21
             // 
@@ -664,6 +679,11 @@ namespace FlashCalculation
             this.tlomba.Interval = 1000;
             this.tlomba.Tick += new System.EventHandler(this.tlomba_Tick);
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -674,6 +694,7 @@ namespace FlashCalculation
             this.Name = "FrmMain";
             this.Text = "International Mathematics Competition";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.panel1.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
@@ -747,5 +768,7 @@ namespace FlashCalculation
         private System.Windows.Forms.Label lblSoal;
         private System.Windows.Forms.Label lblNo;
         private System.Windows.Forms.Label lblDur;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Timer timer1;
     }
 }
