@@ -34,11 +34,6 @@ D:\Riyan M\Flash Calculation UCMAS .Net\FlashCalculation\FlashCalculation\obj\De
 D:\Riyan M\Flash Calculation UCMAS .Net\FlashCalculation\FlashCalculation\obj\Debug\Interop.SpeechLib.dll
 D:\Riyan M\Flash Calculation UCMAS .Net\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.ResolveComReference.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ucmas.db3
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ucmas.db3
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.exe
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.pdb
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Data.SQLite.dll
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.exe.config
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.exe
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.pdb
@@ -74,10 +69,16 @@ D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCal
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.CopyComplete
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.exe
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.pdb
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.View.FrmParameter.resources
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ucmas.db3
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.exe.config
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.exe
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.pdb
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\EntityFramework.dll
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Buffers.dll
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Data.SQLite.dll
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Data.SQLite.EF6.dll
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Data.SQLite.Linq.dll
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Memory.dll
@@ -93,19 +94,17 @@ C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\Flas
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.AssemblyReference.cache
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.SuggestedBindingRedirects.cache
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\Interop.SpeechLib.dll
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.ResolveComReference.cache
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.FrmLogin.resources
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.FrmMain.resources
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.Properties.Resources.resources
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.View.FrmParameter.resources
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.View.FrmResetPswd.resources
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.View.FrmResult.resources
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.GenerateResource.cache
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.CoreCompileInputs.cache
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.CopyComplete
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.exe
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.pdb
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.View.FrmParameter.resources
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.SuggestedBindingRedirects.cache
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.View.FrmParameter.resources
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.View.FrmResult.resources
