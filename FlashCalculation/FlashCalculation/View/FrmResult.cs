@@ -1,4 +1,5 @@
 ﻿using FlashCalculation.Help;
+using FlashCalculation.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,8 @@ namespace FlashCalculation.View
         DbBase db = new DbBase();
         DataTable dthdr = new DataTable();
         DataTable dtdtl = new DataTable();
+
+        HttpRequest client = new HttpRequest();
 
         string rowid;
 
@@ -133,7 +136,66 @@ namespace FlashCalculation.View
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if(dtdtl.Rows.Count > 0)
+            {
+                this.Cursor = Cursors.WaitCursor;
+                this.Enabled = false;
 
+                for (int i = 0; i < dtdtl.Rows.Count; i++)
+                {
+                    if(dtdtl.Rows[i]["is_kirim"].ToString() != "Y")
+                    {
+                        string msg = client.PostKirimJawaban("api/kompetisi/input", dtdtl.Rows[i]);
+                        if (msg == "Berhasil input jawaban")
+                        {
+                            db.Query("Update tb_jawaban_kompetisi set is_kirim = 'Y' where ROW_ID_KOMPETISI = '" +
+                                dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString() + "' AND ID_PESERTA = '" +
+                                dtdtl.Rows[i]["ID_PESERTA"].ToString() + "' AND SOAL_NO =" + dtdtl.Rows[i]["SOAL_NO"].ToString());
+
+                            dtdtl.Rows[i]["is_kirim"] = "Y";
+                        }
+                    }
+                }
+
+                //Cek data di db server
+                JawabanKompetisi[] jawaban = client.PostGetJawaban("api/kompetisi/jawaban", dtdtl.Rows[0]["ROW_ID_KOMPETISI"].ToString());
+                if(jawaban.Length > 0)
+                {
+                    if(jawaban.Length != dtdtl.Rows.Count)
+                    {
+                        //update is_kirim db local jadi N
+                        for (int i = 0; i < dtdtl.Rows.Count; i++)
+                        {
+                            bool ada = false;
+                            for (int j = 0; j < jawaban.Length; j++)
+                            {
+                                if(dtdtl.Rows[i]["SOAL_NO"].ToString() == jawaban[j].SOAL_NO.ToString())
+                                {
+                                    ada = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    ada = false;
+                                }
+                            }
+                            if(ada == false)
+                            {
+                                db.Query("Update tb_jawaban_kompetisi set is_kirim = 'N' where ROW_ID_KOMPETISI = '" +
+                                dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString() + "' AND ID_PESERTA = '" +
+                                dtdtl.Rows[i]["ID_PESERTA"].ToString() + "' AND SOAL_NO =" + dtdtl.Rows[i]["SOAL_NO"].ToString());
+
+                                dtdtl.Rows[i]["is_kirim"] = "N";
+                            }
+                        }
+                    }
+                }
+
+                dataGridView1.DataSource = dtdtl;
+
+                this.Enabled = true;
+                this.Cursor = Cursors.Default;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)

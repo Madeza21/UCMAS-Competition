@@ -1591,7 +1591,10 @@ namespace FlashCalculation
             }
             else
             {
-                lblDur.Text = lamalomba.ToString();
+                if(lamalomba <= lamalombaori)
+                {
+                    lblDur.Text = lamalomba.ToString();
+                }                
             }
         }
 

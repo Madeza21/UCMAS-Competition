@@ -94,7 +94,7 @@ namespace FlashCalculation.View
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(894, 136);
+            this.panel1.Size = new System.Drawing.Size(912, 136);
             this.panel1.TabIndex = 0;
             // 
             // button2
@@ -231,7 +231,7 @@ namespace FlashCalculation.View
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 136);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(894, 314);
+            this.panel2.Size = new System.Drawing.Size(912, 314);
             this.panel2.TabIndex = 1;
             // 
             // tabControl1
@@ -241,7 +241,7 @@ namespace FlashCalculation.View
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(894, 314);
+            this.tabControl1.Size = new System.Drawing.Size(912, 314);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -251,7 +251,7 @@ namespace FlashCalculation.View
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(886, 288);
+            this.tabPage1.Size = new System.Drawing.Size(904, 288);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Jawaban";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -262,7 +262,7 @@ namespace FlashCalculation.View
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(880, 282);
+            this.panel3.Size = new System.Drawing.Size(898, 282);
             this.panel3.TabIndex = 0;
             // 
             // dataGridView1
@@ -304,7 +304,7 @@ namespace FlashCalculation.View
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(880, 282);
+            this.dataGridView1.Size = new System.Drawing.Size(898, 282);
             this.dataGridView1.TabIndex = 0;
             // 
             // Rest_1
@@ -393,7 +393,7 @@ namespace FlashCalculation.View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(894, 450);
+            this.ClientSize = new System.Drawing.Size(912, 450);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
