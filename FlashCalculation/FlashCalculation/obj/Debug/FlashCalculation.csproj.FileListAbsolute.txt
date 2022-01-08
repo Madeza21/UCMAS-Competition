@@ -108,3 +108,4 @@ C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\Flas
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.CopyComplete
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.exe
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.pdb
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.AssemblyReference.cache

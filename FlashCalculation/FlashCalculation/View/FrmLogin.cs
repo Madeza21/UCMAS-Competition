@@ -326,13 +326,7 @@ namespace FlashCalculation
                 loadSpeech = "Y";
                 foreach (InstalledVoice voice in installedVoices)
                 {
-                    if (voice.VoiceInfo.Name.Contains("David"))
-                    {
-                        voiceInfos.Add(voice.VoiceInfo);
-                    }else if (voice.VoiceInfo.Name.Contains("Zira"))
-                    {
-                        voiceInfos.Add(voice.VoiceInfo);
-                    }
+                    voiceInfos.Add(voice.VoiceInfo);
 
                 }
                 comboBox2.DataSource = voiceInfos;
