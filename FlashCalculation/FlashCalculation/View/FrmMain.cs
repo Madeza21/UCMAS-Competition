@@ -534,6 +534,172 @@ namespace FlashCalculation
             return ret;
         }
 
+        private string RandomListeningIndonesia(int soaldari, int soalsampai, int pjgdigit, int jmlrow, string idperlombaan, int jmlbarispermuncul, int jmlmuncul, string munculminus, decimal kecepatan)
+        {
+            string ret = "";
+            try
+            {
+                decimal kunci = 0, decangkarandom = 0;
+                int angkamuncul = 0, angkamunculke = 0;
+                string strangka = "", strrandomprev = "", strrandom = "";
+                string strangkalisten = "";
+                bool bminus = false;
+
+                DataRow dr;
+
+                for (int idx = soaldari; idx <= soalsampai; idx++)
+                {
+                    kunci = 0;
+                    angkamuncul = jmlbarispermuncul;
+                    angkamunculke = 0;
+                    strangka = "";
+                    strangkalisten = "";
+                    strrandomprev = "0";
+                    strrandom = "0";
+                    bminus = false;
+
+                    dr = (DataRow)dtSoal.NewRow();
+
+                    for (int row = 1; row <= jmlrow; row++)
+                    {
+                        strrandom = RandomAngka(pjgdigit);
+                        //Angka sama
+                        if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                        {
+                            strrandom = RandomAngka(pjgdigit);
+                            //Angka sama 2
+                            if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                            {
+                                strrandom = RandomAngka(pjgdigit);
+                                //Angka sama 3
+                                if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                {
+                                    strrandom = RandomAngka(pjgdigit);
+                                    //Angka sama 4
+                                    if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                    {
+                                        strrandom = RandomAngka(pjgdigit);
+                                        //Angka sama 5
+                                        if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                        {
+                                            strrandom = RandomAngka(pjgdigit);
+                                            //Angka sama 6
+                                            if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                            {
+                                                strrandom = RandomAngka(pjgdigit);
+                                                //Angka sama 7
+                                                if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                                {
+                                                    strrandom = RandomAngka(pjgdigit);
+                                                    //Angka sama 8
+                                                    if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                                    {
+                                                        strrandom = RandomAngka(pjgdigit);
+                                                        //Angka sama 9
+                                                        if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                                        {
+                                                            strrandom = RandomAngka(pjgdigit);
+                                                            //Angka sama 10
+                                                            if ((strrandomprev == strrandom) || (strrandomprev.Substring(0, 1) == strrandom.Substring(0, 1)) || (strrandomprev.Substring(strrandomprev.Length - 1) == strrandom.Substring(strrandom.Length - 1)))
+                                                            {
+                                                                strrandom = RandomAngka(pjgdigit);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (munculminus == "Y")
+                        {
+                            if (Convert.ToDecimal(strrandomprev, culture) > Convert.ToDecimal(strrandom, culture))
+                            {
+                                strangka = strangka + "dikurang " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                strangkalisten = strangkalisten + "(-" + strrandom + ") " + "dikurang " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+
+                                bminus = true;
+
+                                strrandom = '-' + strrandom;
+                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                            }
+                            else
+                            {
+                                if (bminus)
+                                {
+                                    strangka = strangka + "ditambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                    strangkalisten = strangkalisten + "(" + strrandom + ") " + "ditambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                }
+                                else
+                                {
+                                    strangka = strangka + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                    strangkalisten = strangkalisten + "(" + strrandom + ") " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                }
+
+                                bminus = false;
+                                dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                            }
+                        }
+                        else
+                        {
+                            if (bminus)
+                            {
+                                strangka = strangka + "ditambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                strangkalisten = strangkalisten + "(" + strrandom + ") " + "ditambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                            }
+                            else
+                            {
+                                strangka = strangka + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                strangkalisten = strangkalisten + "(" + strrandom + ") " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                            }
+
+                            bminus = false;
+                            dr["angka" + row.ToString()] = Convert.ToDecimal(strrandom, culture);
+                        }
+
+                        decangkarandom = Convert.ToDecimal(strrandom, culture);
+                        kunci = kunci + decangkarandom;
+                        strrandomprev = strrandom;
+
+                        //strrandomformat = Convert.ToInt32(strrandom).ToString("#,#"); //("#,#",CultureInfo.InvariantCulture)
+                        //strangka = strangka + strrandomformat + Environment.NewLine;
+
+                        if (angkamuncul == row)
+                        {
+                            angkamunculke = angkamunculke + 1;
+                            angkamuncul = angkamuncul + jmlbarispermuncul;
+                            dr["angkamuncul" + angkamunculke.ToString()] = strangka.TrimEnd(Environment.NewLine.ToCharArray());
+                            dr["angkalistening" + angkamunculke.ToString()] = strangkalisten.TrimEnd(Environment.NewLine.ToCharArray());
+                            strangka = "";
+                            strangkalisten = "";
+                        }
+                    }
+
+                    dr["kunci_jawaban"] = kunci;
+                    dr["row_id_kompetisi"] = idperlombaan;
+                    dr["no_soal"] = idx;
+                    dr["jml_baris_per_muncul"] = jmlbarispermuncul;
+                    dr["jumlah_muncul"] = jmlmuncul;
+                    dr["kecepatan"] = kecepatan;
+                    dr["max_jml_digit_per_soal"] = 0;
+
+                    dtSoal.Rows.Add(dr);
+                }
+
+                strrandomprev = "";
+                strrandom = "";
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error : " + e.Message + " On Soal Dari : " + soaldari.ToString(), "Listening");
+            }
+
+            return ret;
+        }
+
         private string RandomVisual(int soaldari, int soalsampai, int pjgdigit, int jmlrow, string idperlombaan, int jmlbarispermuncul, int jmlmuncul, string munculminus, 
             string munculperkalian, int digitperkalian, string munculpembagian, int digitpembagian, string munculdec, int digitdec, decimal kecepatan, int maxdigitsoal)
         {
@@ -890,6 +1056,100 @@ namespace FlashCalculation
             }
 
             return str;
+        }
+
+        private string NumberInWordIndonesia(decimal ad_amount)
+        {
+            decimal ld_divisor, ld_large_amount, ld_tiny_amount, ld_dividen, ld_dummy;
+            string ls_word;
+            string ls_weight1, ls_weight2, ls_unit, ls_follower;
+            string[] ls_prefix = { "SE ", "DUA ", "TIGA ", "EMPAT ", "LIMA ", "ENAM ", "TUJUH ", "DELAPAN ", "SEMBILAN " };
+            string[] ls_sufix = { "SATU ", "DUA ", "TIGA ", "EMPAT ", "LIMA ", "ENAM ", "TUJUH ", "DELAPAN ", "SEMBILAN " };
+
+            ls_word = "";
+            ld_large_amount = Math.Abs(Math.Truncate(ad_amount));
+            ld_tiny_amount = Math.Round((Math.Abs(ad_amount) - ld_large_amount) * 100, 0);
+            ld_divisor = 1000000000000.00M;
+
+            if (ad_amount > 999999999999997) return "OUT OF RANGE";
+            if (ad_amount < 0) return "OUT OF RANGE";
+
+            do
+            {
+                ld_dividen = Math.Truncate(ld_large_amount / ld_divisor);
+                ld_large_amount = ld_large_amount % ld_divisor;
+                ls_unit = "";
+
+                if (ld_dividen > 0)
+                {
+                    switch (ld_divisor)
+                    {
+                        case 1000000000000.00M:
+                            ls_unit = "TRILYUN ";
+                            break;
+                        case 1000000000.00M:
+                            ls_unit = "MILYAR ";
+                            break;
+                        case 1000000.00M:
+                            ls_unit = "JUTA ";
+                            break;
+                        case 1000.00M:
+                            ls_unit = "RIBU ";
+                            break;
+                    }
+                }
+
+                ls_weight1 = "";
+                ld_dummy = ld_dividen;
+                if (ld_dummy >= 100) ls_weight1 = ls_prefix[Convert.ToInt32(Math.Truncate(ld_dummy / 100)) - 1] + "RATUS ";
+
+                ld_dummy = ld_dividen % 100;
+
+
+                if (ld_dummy < 10) 
+                {
+                    if (ld_dummy == 1 && ls_unit == "RIBU ")
+                    {
+                        ls_weight1 += "SE ";
+                    }else if(ld_dummy > 0)
+                    {
+                        ls_weight1 += ls_sufix[Convert.ToInt32(ld_dummy) - 1];
+                    }                   
+                }
+                else if(ld_dummy >= 11 && ld_dummy <= 19)
+                {
+                    ls_weight1 += ls_prefix[Convert.ToInt32(ld_dummy % 10) - 1] + "BELAS ";
+                }
+                else
+                {
+                    ls_weight1 += ls_prefix[Convert.ToInt32(Math.Truncate(ld_dummy / 10)) - 1] + "PULUH ";
+                    if ((ld_dummy % 10) > 0) ls_weight1 += ls_sufix[Convert.ToInt32(ld_dummy % 10) - 1];
+                }
+
+                ls_word += ls_weight1 + ls_unit;
+                ld_divisor /= 1000.00M;
+
+            } while (ld_divisor >= 1);
+            
+            if(Math.Truncate(ad_amount) == 0) ls_word = "NOL ";
+            ls_follower = "";
+
+            if (ld_tiny_amount < 10)
+            {
+                if (ld_tiny_amount > 0) ls_follower = "KOMA NOL " + ls_sufix[Convert.ToInt32(ld_tiny_amount) - 1];
+            }
+            else
+            {
+                ls_follower = "KOMA " + ls_sufix[Convert.ToInt32(Math.Truncate(ld_tiny_amount / 10)) - 1];
+                if ((ld_tiny_amount % 10) > 0) ls_follower += ls_sufix[Convert.ToInt32(ld_tiny_amount - 10) - 1];
+            }
+
+            //ls_word += 'Rupiah ' + ls_follower  --> tulisan rupiah
+            ls_word += ls_follower;
+
+            if (ad_amount < 0) ls_word = "MINUS " + ls_word;
+
+            return ls_word.ToLower().Trim();
         }
 
         private string Thanks(string idperlombaan, int row)
