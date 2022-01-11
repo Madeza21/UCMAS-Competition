@@ -101,7 +101,9 @@ namespace FlashCalculation
             label11.Text = db.GetAppConfig("LBK");
 
             //Load Kompetisi
-            DataTable dtkom = db.GetKompetisi(peserta.ID_PESERTA, DateTime.Now.ToString("yyyy-MM-dd"), Properties.Settings.Default.trial);
+            DataTable dtkom = Helper.DecryptDataTable(db.GetKompetisi(peserta.ID_PESERTA, DateTime.Now.ToString("yyyy-MM-dd"), Properties.Settings.Default.trial));
+            dtkom.DefaultView.Sort = "KOMPETISI_NAME ASC";
+            dtkom = dtkom.DefaultView.ToTable();
             comboBox1.DataSource = dtkom;
             comboBox1.DisplayMember = "KOMPETISI_NAME";
             comboBox1.ValueMember = "ROW_ID";
@@ -1364,10 +1366,15 @@ namespace FlashCalculation
                 int soaldari, soalsampai, panjangdigit, jumlahmuncul, jmlbarispermuncul, maxpanjangdigit, maxjmldigitpersoal;
                 int digitperkalian, digitpembagian, digitdecimal, fontsize, totalrow;
                 decimal kecepatan;
-                string idperlombaanprev = "";
+                string idperlombaanprev = "", bahasa = "English";
                 int soalsampaiprev = 0;
                 string strtglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
-                DataTable dtparm = db.GetParameterKompetisi(peserta.ID_PESERTA, strtglkompetisi);
+                DataTable dtparm = Helper.DecryptDataTable(db.GetParameterKompetisi(peserta.ID_PESERTA, strtglkompetisi));
+                dtparm.AcceptChanges();
+                dtparm.Columns.Add("Int32_SOAL_DARI", typeof(int), "SOAL_DARI");//"Convert(SOAL_DARI, 'System.Int32')"
+
+                dtparm.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, Int32_SOAL_DARI ASC";
+                dtparm = dtparm.DefaultView.ToTable();
 
                 if (dtparm.Rows.Count > 0)
                 {
@@ -1380,6 +1387,7 @@ namespace FlashCalculation
                         munculangkapembagian = dtparm.Rows[i]["muncul_angka_pembagian"].ToString();
                         munculangkadecimal = dtparm.Rows[i]["muncul_angka_decimal"].ToString();
                         type = dtparm.Rows[i]["tipe"].ToString();
+                        bahasa = dtparm.Rows[i]["BAHASA"].ToString();
 
                         soaldari = dtparm.Rows[i]["soal_dari"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["soal_dari"].ToString());
                         soalsampai = dtparm.Rows[i]["soal_sampai"].ToString() == "" ? 0 : Convert.ToInt32(dtparm.Rows[i]["soal_sampai"].ToString());
@@ -1404,17 +1412,17 @@ namespace FlashCalculation
                         totalrow = jmlbarispermuncul * jumlahmuncul;
 
                         //delete soal
-                        db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaan + "' AND no_soal between " + soaldari.ToString() + " and " + soalsampai.ToString());
+                        db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + Encryptor.Encrypt(idperlombaan) + "' AND no_soal between " + soaldari.ToString() + " and " + soalsampai.ToString());
 
                         if (i == dtparm.Rows.Count - 1)
                         {
-                            db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaanprev + "' AND no_soal = " + (soalsampai + 1).ToString());
+                            db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + Encryptor.Encrypt(idperlombaanprev) + "' AND no_soal = " + (soalsampai + 1).ToString());
                         }
                         else
                         {
                             if (idperlombaanprev != idperlombaan && i > 0)
                             {
-                                db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + idperlombaanprev + "' AND no_soal = " + (soalsampaiprev + 1).ToString());
+                                db.Query("DELETE FROM tb_soal_kompetisi where row_id_kompetisi = '" + Encryptor.Encrypt(idperlombaanprev) + "' AND no_soal = " + (soalsampaiprev + 1).ToString());
                             }
                         }
 
@@ -1449,7 +1457,15 @@ namespace FlashCalculation
                         }
                         else if (type == "L")
                         {
-                            RandomListening(soaldari, soalsampai, panjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, kecepatan);
+                            if(bahasa == "English")
+                            {
+                                RandomListening(soaldari, soalsampai, panjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, kecepatan);
+                            }
+                            else
+                            {
+                                RandomListeningIndonesia(soaldari, soalsampai, panjangdigit, totalrow, idperlombaan, jmlbarispermuncul, jumlahmuncul, munculangkaminus, kecepatan);
+                            }
+                            
                         }
 
                         //Thanks
@@ -1500,6 +1516,10 @@ namespace FlashCalculation
                                 "kecepatan", "angkalistening1", "angkalistening2", "angkalistening3", "angkalistening4", "angkalistening5", "max_jml_digit_per_soal", "total_digit_per_soal",
                                 "MUNCUL_ANGKA_DECIMAL", "DIGIT_DECIMAL" };
                 lstrPrmHdrKeyCol = new string[2] { "row_id_kompetisi", "no_soal" };
+                Helper.EncryptDataTableSoal(dtSoal).AcceptChanges();
+                dtSoal.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
+                dtSoal = dtSoal.DefaultView.ToTable();
+
                 if (db.UpdateDataTable(dtSoal, "tb_soal_kompetisi", lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol) != "OK")
                 {
 

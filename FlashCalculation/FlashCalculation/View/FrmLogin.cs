@@ -157,7 +157,7 @@ namespace FlashCalculation
                     {
                         for (int i = 0; i < login.peserta.Length; i++)
                         {
-                            db.Query("DELETE FROM tb_peserta where ID_PESERTA = '" + login.peserta[i].ID_PESERTA + "'");
+                            db.Query("DELETE FROM tb_peserta where ID_PESERTA = '" + Encryptor.Encrypt(login.peserta[i].ID_PESERTA) + "'");
                         }
 
                         db.InsertPeserta(login.peserta);
@@ -167,13 +167,14 @@ namespace FlashCalculation
                     {
                         if (chkTrial.Checked)
                         {
-                            db.Query("DELETE FROM tb_kompetisi where IS_TRIAL = 'Y'");
+                            string strial = Encryptor.Encrypt("Y");
+                            db.Query("DELETE FROM tb_kompetisi where IS_TRIAL = '" + strial + "'");
                         }
                         for (int i = 0; i < login.kompetisi.Length; i++)
                         {
-                            db.Query("DELETE FROM tb_kompetisi where ROW_ID = '" + login.kompetisi[i].ROW_ID + "'");
-                            db.Query("DELETE FROM tb_parameter_kompetisi where ROW_ID_KOMPETISI = '" + login.kompetisi[i].ROW_ID + "'");
-                            db.Query("DELETE FROM tb_peserta_kompetisi where ROW_ID_KOMPETISI = '" + login.kompetisi[i].ROW_ID + "' AND ID_PESERTA = '" + textBox1.Text + "'");
+                            db.Query("DELETE FROM tb_kompetisi where ROW_ID = '" + Encryptor.Encrypt(login.kompetisi[i].ROW_ID) + "'");
+                            db.Query("DELETE FROM tb_parameter_kompetisi where ROW_ID_KOMPETISI = '" + Encryptor.Encrypt(login.kompetisi[i].ROW_ID) + "'");
+                            db.Query("DELETE FROM tb_peserta_kompetisi where ROW_ID_KOMPETISI = '" + Encryptor.Encrypt(login.kompetisi[i].ROW_ID) + "' AND ID_PESERTA = '" + Encryptor.Encrypt(textBox1.Text) + "'");
                         }
 
                         db.InsertKompetisi(login.kompetisi);

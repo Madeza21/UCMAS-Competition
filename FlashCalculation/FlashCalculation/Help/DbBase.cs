@@ -102,13 +102,13 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
-            parm.Value = pid;
+            parm.Value = Encryptor.Encrypt(pid);
             sqlite_cmd.Parameters.Add(parm);
             parm = SqlParam("@ptgl", DbType.String, ParameterDirection.Input);
-            parm.Value = ptgl;
+            parm.Value = Encryptor.Encrypt(ptgl);
             sqlite_cmd.Parameters.Add(parm);
             parm = SqlParam("@pflag", DbType.String, ParameterDirection.Input);
-            parm.Value = pflag;
+            parm.Value = Encryptor.Encrypt(pflag);
             sqlite_cmd.Parameters.Add(parm);
 
             SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
@@ -129,12 +129,12 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@pcode", DbType.String, ParameterDirection.Input);
-            parm.Value = pcode;
+            parm.Value = Encryptor.Encrypt(pcode);
             sqlite_cmd.Parameters.Add(parm);
 
             str = Convert.ToString(sqlite_cmd.ExecuteScalar());
 
-            return str;
+            return Encryptor.Decrypt(str);
         }
 
         public void InsertUrl(Url[] url)
@@ -152,16 +152,16 @@ namespace FlashCalculation.Help
                 sqlite_cmd.Parameters.Clear();
 
                 parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);                
-                parm.Value = url[i].URL_CODE;
+                parm.Value = Encryptor.Encrypt(url[i].URL_CODE);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
-                parm.Value = url[i].URL_PARAM;
+                parm.Value = Encryptor.Encrypt(url[i].URL_PARAM);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm3", DbType.String, ParameterDirection.Input);
-                parm.Value = url[i].URL_BODY;
+                parm.Value = Encryptor.Encrypt(url[i].URL_BODY);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm4", DbType.String, ParameterDirection.Input);
-                parm.Value = url[i].METHOD;
+                parm.Value = Encryptor.Encrypt(url[i].METHOD);
                 sqlite_cmd.Parameters.Add(parm);
 
                 sqlite_cmd.ExecuteNonQuery();
@@ -183,25 +183,25 @@ namespace FlashCalculation.Help
                 sqlite_cmd.Parameters.Clear();
 
                 parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);
-                parm.Value = cabang[i].CABANG_CODE;
+                parm.Value = Encryptor.Encrypt(cabang[i].CABANG_CODE);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
-                parm.Value = cabang[i].CABANG_NAME;
+                parm.Value = Encryptor.Encrypt(cabang[i].CABANG_NAME);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm3", DbType.String, ParameterDirection.Input);
-                parm.Value = cabang[i].LOKASI;
+                parm.Value = Encryptor.Encrypt(cabang[i].LOKASI);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm4", DbType.String, ParameterDirection.Input);
-                parm.Value = cabang[i].IS_PUSAT;
+                parm.Value = Encryptor.Encrypt(cabang[i].IS_PUSAT);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm5", DbType.String, ParameterDirection.Input);
-                parm.Value = cabang[i].ALAMAT;
+                parm.Value = Encryptor.Encrypt(cabang[i].ALAMAT);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm6", DbType.String, ParameterDirection.Input);
-                parm.Value = cabang[i].NO_TELP;
+                parm.Value = Encryptor.Encrypt(cabang[i].NO_TELP);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm7", DbType.String, ParameterDirection.Input);
-                parm.Value = cabang[i].EMAIL;
+                parm.Value = Encryptor.Encrypt(cabang[i].EMAIL);
                 sqlite_cmd.Parameters.Add(parm);
 
                 sqlite_cmd.ExecuteNonQuery();
@@ -223,13 +223,13 @@ namespace FlashCalculation.Help
                 sqlite_cmd.Parameters.Clear();
 
                 parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);
-                parm.Value = config[i].CONFIG_CODE;
+                parm.Value = Encryptor.Encrypt(config[i].CONFIG_CODE);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
-                parm.Value = config[i].CONFIG_NAME;
+                parm.Value = Encryptor.Encrypt(config[i].CONFIG_NAME);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm3", DbType.String, ParameterDirection.Input);
-                parm.Value = config[i].CONFIG_PARAM;
+                parm.Value = Encryptor.Encrypt(config[i].CONFIG_PARAM);
                 sqlite_cmd.Parameters.Add(parm);
 
                 sqlite_cmd.ExecuteNonQuery();
@@ -253,40 +253,40 @@ namespace FlashCalculation.Help
                 sqlite_cmd.Parameters.Clear();
 
                 parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].ID_PESERTA;
+                parm.Value = Encryptor.Encrypt(peserta[i].ID_PESERTA);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].NAMA_PESERTA;
+                parm.Value = Encryptor.Encrypt(peserta[i].NAMA_PESERTA);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm3", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].JENIS_KELAMIN;
+                parm.Value = Encryptor.Encrypt(peserta[i].JENIS_KELAMIN);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm4", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].TEMPAT_LAHIR;
+                parm.Value = Encryptor.Encrypt(peserta[i].TEMPAT_LAHIR);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm5", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].TANGGAL_LAHIR;
+                parm.Value = Encryptor.Encrypt(peserta[i].TANGGAL_LAHIR);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm6", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].ALAMAT_PESERTA;
+                parm.Value = Encryptor.Encrypt(peserta[i].ALAMAT_PESERTA);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm7", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].SEKOLAH_PESERTA;
+                parm.Value = Encryptor.Encrypt(peserta[i].SEKOLAH_PESERTA);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm8", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].NO_TELP_PESERTA;
+                parm.Value = Encryptor.Encrypt(peserta[i].NO_TELP_PESERTA);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm9", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].EMAIL_PESERTA;
+                parm.Value = Encryptor.Encrypt(peserta[i].EMAIL_PESERTA);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm10", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].IS_USMAS;
+                parm.Value = Encryptor.Encrypt(peserta[i].IS_USMAS);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm11", DbType.String, ParameterDirection.Input);
-                parm.Value = Properties.Settings.Default.token;
+                parm.Value = Encryptor.Encrypt(Properties.Settings.Default.token);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm12", DbType.String, ParameterDirection.Input);
-                parm.Value = peserta[i].CABANG_CODE;
+                parm.Value = Encryptor.Encrypt(peserta[i].CABANG_CODE);
                 sqlite_cmd.Parameters.Add(parm);
 
                 sqlite_cmd.ExecuteNonQuery();
@@ -300,58 +300,65 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             sqlite_cmd.CommandText = @"INSERT INTO tb_kompetisi ( ROW_ID, CABANG_CODE, KOMPETISI_NAME, TANGGAL_KOMPETISI, JAM_MULAI, JAM_SAMPAI,
-			                    JENIS_CODE, JENIS_NAME, TIPE, ROW_ID_KATEGORI, KATEGORI_CODE, KATEGORI_NAME, LAMA_PERLOMBAAN, KECEPATAN, IS_TRIAL ) 
+			                    JENIS_CODE, JENIS_NAME, TIPE, ROW_ID_KATEGORI, KATEGORI_CODE, KATEGORI_NAME, LAMA_PERLOMBAAN, KECEPATAN, IS_TRIAL,
+                                BAHASA, START_FLAG) 
 								        VALUES
-                                          (@prm1,@prm2,@prm3,@prm4,@prm5,@prm6,@prm7,@prm8,@prm9,@prm10,@prm11,@prm12,@prm13,@prm14,@prm15) ";
+                                          (@prm1,@prm2,@prm3,@prm4,@prm5,@prm6,@prm7,@prm8,@prm9,@prm10,@prm11,@prm12,@prm13,@prm14,@prm15,@prm16,@prm17) ";
 
             for (int i = 0; i < kompetisi.Length; i++)
             {
                 sqlite_cmd.Parameters.Clear();
 
                 parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].ROW_ID;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].ROW_ID);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].CABANG_CODE;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].CABANG_CODE);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm3", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].KOMPETISI_NAME;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].KOMPETISI_NAME);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm4", DbType.String, ParameterDirection.Input);
-                parm.Value = Properties.Settings.Default.trial == "Y" ? DateTime.Now.ToString("yyyy-MM-dd") : kompetisi[i].TANGGAL_KOMPETISI;
+                parm.Value = Properties.Settings.Default.trial == "Y" ? Encryptor.Encrypt(DateTime.Now.ToString("yyyy-MM-dd")) : Encryptor.Encrypt(kompetisi[i].TANGGAL_KOMPETISI);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm5", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].JAM_MULAI;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].JAM_MULAI);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm6", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].JAM_SAMPAI;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].JAM_SAMPAI);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm7", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].JENIS_CODE;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].JENIS_CODE);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm8", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].JENIS_NAME;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].JENIS_NAME);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm9", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].TIPE;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].TIPE);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm10", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].ROW_ID_KATEGORI;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].ROW_ID_KATEGORI);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm11", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].KATEGORI_CODE;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].KATEGORI_CODE);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm12", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].KATEGORI_NAME;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].KATEGORI_NAME);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm13", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = kompetisi[i].LAMA_PERLOMBAAN == null ? 180 : Convert.ToDecimal(kompetisi[i].LAMA_PERLOMBAAN);
+                parm = SqlParam("@prm13", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].LAMA_PERLOMBAAN == null ? Encryptor.Encrypt("180") : Encryptor.Encrypt(kompetisi[i].LAMA_PERLOMBAAN);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm14", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = kompetisi[i].KECEPATAN == null ? 0 : Convert.ToDecimal(kompetisi[i].KECEPATAN);
+                parm = SqlParam("@prm14", DbType.String, ParameterDirection.Input);
+                parm.Value = kompetisi[i].KECEPATAN == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(kompetisi[i].KECEPATAN);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm15", DbType.String, ParameterDirection.Input);
-                parm.Value = Properties.Settings.Default.trial;
+                parm.Value = Encryptor.Encrypt(Properties.Settings.Default.trial);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm16", DbType.String, ParameterDirection.Input);
+                parm.Value = Encryptor.Encrypt(kompetisi[i].BAHASA);
+                sqlite_cmd.Parameters.Add(parm);
+                parm = SqlParam("@prm17", DbType.String, ParameterDirection.Input);
+                parm.Value = Encryptor.Encrypt(kompetisi[i].FLAG);
                 sqlite_cmd.Parameters.Add(parm);
 
                 sqlite_cmd.ExecuteNonQuery();
@@ -373,10 +380,10 @@ namespace FlashCalculation.Help
                 sqlite_cmd.Parameters.Clear();
 
                 parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);
-                parm.Value = kompetisi[i].ROW_ID;
+                parm.Value = Encryptor.Encrypt(kompetisi[i].ROW_ID);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
-                parm.Value = Properties.Settings.Default.siswa_id;
+                parm.Value = Encryptor.Encrypt(Properties.Settings.Default.siswa_id);
                 sqlite_cmd.Parameters.Add(parm);
 
                 sqlite_cmd.ExecuteNonQuery();
@@ -401,61 +408,61 @@ namespace FlashCalculation.Help
                 sqlite_cmd.Parameters.Clear();
 
                 parm = SqlParam("@prm1", DbType.String, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].ROW_ID_KOMPETISI;
+                parm.Value = Encryptor.Encrypt(Prmkompetisi[i].ROW_ID_KOMPETISI);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm2", DbType.String, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].PARAMETER_ID;
+                parm.Value = Encryptor.Encrypt(Prmkompetisi[i].PARAMETER_ID);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm3", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].SOAL_DARI == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].SOAL_DARI);
+                parm = SqlParam("@prm3", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].SOAL_DARI == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].SOAL_DARI);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm4", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].SOAL_SAMPAI == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].SOAL_SAMPAI);
+                parm = SqlParam("@prm4", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].SOAL_SAMPAI == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].SOAL_SAMPAI);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm5", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].PANJANG_DIGIT == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].PANJANG_DIGIT);
+                parm = SqlParam("@prm5", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].PANJANG_DIGIT == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].PANJANG_DIGIT);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm6", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].JUMLAH_MUNCUL == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].JUMLAH_MUNCUL);
+                parm = SqlParam("@prm6", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].JUMLAH_MUNCUL == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].JUMLAH_MUNCUL);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm7", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].JML_BARIS_PER_MUNCUL == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].JML_BARIS_PER_MUNCUL);
+                parm = SqlParam("@prm7", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].JML_BARIS_PER_MUNCUL == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].JML_BARIS_PER_MUNCUL);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm8", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].MAX_PANJANG_DIGIT == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].MAX_PANJANG_DIGIT);
+                parm = SqlParam("@prm8", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].MAX_PANJANG_DIGIT == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].MAX_PANJANG_DIGIT);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm9", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].MAX_JML_DIGIT_PER_SOAL == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].MAX_JML_DIGIT_PER_SOAL);
+                parm = SqlParam("@prm9", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].MAX_JML_DIGIT_PER_SOAL == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].MAX_JML_DIGIT_PER_SOAL);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm10", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].JML_BARIS_PER_SOAL == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].JML_BARIS_PER_SOAL);
+                parm = SqlParam("@prm10", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].JML_BARIS_PER_SOAL == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].JML_BARIS_PER_SOAL);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm11", DbType.String, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].MUNCUL_ANGKA_MINUS;
+                parm.Value = Encryptor.Encrypt(Prmkompetisi[i].MUNCUL_ANGKA_MINUS);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm12", DbType.String, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].MUNCUL_ANGKA_PERKALIAN;
+                parm.Value = Encryptor.Encrypt(Prmkompetisi[i].MUNCUL_ANGKA_PERKALIAN);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm13", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].DIGIT_PERKALIAN == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].DIGIT_PERKALIAN);
+                parm = SqlParam("@prm13", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].DIGIT_PERKALIAN == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].DIGIT_PERKALIAN);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm14", DbType.String, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].MUNCUL_ANGKA_PEMBAGIAN;
+                parm.Value = Encryptor.Encrypt(Prmkompetisi[i].MUNCUL_ANGKA_PEMBAGIAN);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm15", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].DIGIT_PEMBAGIAN == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].DIGIT_PEMBAGIAN);
+                parm = SqlParam("@prm15", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].DIGIT_PEMBAGIAN == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].DIGIT_PEMBAGIAN);
                 sqlite_cmd.Parameters.Add(parm);
                 parm = SqlParam("@prm16", DbType.String, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].MUNCUL_ANGKA_DECIMAL;
+                parm.Value = Encryptor.Encrypt(Prmkompetisi[i].MUNCUL_ANGKA_DECIMAL);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm17", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].DIGIT_DECIMAL == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].DIGIT_DECIMAL);
+                parm = SqlParam("@prm17", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].DIGIT_DECIMAL == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].DIGIT_DECIMAL);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm18", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].FONT_SIZE == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].FONT_SIZE);
+                parm = SqlParam("@prm18", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].FONT_SIZE == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].FONT_SIZE);
                 sqlite_cmd.Parameters.Add(parm);
-                parm = SqlParam("@prm19", DbType.Decimal, ParameterDirection.Input);
-                parm.Value = Prmkompetisi[i].KECEPATAN == null ? 0 : Convert.ToDecimal(Prmkompetisi[i].KECEPATAN);
+                parm = SqlParam("@prm19", DbType.String, ParameterDirection.Input);
+                parm.Value = Prmkompetisi[i].KECEPATAN == null ? Encryptor.Encrypt("0") : Encryptor.Encrypt(Prmkompetisi[i].KECEPATAN);
                 sqlite_cmd.Parameters.Add(parm);
 
                 sqlite_cmd.ExecuteNonQuery();
@@ -475,7 +482,7 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
-            parm.Value = pid;
+            parm.Value = Encryptor.Encrypt(pid);
             sqlite_cmd.Parameters.Add(parm);            
 
             SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
@@ -495,7 +502,7 @@ namespace FlashCalculation.Help
                                               JML_BARIS_PER_MUNCUL, MAX_PANJANG_DIGIT, MAX_JML_DIGIT_PER_SOAL, JML_BARIS_PER_SOAL, MUNCUL_ANGKA_MINUS,
                                               MUNCUL_ANGKA_PERKALIAN, DIGIT_PERKALIAN, MUNCUL_ANGKA_PEMBAGIAN, DIGIT_PEMBAGIAN, MUNCUL_ANGKA_DECIMAL,
                                               DIGIT_DECIMAL, FONT_SIZE, tb_parameter_kompetisi.kecepatan, tb_kompetisi.KOMPETISI_NAME,
-                                              tb_kompetisi.JENIS_NAME, tb_kompetisi.TIPE, tb_kompetisi.KATEGORI_NAME
+                                              tb_kompetisi.JENIS_NAME, tb_kompetisi.TIPE, tb_kompetisi.KATEGORI_NAME, tb_kompetisi.BAHASA
                                          FROM tb_parameter_kompetisi, tb_peserta_kompetisi, tb_kompetisi
                                         WHERE tb_parameter_kompetisi.ROW_ID_KOMPETISI = tb_peserta_kompetisi.ROW_ID_KOMPETISI
                                           AND tb_parameter_kompetisi.ROW_ID_KOMPETISI = tb_kompetisi.ROW_ID
@@ -506,10 +513,10 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
-            parm.Value = pid;
+            parm.Value = Encryptor.Encrypt(pid);
             sqlite_cmd.Parameters.Add(parm);
             parm = SqlParam("@pdate", DbType.String, ParameterDirection.Input);
-            parm.Value = pdate;
+            parm.Value = Encryptor.Encrypt(pdate);
             sqlite_cmd.Parameters.Add(parm);
 
             SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
@@ -1005,7 +1012,7 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
-            parm.Value = pid;
+            parm.Value = Encryptor.Encrypt(pid);
             sqlite_cmd.Parameters.Add(parm);
 
             SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
