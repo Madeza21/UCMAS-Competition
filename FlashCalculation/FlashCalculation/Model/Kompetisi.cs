@@ -27,5 +27,7 @@ namespace FlashCalculation.Model
         public string ENTRY_DATE { get; set; }
         public string UPDATE_USER { get; set; }
         public string UPDATE_DATE { get; set; }
+        public string BAHASA { get; set; }
+        public string FLAG { get; set; }
     }
 }
