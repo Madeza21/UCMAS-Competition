@@ -26,6 +26,7 @@ namespace FlashCalculation
         DbBase db = new DbBase();
         HttpRequest client = new HttpRequest();
         SpeechSynthesizer speechSynthesizerObj;
+        DataTable dtsp = new DataTable();
 
         string urlconfig, loadSpeech, textSpeech;
         bool isdispose = false, isload = false;
@@ -147,7 +148,7 @@ namespace FlashCalculation
                     {
                         Properties.Settings.Default.token = login.data[0].token;
                         Properties.Settings.Default.siswa_id = textBox1.Text;
-                        Properties.Settings.Default.voice = comboBox2.Text;
+                        Properties.Settings.Default.voice = comboBox2.SelectedValue.ToString();
                         Properties.Settings.Default.cabang = comboBox1.SelectedValue.ToString();
                         Properties.Settings.Default.trial = chkTrial.Checked == true ? "Y" : "N";
                         Properties.Settings.Default.Save();
@@ -311,7 +312,7 @@ namespace FlashCalculation
         private void LoadListSpeech()
         {
             //https://www.codeproject.com/Articles/19334/Text-to-Speech-using-Windows-SAPI
-            IList<VoiceInfo> voiceInfos = new List<VoiceInfo>();
+            //IList<VoiceInfo> voiceInfos = new List<VoiceInfo>();
             speechSynthesizerObj = new SpeechSynthesizer();
 
             var installedVoices = speechSynthesizerObj.GetInstalledVoices();
@@ -325,12 +326,21 @@ namespace FlashCalculation
             else
             {
                 loadSpeech = "Y";
+                dtsp.Clear();
+                dtsp.Columns.Add("Id", typeof(string));
+                dtsp.Columns.Add("Name", typeof(string));
+                dtsp.Columns.Add("Gender", typeof(string));
+
                 foreach (InstalledVoice voice in installedVoices)
                 {
-                    voiceInfos.Add(voice.VoiceInfo);
-
+                    //voiceInfos.Add(voice.VoiceInfo);
+                    dtsp.Rows.Add(voice.VoiceInfo.Name, voice.VoiceInfo.Description.Replace("Microsoft ","").Replace(" (United States)", "").Replace(" (Indonesia)",""), voice.VoiceInfo.Gender);                    
                 }
-                comboBox2.DataSource = voiceInfos;
+
+                dtsp.DefaultView.Sort = "Name ASC";
+                dtsp = dtsp.DefaultView.ToTable();
+
+                comboBox2.DataSource = dtsp;
                 comboBox2.DisplayMember = "Name";
                 comboBox2.ValueMember = "Id";
             }
@@ -383,28 +393,42 @@ namespace FlashCalculation
 
         private void SetImg()
         {
-            if (comboBox2.Text.Contains("Zira"))
+            for(int i = 0; i < dtsp.Rows.Count; i++)
             {
-                pictureBox3.Image = Properties.Resources.female;
-                textSpeech = @"My Name is Zira.It's nice to meet you!
-                    for example
-                    are you ready
-                    nine hundred ten
-                    six hundred forty eigh
-                    five hundred sixty one
-                    That is";
-            }
-            else
-            {
-                pictureBox3.Image = Properties.Resources.male;
-                textSpeech = @"My Name is David.It's nice to meet you!
-                    for example
-                    are you ready
-                    nine hundred ten
-                    six hundred forty eigh
-                    five hundred sixty one
-                    That is";
-            }
+                if (comboBox2.SelectedValue.ToString() == dtsp.Rows[i]["Id"].ToString())
+                {
+                    if(dtsp.Rows[i]["Gender"].ToString() == "Female")
+                    {
+                        pictureBox3.Image = Properties.Resources.female;
+                    }
+                    else
+                    {
+                        pictureBox3.Image = Properties.Resources.male;
+                    }
+
+                    if (dtsp.Rows[i]["Name"].ToString().Contains("Indonesian"))
+                    {
+                        textSpeech = @"Namaku " + dtsp.Rows[i]["Name"].ToString() + @". Senang bertemu denganmu!
+                                        Misalnya
+                                        Apakah kamu siap
+                                        sembilan ratus sepuluh
+                                        enam ratus empat puluh delapan
+                                        lima ratus enam puluh satu
+                                        Itu adalah";
+                    }
+                    else
+                    {
+                        textSpeech = @"My Name is " + dtsp.Rows[i]["Name"].ToString() + @".It's nice to meet you!
+                                        for example
+                                        are you ready
+                                        nine hundred ten
+                                        six hundred forty eigh
+                                        five hundred sixty one
+                                        That is";
+                    }
+                    break;
+                }
+            }            
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -506,7 +530,7 @@ namespace FlashCalculation
                 isdispose = false;
                 speechSynthesizerObj.Volume = 100; // от 0 до 100
                 speechSynthesizerObj.Rate = 0; //от -10 до 10
-                speechSynthesizerObj.SelectVoice(comboBox2.Text);
+                speechSynthesizerObj.SelectVoice(comboBox2.SelectedValue.ToString());
                 speechSynthesizerObj.SpeakAsync(textSpeech);
                 //speechSynthesizerObj.SpeakCompleted += SpeakComplete;
 

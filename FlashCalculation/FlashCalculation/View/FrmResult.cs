@@ -34,11 +34,16 @@ namespace FlashCalculation.View
         {
             db.OpenConnection();
 
-            dthdr = db.GetKompetisiView(rowid);
+            dthdr = Helper.DecryptDataTable(db.GetKompetisiView(rowid));
+            dthdr.AcceptChanges();
 
             SetHeader();
 
-            dtdtl = db.GetJawabanView(rowid, Properties.Settings.Default.siswa_id);
+            dtdtl = Helper.DecryptDataTable(db.GetJawabanView(rowid, Properties.Settings.Default.siswa_id));
+            dtdtl.AcceptChanges();
+            dtdtl.Columns.Add("Int32_SOAL_NO", typeof(int), "SOAL_NO");
+            dtdtl.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, Int32_SOAL_NO ASC";
+            dtdtl = dtdtl.DefaultView.ToTable();
 
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.DataSource = dtdtl;
@@ -150,9 +155,11 @@ namespace FlashCalculation.View
                             string msg = client.PostKirimJawaban("api/kompetisi/input", dtdtl.Rows[i]);
                             if (msg == "Berhasil input jawaban")
                             {
-                                db.Query("Update tb_jawaban_kompetisi set is_kirim = 'Y' where ROW_ID_KOMPETISI = '" +
-                                    dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString() + "' AND ID_PESERTA = '" +
-                                    dtdtl.Rows[i]["ID_PESERTA"].ToString() + "' AND SOAL_NO =" + dtdtl.Rows[i]["SOAL_NO"].ToString());
+                                string flag = Encryptor.Encrypt("Y");
+
+                                db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
+                                    Encryptor.Encrypt(dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
+                                    Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
 
                                 dtdtl.Rows[i]["is_kirim"] = "Y";
                             }
@@ -186,9 +193,11 @@ namespace FlashCalculation.View
                                 }
                                 if (ada == false)
                                 {
+                                    string flag = Encryptor.Encrypt("N");
+
                                     db.Query("Update tb_jawaban_kompetisi set is_kirim = 'N' where ROW_ID_KOMPETISI = '" +
-                                    dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString() + "' AND ID_PESERTA = '" +
-                                    dtdtl.Rows[i]["ID_PESERTA"].ToString() + "' AND SOAL_NO =" + dtdtl.Rows[i]["SOAL_NO"].ToString());
+                                    Encryptor.Encrypt(dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
+                                    Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
 
                                     dtdtl.Rows[i]["is_kirim"] = "N";
                                 }

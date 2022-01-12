@@ -84,6 +84,8 @@ namespace FlashCalculation
             this.tdurlomba = new System.Windows.Forms.Timer(this.components);
             this.tlomba = new System.Windows.Forms.Timer(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label23 = new System.Windows.Forms.Label();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -106,7 +108,7 @@ namespace FlashCalculation
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1125, 527);
+            this.panel1.Size = new System.Drawing.Size(1244, 527);
             this.panel1.TabIndex = 0;
             // 
             // panel6
@@ -114,9 +116,9 @@ namespace FlashCalculation
             this.panel6.Controls.Add(this.lblNo);
             this.panel6.Controls.Add(this.lblSoal);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(267, 96);
+            this.panel6.Location = new System.Drawing.Point(261, 96);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(858, 380);
+            this.panel6.Size = new System.Drawing.Size(983, 380);
             this.panel6.TabIndex = 4;
             // 
             // lblNo
@@ -135,7 +137,7 @@ namespace FlashCalculation
             this.lblSoal.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSoal.Location = new System.Drawing.Point(0, 0);
             this.lblSoal.Name = "lblSoal";
-            this.lblSoal.Size = new System.Drawing.Size(858, 380);
+            this.lblSoal.Size = new System.Drawing.Size(983, 380);
             this.lblSoal.TabIndex = 0;
             this.lblSoal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -143,9 +145,9 @@ namespace FlashCalculation
             // 
             this.panel5.Controls.Add(this.textBox10);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(267, 476);
+            this.panel5.Location = new System.Drawing.Point(261, 476);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(858, 51);
+            this.panel5.Size = new System.Drawing.Size(983, 51);
             this.panel5.TabIndex = 3;
             // 
             // textBox10
@@ -154,9 +156,8 @@ namespace FlashCalculation
             this.textBox10.Font = new System.Drawing.Font("Tahoma", 33.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox10.Location = new System.Drawing.Point(0, 0);
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(858, 62);
+            this.textBox10.Size = new System.Drawing.Size(983, 62);
             this.textBox10.TabIndex = 0;
-            this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox10.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox10_KeyDown);
             // 
             // panel4
@@ -164,9 +165,9 @@ namespace FlashCalculation
             this.panel4.Controls.Add(this.panel8);
             this.panel4.Controls.Add(this.panel7);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(267, 0);
+            this.panel4.Location = new System.Drawing.Point(261, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(858, 96);
+            this.panel4.Size = new System.Drawing.Size(983, 96);
             this.panel4.TabIndex = 2;
             // 
             // panel8
@@ -174,12 +175,14 @@ namespace FlashCalculation
             this.panel8.Controls.Add(this.button3);
             this.panel8.Controls.Add(this.button2);
             this.panel8.Controls.Add(this.button1);
+            this.panel8.Controls.Add(this.comboBox2);
             this.panel8.Controls.Add(this.comboBox1);
+            this.panel8.Controls.Add(this.label23);
             this.panel8.Controls.Add(this.label12);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel8.Location = new System.Drawing.Point(0, 59);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(858, 37);
+            this.panel8.Size = new System.Drawing.Size(983, 37);
             this.panel8.TabIndex = 1;
             // 
             // button3
@@ -242,7 +245,7 @@ namespace FlashCalculation
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(858, 53);
+            this.panel7.Size = new System.Drawing.Size(983, 53);
             this.panel7.TabIndex = 0;
             // 
             // panel10
@@ -252,7 +255,7 @@ namespace FlashCalculation
             this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel10.Location = new System.Drawing.Point(54, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(804, 53);
+            this.panel10.Size = new System.Drawing.Size(929, 53);
             this.panel10.TabIndex = 1;
             // 
             // lblDur
@@ -260,7 +263,7 @@ namespace FlashCalculation
             this.lblDur.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblDur.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDur.ForeColor = System.Drawing.Color.Red;
-            this.lblDur.Location = new System.Drawing.Point(607, 0);
+            this.lblDur.Location = new System.Drawing.Point(732, 0);
             this.lblDur.Name = "lblDur";
             this.lblDur.Size = new System.Drawing.Size(197, 53);
             this.lblDur.TabIndex = 1;
@@ -305,7 +308,7 @@ namespace FlashCalculation
             // 
             this.panel3.BackColor = System.Drawing.Color.Red;
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(256, 0);
+            this.panel3.Location = new System.Drawing.Point(250, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(11, 527);
             this.panel3.TabIndex = 1;
@@ -345,12 +348,12 @@ namespace FlashCalculation
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(256, 527);
+            this.panel2.Size = new System.Drawing.Size(250, 527);
             this.panel2.TabIndex = 0;
             // 
             // label22
             // 
-            this.label22.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.ForeColor = System.Drawing.Color.White;
             this.label22.Location = new System.Drawing.Point(14, 17);
             this.label22.Name = "label22";
@@ -684,11 +687,31 @@ namespace FlashCalculation
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.Color.Navy;
+            this.label23.Location = new System.Drawing.Point(777, 7);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(67, 19);
+            this.label23.TabIndex = 0;
+            this.label23.Text = "Suara :";
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(849, 8);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(250, 21);
+            this.comboBox2.TabIndex = 1;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1125, 527);
+            this.ClientSize = new System.Drawing.Size(1244, 527);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMain";
@@ -770,5 +793,7 @@ namespace FlashCalculation
         private System.Windows.Forms.Label lblDur;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Label label23;
     }
 }

@@ -26,6 +26,7 @@ namespace FlashCalculation
         DataTable dtkompetisi = new DataTable();
         DataTable dtSoalLomba = new DataTable();
         DataTable dtJawaban = new DataTable();
+        DataTable dtsp = new DataTable();
 
         Random rnd = new Random();
         CultureInfo culture = new CultureInfo("en-US");
@@ -36,6 +37,7 @@ namespace FlashCalculation
         string ptype, strvoice = "";
 
         DbBase db = new DbBase();
+        HttpRequest client = new HttpRequest();
 
         private PrivateFontCollection pfc;
         [DllImport("gdi32.dll")]
@@ -100,6 +102,9 @@ namespace FlashCalculation
             this.Text = db.GetAppConfig("LBL");
             label11.Text = db.GetAppConfig("LBK");
 
+            label23.Visible = false;
+            comboBox2.Visible = false;
+
             //Load Kompetisi
             DataTable dtkom = Helper.DecryptDataTable(db.GetKompetisi(peserta.ID_PESERTA, DateTime.Now.ToString("yyyy-MM-dd"), Properties.Settings.Default.trial));
             dtkom.DefaultView.Sort = "KOMPETISI_NAME ASC";
@@ -120,7 +125,7 @@ namespace FlashCalculation
             TranslateControl();
 
             speechSynthesizerObj = new SpeechSynthesizer();
-
+            LoadListSpeech();
             this.Cursor = System.Windows.Forms.Cursors.Default;
         }
 
@@ -150,7 +155,7 @@ namespace FlashCalculation
                 ptype = db.GetTypeKompetisi(pilihperlombaan, tglkompetisi);
                 if(Properties.Settings.Default.trial == "Y")
                 {
-                    db.Query("DELETE FROM  tb_jawaban_kompetisi WHERE ROW_ID_KOMPETISI = '" + pilihperlombaan + "' AND ID_PESERTA = '" + peserta.ID_PESERTA + "'");
+                    db.Query("DELETE FROM  tb_jawaban_kompetisi WHERE ROW_ID_KOMPETISI = '" + Encryptor.Encrypt(pilihperlombaan) + "' AND ID_PESERTA = '" + Encryptor.Encrypt(peserta.ID_PESERTA) + "'");
                 }
                 //Sudah ikut kompetisi
                 if(db.GetJawabanKompetisi(pilihperlombaan, peserta.ID_PESERTA) > 0)
@@ -166,6 +171,35 @@ namespace FlashCalculation
                     return;
                 }
 
+                if (Properties.Settings.Default.trial != "Y")
+                {
+                    //Validasi flag
+                    string pflag = db.GetFlagKompetisi(pilihperlombaan, tglkompetisi);
+                    if (pflag == "Y")
+                    {
+                        if (Properties.Settings.Default.bahasa == "indonesia")
+                        {
+                            MessageBox.Show("Anda sudah pernah berpartisipasi dalam kompetisi ini sebelumnya.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("You have participated this competition before.");
+                        }
+                        return;
+                    }
+
+                    //Update Flag
+                    string msg = client.PostRequestUpdateFlag("api/pesertakompetisi/updateflag", pilihperlombaan);
+                    if (msg == "Flag update success")
+                    {
+                        //Update flag db local                    
+                        string flag = Encryptor.Encrypt("Y");
+                        db.Query("Update tb_kompetisi set START_FLAG = '" + flag + "' where ROW_ID = '" +
+                                        Encryptor.Encrypt(pilihperlombaan) + "' AND TANGGAL_KOMPETISI = '" +
+                                        Encryptor.Encrypt(tglkompetisi) + "'");
+                    }
+                }                    
+
                 textBox10.Enabled = false;
                 if(ptype == "V")
                 {
@@ -178,8 +212,13 @@ namespace FlashCalculation
                 lblSoal.Text = "READY ??";
                 comboBox1.Enabled = false;
 
-                dtkompetisi = db.GetKompetisiID(peserta.ID_PESERTA, pilihperlombaan);
-                dtSoalLomba = db.GetSoalKompetisiID(peserta.ID_PESERTA, pilihperlombaan);
+                dtkompetisi = Helper.DecryptDataTable(db.GetKompetisiID(peserta.ID_PESERTA, pilihperlombaan));
+                dtSoalLomba = Helper.DecryptDataTableSoal(db.GetSoalKompetisiID(peserta.ID_PESERTA, pilihperlombaan));
+                dtSoalLomba.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
+                dtSoalLomba = dtSoalLomba.DefaultView.ToTable();
+
+                dtkompetisi.AcceptChanges();
+                dtSoalLomba.AcceptChanges();
 
                 if (dtkompetisi.Rows.Count > 0)
                 {
@@ -1640,7 +1679,14 @@ namespace FlashCalculation
                         dr["kunci_jawaban"] = ikuncijawaban;
                         if (ijawaban == ikuncijawaban)
                         {
-                            dr["score_peserta"] = 100;
+                            if (strpertanyaanloop.Contains("÷") || strpertanyaanloop.Contains("x"))
+                            {
+                                dr["score_peserta"] = 50;
+                            }
+                            else
+                            {
+                                dr["score_peserta"] = 100;
+                            }                            
                         }
                         else
                         {
@@ -1676,6 +1722,12 @@ namespace FlashCalculation
                                "ROW_ID_KOMPETISI", "ID_PESERTA", "SOAL_NO", "PERTANYAAN", "JAWABAN_PESERTA", "JAWAB_DETIK_BERAPA",
                                 "JAWAB_DATE", "KUNCI_JAWABAN", "SCORE_PESERTA", "IS_KIRIM" };
                         lstrPrmHdrKeyCol = new string[3] { "ROW_ID_KOMPETISI", "ID_PESERTA", "SOAL_NO" };
+
+                        Helper.EncryptDataTable(idtJawaban).AcceptChanges();
+                        foreach (DataRow row in idtJawaban.Rows)
+                        {
+                            row.SetAdded();
+                        }
                         if (db.UpdateDataTable(idtJawaban, "tb_jawaban_kompetisi", lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol) != "OK")
                         {
 
@@ -1737,7 +1789,70 @@ namespace FlashCalculation
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            button1.Enabled = true;
+            string pilihperlombaan = comboBox1.SelectedValue.ToString();
+            string tglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
+            string pflag = db.GetFlagKompetisi(pilihperlombaan, tglkompetisi);
+            if (pflag == "Y")
+            {
+                button1.Enabled = false;
+            }
+            else
+            {
+                button1.Enabled = true;
+            }
+
+            DataTable dt = Helper.DecryptDataTable(db.GetKompetisiID(peserta.ID_PESERTA, comboBox1.SelectedValue.ToString()));
+            dt.AcceptChanges();
+            if(dt.Rows.Count > 0)
+            {
+                if(dt.Rows[0]["TIPE"].ToString() == "L")
+                {
+                    label23.Visible = true;
+                    comboBox2.Visible = true;
+                    if(dt.Rows[0]["BAHASA"].ToString() == "English")
+                    {
+                        for (int i = 0; i < dtsp.Rows.Count; i++)
+                        {
+                            if(comboBox2.SelectedValue.ToString() == Properties.Settings.Default.voice)
+                            {
+                                if(dtsp.Rows[i]["Id"].ToString() == Properties.Settings.Default.voice)
+                                {
+                                    comboBox2.SelectedValue = dtsp.Rows[i]["Id"].ToString();
+                                    comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
+                                    break;
+                                }
+                                else
+                                {
+                                    if (dtsp.Rows[i]["Name"].ToString().Contains("English"))
+                                    {
+                                        comboBox2.SelectedValue = dtsp.Rows[i]["Id"].ToString();
+                                        comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
+                                        break;
+                                    }
+                                }
+                            }                            
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < dtsp.Rows.Count; i++)
+                        {
+                            if (dtsp.Rows[i]["Name"].ToString().Contains("Indonesian"))
+                            {
+                                comboBox2.SelectedValue = dtsp.Rows[i]["Id"].ToString();
+                                comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
+                                break;
+                            }
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    label23.Visible = false;
+                    comboBox2.Visible = false;
+                }
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -2124,11 +2239,12 @@ namespace FlashCalculation
                 label8.Text = "Email";
                 label9.Text = "Telp";
                 label10.Text = "Alamat";
-                label12.Text = "Competition";
+                label12.Text = "Kompetisi"; 
+                label23.Text = "Suara";
 
-                button1.Text = "Start";
-                button2.Text = "Setting";
-                button3.Text = "Result";
+                button1.Text = "Mulai";
+                button2.Text = "Peraturan";
+                button3.Text = "Hasil";
             }
             else
             {
@@ -2142,12 +2258,46 @@ namespace FlashCalculation
                 label8.Text = "Email";
                 label9.Text = "Phone";
                 label10.Text = "Address";
-                label12.Text = "Kompetisi";
+                label12.Text = "Competition";
+                label23.Text = "Voice";
 
-                button1.Text = "Mulai";
-                button2.Text = "Peraturan";
-                button3.Text = "Hasil";
+                button1.Text = "Start";
+                button2.Text = "Setting";
+                button3.Text = "Result";
             }
+        }
+
+        private void LoadListSpeech()
+        {
+            speechSynthesizerObj.Dispose();
+            speechSynthesizerObj = new SpeechSynthesizer();
+
+            var installedVoices = speechSynthesizerObj.GetInstalledVoices();
+            if (installedVoices.Count == 0)
+            {
+                MessageBox.Show(this,
+                    "Your system don't have a 'Text to Speech' to make this work. Try install one for continue.",
+                    "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                dtsp.Clear();
+                dtsp.Columns.Add("Id", typeof(string));
+                dtsp.Columns.Add("Name", typeof(string));
+                dtsp.Columns.Add("Gender", typeof(string));
+
+                foreach (InstalledVoice voice in installedVoices)
+                {
+                    dtsp.Rows.Add(voice.VoiceInfo.Name, voice.VoiceInfo.Description.Replace("Microsoft ", "").Replace(" (United States)", "").Replace(" (Indonesia)", ""), voice.VoiceInfo.Gender);
+                }
+
+                dtsp.DefaultView.Sort = "Name ASC";
+                dtsp = dtsp.DefaultView.ToTable();
+
+                comboBox2.DataSource = dtsp;
+                comboBox2.DisplayMember = "Name";
+                comboBox2.ValueMember = "Id";
+            }            
         }
     }
 }

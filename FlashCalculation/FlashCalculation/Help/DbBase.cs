@@ -663,15 +663,40 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
-            parm.Value = prowid;
+            parm.Value = Encryptor.Encrypt(prowid);
             sqlite_cmd.Parameters.Add(parm);
             parm = SqlParam("@ptgl", DbType.String, ParameterDirection.Input);
-            parm.Value = ptgl;
+            parm.Value = Encryptor.Encrypt(ptgl);
             sqlite_cmd.Parameters.Add(parm);
 
             str = Convert.ToString(sqlite_cmd.ExecuteScalar());
 
-            return str;
+            return Encryptor.Decrypt(str);
+        }
+
+        public string GetFlagKompetisi(string prowid, string ptgl)
+        {
+            string str = "";
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT START_FLAG
+	                                    FROM tb_kompetisi
+	                                    WHERE ROW_ID =@prowid
+	                                    AND TANGGAL_KOMPETISI =@ptgl";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(prowid);
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@ptgl", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(ptgl);
+            sqlite_cmd.Parameters.Add(parm);
+
+            str = Convert.ToString(sqlite_cmd.ExecuteScalar());
+
+            return Encryptor.Decrypt(str);
         }
 
         public int GetJawabanKompetisi(string prowid, string ppeserta)
@@ -688,13 +713,14 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
-            parm.Value = prowid;
+            parm.Value = Encryptor.Encrypt(prowid);
             sqlite_cmd.Parameters.Add(parm);
             parm = SqlParam("@ppeserta", DbType.String, ParameterDirection.Input);
-            parm.Value = ppeserta;
+            parm.Value = Encryptor.Encrypt(ppeserta);
             sqlite_cmd.Parameters.Add(parm);
 
-            str = Convert.ToInt32(sqlite_cmd.ExecuteScalar());
+            string data = Convert.ToString(sqlite_cmd.ExecuteScalar());
+            str = Convert.ToInt32(data);
 
             return str;
         }
@@ -718,7 +744,9 @@ namespace FlashCalculation.Help
                                               tb_kompetisi.KATEGORI_CODE,   
                                               tb_kompetisi.KATEGORI_NAME,   
                                               tb_kompetisi.LAMA_PERLOMBAAN,   
-                                              tb_kompetisi.KECEPATAN  
+                                              tb_kompetisi.KECEPATAN,
+                                              tb_kompetisi.IS_TRIAL,
+                                              tb_kompetisi.BAHASA
                                          FROM tb_peserta_kompetisi, tb_kompetisi
                                         WHERE tb_peserta_kompetisi.ROW_ID_KOMPETISI = tb_kompetisi.ROW_ID
                                           AND tb_peserta_kompetisi.ID_PESERTA =@pid
@@ -727,10 +755,10 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
-            parm.Value = pid;
+            parm.Value = Encryptor.Encrypt(pid);
             sqlite_cmd.Parameters.Add(parm);
             parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
-            parm.Value = prowid;
+            parm.Value = Encryptor.Encrypt(prowid);
             sqlite_cmd.Parameters.Add(parm);
 
             SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
@@ -986,10 +1014,10 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
-            parm.Value = pid;
+            parm.Value = Encryptor.Encrypt(pid);
             sqlite_cmd.Parameters.Add(parm);
             parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
-            parm.Value = prowid;
+            parm.Value = Encryptor.Encrypt(prowid);
             sqlite_cmd.Parameters.Add(parm);
 
             SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
@@ -1049,7 +1077,7 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
-            parm.Value = pid;
+            parm.Value = Encryptor.Encrypt(pid);
             sqlite_cmd.Parameters.Add(parm);
 
             SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
@@ -1073,7 +1101,7 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
-            parm.Value = pid;
+            parm.Value = Encryptor.Encrypt(pid);
             sqlite_cmd.Parameters.Add(parm);
 
             SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
@@ -1107,10 +1135,10 @@ namespace FlashCalculation.Help
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
-            parm.Value = prowid;
+            parm.Value = Encryptor.Encrypt(prowid);
             sqlite_cmd.Parameters.Add(parm);
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
-            parm.Value = pid;
+            parm.Value = Encryptor.Encrypt(pid);
             sqlite_cmd.Parameters.Add(parm);
 
             SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);

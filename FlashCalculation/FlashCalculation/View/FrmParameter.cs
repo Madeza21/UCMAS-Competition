@@ -30,11 +30,17 @@ namespace FlashCalculation.View
         {
             db.OpenConnection();
 
-            dthdr = db.GetKompetisiView(rowid);
+            dthdr = Helper.DecryptDataTable(db.GetKompetisiView(rowid));
+            dthdr.AcceptChanges();
 
             SetHeader();
 
-            dtdtl = db.GetParameterKompetisiView(rowid);            
+            dtdtl = Helper.DecryptDataTable(db.GetParameterKompetisiView(rowid));
+            dtdtl.AcceptChanges();
+            dtdtl.Columns.Add("Int32_SOAL_DARI", typeof(int), "SOAL_DARI");
+
+            dtdtl.DefaultView.Sort = "Int32_SOAL_DARI ASC";
+            dtdtl = dtdtl.DefaultView.ToTable();
 
             dataGridView1.AutoGenerateColumns = false;
             dataGridView2.AutoGenerateColumns = false;
