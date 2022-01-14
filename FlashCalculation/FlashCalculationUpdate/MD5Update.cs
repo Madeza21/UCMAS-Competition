@@ -60,7 +60,7 @@ namespace FlashCalculationUpdate
                         }
                         else
                         {
-                            bolRes = true;
+                            bolRes = false;
                         }
                     }
                     if (!bolRes)

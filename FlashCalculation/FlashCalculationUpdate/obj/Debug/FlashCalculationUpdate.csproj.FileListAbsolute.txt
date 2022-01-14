@@ -3,6 +3,8 @@ D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Fl
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\FlashCalculationUpdate.pdb
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Newtonsoft.Json.dll
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Newtonsoft.Json.xml
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.AssemblyReference.cache
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.SuggestedBindingRedirects.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.FrmUpdate.resources
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.Properties.Resources.resources
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.GenerateResource.cache

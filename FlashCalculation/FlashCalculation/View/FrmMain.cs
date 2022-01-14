@@ -1705,7 +1705,14 @@ namespace FlashCalculation
                         dr2["kunci_jawaban"] = ikuncijawaban;
                         if (ijawaban == ikuncijawaban)
                         {
-                            dr2["score_peserta"] = 100;
+                            if (strpertanyaanloop.Contains("÷") || strpertanyaanloop.Contains("x"))
+                            {
+                                dr2["score_peserta"] = 50;
+                            }
+                            else
+                            {
+                                dr2["score_peserta"] = 100;
+                            }
                         }
                         else
                         {
