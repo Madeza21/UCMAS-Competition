@@ -96,6 +96,7 @@ D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.M
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Net.Http.Formatting.xml
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Numerics.Vectors.xml
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.AssemblyReference.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.SuggestedBindingRedirects.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\Interop.SpeechLib.dll
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.ResolveComReference.cache

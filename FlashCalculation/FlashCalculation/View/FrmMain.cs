@@ -1598,7 +1598,7 @@ namespace FlashCalculation
                 }
                 else
                 {
-                    if (Regex.IsMatch(textBox10.Text, "[^0-9]"))
+                    /*if (Regex.IsMatch(textBox10.Text, "[^0-9]"))
                     {
                         if (Properties.Settings.Default.bahasa == "indonesia")
                         {
@@ -1609,7 +1609,7 @@ namespace FlashCalculation
                             MessageBox.Show("Please input valid number.");
                         }
                         return;
-                    }
+                    }*/
                     lblSoal.Text = "";
                     if(datarow >= 0)
                     {
@@ -1879,6 +1879,21 @@ namespace FlashCalculation
         private void tlomba_Tick(object sender, EventArgs e)
         {
             TimerLomba();
+        }
+
+        private void textBox10_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Verify that the pressed key isn't CTRL or any non-numeric digit
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // If you want, you can allow decimal (float) numbers
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
         }
 
         private void Start()

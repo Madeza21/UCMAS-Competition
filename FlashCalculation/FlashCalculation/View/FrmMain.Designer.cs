@@ -42,7 +42,9 @@ namespace FlashCalculation
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label23 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
@@ -84,8 +86,6 @@ namespace FlashCalculation
             this.tdurlomba = new System.Windows.Forms.Timer(this.components);
             this.tlomba = new System.Windows.Forms.Timer(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label23 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -159,6 +159,7 @@ namespace FlashCalculation
             this.textBox10.Size = new System.Drawing.Size(983, 62);
             this.textBox10.TabIndex = 0;
             this.textBox10.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox10_KeyDown);
+            this.textBox10.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox10_KeyPress);
             // 
             // panel4
             // 
@@ -218,6 +219,15 @@ namespace FlashCalculation
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(849, 8);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(250, 21);
+            this.comboBox2.TabIndex = 1;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
@@ -226,6 +236,17 @@ namespace FlashCalculation
             this.comboBox1.Size = new System.Drawing.Size(340, 21);
             this.comboBox1.TabIndex = 1;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.ForeColor = System.Drawing.Color.Navy;
+            this.label23.Location = new System.Drawing.Point(777, 7);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(67, 19);
+            this.label23.TabIndex = 0;
+            this.label23.Text = "Suara :";
             // 
             // label12
             // 
@@ -686,26 +707,6 @@ namespace FlashCalculation
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.ForeColor = System.Drawing.Color.Navy;
-            this.label23.Location = new System.Drawing.Point(777, 7);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(67, 19);
-            this.label23.TabIndex = 0;
-            this.label23.Text = "Suara :";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(849, 8);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(250, 21);
-            this.comboBox2.TabIndex = 1;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // FrmMain
             // 
