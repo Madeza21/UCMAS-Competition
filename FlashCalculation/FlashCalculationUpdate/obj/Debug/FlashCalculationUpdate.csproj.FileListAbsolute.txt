@@ -1,14 +1,13 @@
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\FlashCalculationUpdate.exe.config
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\FlashCalculationUpdate.exe
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\FlashCalculationUpdate.pdb
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Update Flash Calculation.exe.config
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Update Flash Calculation.exe
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Update Flash Calculation.pdb
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Newtonsoft.Json.dll
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Newtonsoft.Json.xml
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.AssemblyReference.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.SuggestedBindingRedirects.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.FrmUpdate.resources
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.Properties.Resources.resources
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.GenerateResource.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.CoreCompileInputs.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.CopyComplete
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.exe
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.pdb
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Update Flash Calculation.exe
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Update Flash Calculation.pdb

@@ -8,7 +8,7 @@
     <ProjectGuid>{A9AC1279-D748-4F8D-89A8-485C6BBC6B6D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FlashCalculation</RootNamespace>
-    <AssemblyName>FlashCalculation</AssemblyName>
+    <AssemblyName>Flash Calculation</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

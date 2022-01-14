@@ -35,10 +35,10 @@ namespace FlashCalculationUpdate
                 //return;
             }
 
-            string path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "FlashCalculation.exe");
+            string path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Flash Calculation.exe");
             if (File.Exists(path))
             {
-                Process.Start("FlashCalculation.exe");
+                Process.Start("Flash Calculation.exe");
             }
             
             Application.Exit();
