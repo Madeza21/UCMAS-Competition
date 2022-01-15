@@ -71,29 +71,21 @@ namespace FlashCalculation
         private void FrmMain_Load(object sender, EventArgs e)
         {
             timer1.Start();
+            Visibled(false);
             //Properties.Settings.Default.siswa_id = "TES UBAH";
             this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             textBox10.Font = new Font(this.pfc.Families[0], 34, FontStyle.Bold);
             lblSoal.Font = new Font(this.pfc.Families[0], 72, FontStyle.Bold);
             lblNo.Font = new Font(this.pfc.Families[0], 10, FontStyle.Bold);
 
-            textBox1.Text = peserta.ID_PESERTA;
             label14.Text = peserta.ID_PESERTA;
-            textBox2.Text = peserta.NAMA_PESERTA;
             label15.Text = peserta.NAMA_PESERTA;
-            textBox3.Text = peserta.JENIS_KELAMIN;
             label16.Text = peserta.JENIS_KELAMIN == "L" ? "Laki-laki" : "Perempuan";
-            textBox4.Text = peserta.TEMPAT_LAHIR;
             label17.Text = peserta.TEMPAT_LAHIR;
-            textBox5.Text = peserta.TANGGAL_LAHIR;
             label18.Text = peserta.TANGGAL_LAHIR;
-            textBox6.Text = peserta.SEKOLAH_PESERTA;
             label19.Text = peserta.SEKOLAH_PESERTA;
-            textBox7.Text = peserta.EMAIL_PESERTA;
             label20.Text = peserta.EMAIL_PESERTA;
-            textBox8.Text = peserta.NO_TELP_PESERTA;
             label21.Text = peserta.NO_TELP_PESERTA;
-            textBox9.Text = peserta.ALAMAT_PESERTA;
             label13.Text = peserta.ALAMAT_PESERTA;
 
             db.OpenConnection();
@@ -126,6 +118,7 @@ namespace FlashCalculation
 
             speechSynthesizerObj = new SpeechSynthesizer();
             LoadListSpeech();
+            textBox10.Enabled = false;
             this.Cursor = System.Windows.Forms.Cursors.Default;
         }
 
@@ -1820,24 +1813,12 @@ namespace FlashCalculation
                     {
                         for (int i = 0; i < dtsp.Rows.Count; i++)
                         {
-                            if(comboBox2.SelectedValue.ToString() == Properties.Settings.Default.voice)
+                            if (dtsp.Rows[i]["Name"].ToString().Contains("English"))
                             {
-                                if(dtsp.Rows[i]["Id"].ToString() == Properties.Settings.Default.voice)
-                                {
-                                    comboBox2.SelectedValue = dtsp.Rows[i]["Id"].ToString();
-                                    comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
-                                    break;
-                                }
-                                else
-                                {
-                                    if (dtsp.Rows[i]["Name"].ToString().Contains("English"))
-                                    {
-                                        comboBox2.SelectedValue = dtsp.Rows[i]["Id"].ToString();
-                                        comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
-                                        break;
-                                    }
-                                }
-                            }                            
+                                //comboBox2.SelectedIndex = comboBox2.FindStringExact(dtsp.Rows[i]["Name"].ToString());
+                                comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
+                                break;
+                            }                                                 
                         }
                     }
                     else
@@ -1846,8 +1827,8 @@ namespace FlashCalculation
                         {
                             if (dtsp.Rows[i]["Name"].ToString().Contains("Indonesian"))
                             {
-                                comboBox2.SelectedValue = dtsp.Rows[i]["Id"].ToString();
                                 comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
+                                //comboBox2.SelectedIndex = comboBox2.FindStringExact(dtsp.Rows[i]["Name"].ToString());
                                 break;
                             }
                         }
@@ -1903,6 +1884,45 @@ namespace FlashCalculation
             }
         }
 
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            //250 66
+            if (panel2.Width == 250)
+            {
+                Visibled(false);
+                this.timer2.Start();
+            }
+            else if (panel2.Width == 65)
+            {
+                Visibled(true);
+                this.timer3.Start();
+            }
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (panel2.Width <= 65)
+            {                
+                this.timer2.Stop();
+            }
+            else
+            {
+                panel2.Width = panel2.Width - 5;
+            }                
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            if (panel2.Width >= 250)
+            {
+                this.timer3.Stop();
+            }
+            else
+            {
+                panel2.Width = panel2.Width + 5;
+            }                
+        }
+
         private void Start()
         {
             FuncTimer();
@@ -1953,7 +1973,7 @@ namespace FlashCalculation
                     speechSynthesizerObj = new SpeechSynthesizer();
                     speechSynthesizerObj.Volume = 100; // от 0 до 100
                     speechSynthesizerObj.Rate = speechRate; //от -10 до 10
-                    speechSynthesizerObj.SelectVoice(Properties.Settings.Default.voice);
+                    speechSynthesizerObj.SelectVoice(comboBox2.SelectedValue.ToString());
                     speechSynthesizerObj.SpeakAsync(strvoice);
                     speechSynthesizerObj.SpeakCompleted += SpeakComplete;
                     lblSoal.Text = "";
@@ -2320,6 +2340,31 @@ namespace FlashCalculation
                 comboBox2.DisplayMember = "Name";
                 comboBox2.ValueMember = "Id";
             }            
+        }
+
+        private void Visibled(bool flag)
+        {
+            label1.Visible = flag;
+            label2.Visible = flag;
+            label3.Visible = flag;
+            label4.Visible = flag;
+            label5.Visible = flag;
+            label6.Visible = flag;
+            label7.Visible = flag;
+            label8.Visible = flag;
+            label9.Visible = flag;
+            label10.Visible = flag;
+
+            label13.Visible = flag;
+            label14.Visible = flag;
+            label15.Visible = flag;
+            label16.Visible = flag;
+            label17.Visible = flag;
+            label18.Visible = flag;
+            label19.Visible = flag;
+            label20.Visible = flag;
+            label21.Visible = flag;
+            label22.Visible = flag;
         }
     }
 }

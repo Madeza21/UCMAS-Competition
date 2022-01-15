@@ -34,9 +34,6 @@ D:\Riyan M\Flash Calculation UCMAS .Net\FlashCalculation\FlashCalculation\obj\De
 D:\Riyan M\Flash Calculation UCMAS .Net\FlashCalculation\FlashCalculation\obj\Debug\Interop.SpeechLib.dll
 D:\Riyan M\Flash Calculation UCMAS .Net\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.ResolveComReference.cache
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ucmas.db3
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.exe.config
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.exe
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\FlashCalculation.pdb
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\EntityFramework.dll
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\Newtonsoft.Json.dll
@@ -69,8 +66,6 @@ C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\Flas
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.GenerateResource.cache
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.CoreCompileInputs.cache
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.CopyComplete
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.exe
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.pdb
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.AssemblyReference.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ucmas.db3
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\Flash Calculation.exe.config
@@ -110,3 +105,8 @@ D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCal
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.CopyComplete
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\Flash Calculation.exe
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\Flash Calculation.pdb
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\Flash Calculation.exe.config
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\Flash Calculation.exe
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\Flash Calculation.pdb
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\Flash Calculation.exe
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\Flash Calculation.pdb
