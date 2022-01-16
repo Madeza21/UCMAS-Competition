@@ -1,4 +1,5 @@
-﻿using FlashCalculation.Help;
+﻿using ClosedXML.Excel;
+using FlashCalculation.Help;
 using FlashCalculation.Model;
 using FlashCalculation.View;
 using System;
@@ -35,6 +36,7 @@ namespace FlashCalculation
         int errex = 0, datarow, speechRate = 0;
         decimal lamalomba, lamalombaori, speedmuncul, speedjeda, jumlahmuncul, speedbicara, lamajeda;
         string ptype, strvoice = "";
+        string rowidtrial = "";
 
         DbBase db = new DbBase();
         HttpRequest client = new HttpRequest();
@@ -149,6 +151,10 @@ namespace FlashCalculation
                 if(Properties.Settings.Default.trial == "Y")
                 {
                     db.Query("DELETE FROM  tb_jawaban_kompetisi WHERE ROW_ID_KOMPETISI = '" + Encryptor.Encrypt(pilihperlombaan) + "' AND ID_PESERTA = '" + Encryptor.Encrypt(peserta.ID_PESERTA) + "'");
+                    //selalu insert data trial
+                    var gid = Guid.NewGuid();
+                    rowidtrial = gid.ToString();
+                    db.InsertKompetisiTrial(rowidtrial, pilihperlombaan);
                 }
                 //Sudah ikut kompetisi
                 if(db.GetJawabanKompetisi(pilihperlombaan, peserta.ID_PESERTA) > 0)
@@ -1929,6 +1935,29 @@ namespace FlashCalculation
             
             tdurlomba.Interval = 1000;
             tdurlomba.Start();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            DataTable dt = Helper.DecryptDataTableSoal(db.GetSoalKompetisiID(peserta.ID_PESERTA, comboBox1.SelectedValue.ToString()));
+            dt.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
+            dt = dt.DefaultView.ToTable();
+            dt.AcceptChanges();
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
+            sfd.FileName = comboBox1.Text + "_" + DateTime.Now.ToString("ddMMyyyy") +".xlsx";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                if (!(dt.Rows.Count == 0))
+                {
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        wb.Worksheets.Add(dt, "Sheet1");
+                        wb.SaveAs(sfd.FileName);
+                    }
+                }
+            }         
         }
 
         private void stop()

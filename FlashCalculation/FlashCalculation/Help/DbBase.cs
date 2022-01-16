@@ -1147,5 +1147,31 @@ namespace FlashCalculation.Help
 
             return dt;
         }
+
+        public void InsertKompetisiTrial(string rowid, string rowidkompetisi)
+        {
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            SQLiteParameter parm = new SQLiteParameter();
+
+            sqlite_cmd.CommandText = @"INSERT INTO tb_kompetisi_trial ( ROW_ID, ROW_ID_KOMPETISI, CABANG_CODE, KOMPETISI_NAME, TANGGAL_KOMPETISI, JAM_MULAI, JAM_SAMPAI,
+			                    JENIS_CODE, JENIS_NAME, TIPE, ROW_ID_KATEGORI, KATEGORI_CODE, KATEGORI_NAME, LAMA_PERLOMBAAN, KECEPATAN, IS_TRIAL,
+                                BAHASA, START_FLAG) 
+								        VALUES
+                                SELECT @prowid, ROW_ID, CABANG_CODE, KOMPETISI_NAME, TANGGAL_KOMPETISI, JAM_MULAI, JAM_SAMPAI,
+			                    JENIS_CODE, JENIS_NAME, TIPE, ROW_ID_KATEGORI, KATEGORI_CODE, KATEGORI_NAME, LAMA_PERLOMBAAN, KECEPATAN, IS_TRIAL,
+                                BAHASA, START_FLAG FROM tb_kompetisi WHERE ROW_ID =@prowidkompetisi ";
+
+            sqlite_cmd.Parameters.Clear();
+
+            parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(rowid);
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@prowidkompetisi", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(rowidkompetisi);
+            sqlite_cmd.Parameters.Add(parm);
+
+            sqlite_cmd.ExecuteNonQuery();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FlashCalculation.Help;
+﻿using ClosedXML.Excel;
+using FlashCalculation.Help;
 using FlashCalculation.Model;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace FlashCalculation.View
 {
@@ -51,7 +51,9 @@ namespace FlashCalculation.View
             ChangeColor();
             Translate();
 
-            if(Properties.Settings.Default.trial == "Y")
+            label8.Text = Total(dtdtl).ToString();          
+
+            if (Properties.Settings.Default.trial == "Y")
             {
                 button2.Visible = false;
             }
@@ -94,7 +96,7 @@ namespace FlashCalculation.View
                 label3.Text = "Tanggal :";
                 label5.Text = "Tipe :";
                 label6.Text = "Jenis Kompetisi :";
-                label7.Text = "Kategori :";
+                label4.Text = "Kategori :";
 
                 //Result
                 Rest_1.HeaderText = "#";
@@ -105,6 +107,8 @@ namespace FlashCalculation.View
                 Rest_6.HeaderText = "Tanggal Jawab";
                 Rest_7.HeaderText = "Skor";
                 Rest_8.HeaderText = "Terkirim";
+
+                label7.Text = "Skor";
             }
             else
             {
@@ -119,7 +123,7 @@ namespace FlashCalculation.View
                 label3.Text = "Date :";
                 label5.Text = "Type :";
                 label6.Text = "Competition Type :";
-                label7.Text = "Category :";
+                label4.Text = "Category :";
 
                 //Result
                 Rest_1.HeaderText = "#";
@@ -130,6 +134,8 @@ namespace FlashCalculation.View
                 Rest_6.HeaderText = "Answer Date";
                 Rest_7.HeaderText = "Score";
                 Rest_8.HeaderText = "Send";
+
+                label7.Text = "Score";
             }
         }
 
@@ -215,67 +221,36 @@ namespace FlashCalculation.View
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ImportDataGridViewDataToExcelSheet();
-        }
-
-        private void ImportDataGridViewDataToExcelSheet()
-        {
-
-            Excel.Application xlApp;
-            Excel.Workbook xlWorkBook;
-            Excel.Worksheet xlWorkSheet;
-            object misValue = System.Reflection.Missing.Value;
-
-            xlApp = new Excel.Application();
-            xlWorkBook = xlApp.Workbooks.Add(misValue);
-            xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-
-            for (int x = 1; x < dataGridView1.Columns.Count + 1; x++)
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
+            sfd.FileName = textBox2.Text + "_" + DateTime.Now.ToString("ddMMyyyy") + ".xlsx";
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
-                xlWorkSheet.Cells[1, x] = dataGridView1.Columns[x - 1].HeaderText;
-            }
-
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
-            {
-                for (int j = 0; j < dataGridView1.Columns.Count; j++)
+                if (!(dtdtl.Rows.Count == 0))
                 {
-                    xlWorkSheet.Cells[i + 2, j + 1] = dataGridView1.Rows[i].Cells[j].Value.ToString();
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        wb.Worksheets.Add(dtdtl, "Sheet1");
+                        wb.SaveAs(sfd.FileName);
+                    }
                 }
             }
-
-            var saveFileDialoge = new SaveFileDialog();
-            saveFileDialoge.FileName = textBox2.Text + "_" + DateTime.Now.ToString("ddMMyyyy");
-            saveFileDialoge.DefaultExt = ".xlsx";
-            if (saveFileDialoge.ShowDialog() == DialogResult.OK)
-            {
-                xlWorkBook.SaveAs(saveFileDialoge.FileName, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-            }
-
-
-            xlWorkBook.Close(true, misValue, misValue);
-            xlApp.Quit();
-
-            releaseObject(xlWorkSheet);
-            releaseObject(xlWorkBook);
-            releaseObject(xlApp);
         }
 
-        private void releaseObject(object obj)
+        private decimal Total(DataTable dt)
         {
-            try
+            if(dt.Rows.Count > 0)
             {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                obj = null;
+                decimal total = 0;
+                for(int i = 0; i < dt.Rows.Count; i++)
+                {
+                    total += dt.Rows[i]["SCORE_PESERTA"].ToString() == "" ? 0 : Convert.ToDecimal(dt.Rows[i]["SCORE_PESERTA"].ToString());
+                }
+                return total;
             }
-            catch (Exception ex)
+            else
             {
-                obj = null;
-                MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
-            }
-            finally
-            {
-                GC.Collect();
+                return 0;
             }
         }
     }
