@@ -119,3 +119,13 @@ C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\Flas
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\Flash Calculation.exe
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\Flash Calculation.pdb
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.AssemblyReference.cache
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ClosedXML.dll
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\DocumentFormat.OpenXml.dll
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ExcelNumberFormat.dll
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.IO.Packaging.dll
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ClosedXML.pdb
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ClosedXML.xml
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\DocumentFormat.OpenXml.xml
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ExcelNumberFormat.xml
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.IO.Packaging.xml
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.AssemblyReference.cache

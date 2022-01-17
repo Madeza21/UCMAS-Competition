@@ -152,9 +152,11 @@ namespace FlashCalculation
                 {
                     db.Query("DELETE FROM  tb_jawaban_kompetisi WHERE ROW_ID_KOMPETISI = '" + Encryptor.Encrypt(pilihperlombaan) + "' AND ID_PESERTA = '" + Encryptor.Encrypt(peserta.ID_PESERTA) + "'");
                     //selalu insert data trial
+                    int linenum = db.CountKompetisiTrial(pilihperlombaan);
+                    
                     var gid = Guid.NewGuid();
                     rowidtrial = gid.ToString();
-                    db.InsertKompetisiTrial(rowidtrial, pilihperlombaan);
+                    db.InsertKompetisiTrial(rowidtrial, linenum.ToString(), pilihperlombaan, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 }
                 //Sudah ikut kompetisi
                 if(db.GetJawabanKompetisi(pilihperlombaan, peserta.ID_PESERTA) > 0)
@@ -1738,9 +1740,63 @@ namespace FlashCalculation
                         {
 
                         }
+
+                        #region Trial
+                        if (Properties.Settings.Default.trial == "Y")
+                        {
+                            DataTable dtJawabanTrial = db.GetJawabanKompetisiTrial("", "", "");
+                            DataRow dr3;
+                            dr3 = (DataRow)dtJawabanTrial.NewRow();
+
+                            dr3["row_id_hdr"] = rowidtrial;
+                            dr3["row_id_kompetisi"] = strrowidkomp;
+                            dr3["id_peserta"] = peserta.ID_PESERTA;
+                            dr3["soal_no"] = isoalno;
+                            dr3["pertanyaan"] = strpertanyaanloop;
+                            dr3["jawaban_peserta"] = ijawaban;
+                            dr3["jawab_detik_berapa"] = idetikberapa;
+                            dr3["jawab_date"] = DateTime.Now;
+                            dr3["kunci_jawaban"] = ikuncijawaban;
+                            if (ijawaban == ikuncijawaban)
+                            {
+                                if (strpertanyaanloop.Contains("÷") || strpertanyaanloop.Contains("x"))
+                                {
+                                    dr3["score_peserta"] = 50;
+                                }
+                                else
+                                {
+                                    dr3["score_peserta"] = 100;
+                                }
+                            }
+                            else
+                            {
+                                dr3["score_peserta"] = 0;
+                            }
+
+                            dr3["is_kirim"] = "N";
+
+                            dtJawabanTrial.Rows.Add(dr3);
+
+                            string[] lstrPrmHdrUpdateCol2, lstrPrmHdrKeyCol2;
+                            lstrPrmHdrUpdateCol2 = new string[11]{
+                               "ROW_ID_HDR", "ROW_ID_KOMPETISI", "ID_PESERTA", "SOAL_NO", "PERTANYAAN", "JAWABAN_PESERTA", "JAWAB_DETIK_BERAPA",
+                                "JAWAB_DATE", "KUNCI_JAWABAN", "SCORE_PESERTA", "IS_KIRIM" };
+                            lstrPrmHdrKeyCol2 = new string[4] { "ROW_ID_HDR", "ROW_ID_KOMPETISI", "ID_PESERTA", "SOAL_NO" };
+
+                            Helper.EncryptDataTable(dtJawabanTrial).AcceptChanges();
+                            foreach (DataRow row in dtJawabanTrial.Rows)
+                            {
+                                row.SetAdded();
+                            }
+                            if (db.UpdateDataTable(dtJawabanTrial, "tb_jawaban_kompetisi_trial", lstrPrmHdrUpdateCol2, lstrPrmHdrKeyCol2) != "OK")
+                            {
+
+                            }
+                        }
+                        #endregion Trial
                     }
-                    
-                    if(ptype == "V")
+
+                    if (ptype == "V")
                     {
                         textBox10.Enabled = true;
                         textBox10.Text = "";
