@@ -492,24 +492,32 @@ namespace FlashCalculation.Help
             return dt;
         }
 
-        public DataTable GetParameterKompetisi(string pid, string pdate)
+        public DataTable GetParameterKompetisi(string pid, string pdate, string prowid)
         {
+            string sql = "";
             DataTable dt = new DataTable();
 
             SQLiteCommand sqlite_cmd;
             sqlite_cmd = sqlite_conn.CreateCommand();
-            sqlite_cmd.CommandText = @"SELECT tb_parameter_kompetisi.ROW_ID_KOMPETISI, PARAMETER_ID, SOAL_DARI, SOAL_SAMPAI, PANJANG_DIGIT, JUMLAH_MUNCUL,
-                                              JML_BARIS_PER_MUNCUL, MAX_PANJANG_DIGIT, MAX_JML_DIGIT_PER_SOAL, JML_BARIS_PER_SOAL, MUNCUL_ANGKA_MINUS,
-                                              MUNCUL_ANGKA_PERKALIAN, DIGIT_PERKALIAN, MUNCUL_ANGKA_PEMBAGIAN, DIGIT_PEMBAGIAN, MUNCUL_ANGKA_DECIMAL,
-                                              DIGIT_DECIMAL, FONT_SIZE, tb_parameter_kompetisi.kecepatan, tb_kompetisi.KOMPETISI_NAME,
-                                              tb_kompetisi.JENIS_NAME, tb_kompetisi.TIPE, tb_kompetisi.KATEGORI_NAME, tb_kompetisi.BAHASA
-                                         FROM tb_parameter_kompetisi, tb_peserta_kompetisi, tb_kompetisi
-                                        WHERE tb_parameter_kompetisi.ROW_ID_KOMPETISI = tb_peserta_kompetisi.ROW_ID_KOMPETISI
-                                          AND tb_parameter_kompetisi.ROW_ID_KOMPETISI = tb_kompetisi.ROW_ID
-                                          AND ID_PESERTA =@pid
-                                          AND tb_kompetisi.TANGGAL_KOMPETISI =@pdate
-                                        ORDER BY tb_parameter_kompetisi.ROW_ID_KOMPETISI ASC, SOAL_DARI ASC";
+            sql = @"SELECT tb_parameter_kompetisi.ROW_ID_KOMPETISI, PARAMETER_ID, SOAL_DARI, SOAL_SAMPAI, PANJANG_DIGIT, JUMLAH_MUNCUL,
+                            JML_BARIS_PER_MUNCUL, MAX_PANJANG_DIGIT, MAX_JML_DIGIT_PER_SOAL, JML_BARIS_PER_SOAL, MUNCUL_ANGKA_MINUS,
+                            MUNCUL_ANGKA_PERKALIAN, DIGIT_PERKALIAN, MUNCUL_ANGKA_PEMBAGIAN, DIGIT_PEMBAGIAN, MUNCUL_ANGKA_DECIMAL,
+                            DIGIT_DECIMAL, FONT_SIZE, tb_parameter_kompetisi.kecepatan, tb_kompetisi.KOMPETISI_NAME,
+                            tb_kompetisi.JENIS_NAME, tb_kompetisi.TIPE, tb_kompetisi.KATEGORI_NAME, tb_kompetisi.BAHASA
+                        FROM tb_parameter_kompetisi, tb_peserta_kompetisi, tb_kompetisi
+                    WHERE tb_parameter_kompetisi.ROW_ID_KOMPETISI = tb_peserta_kompetisi.ROW_ID_KOMPETISI
+                        AND tb_parameter_kompetisi.ROW_ID_KOMPETISI = tb_kompetisi.ROW_ID
+                        AND ID_PESERTA =@pid
+                        AND tb_kompetisi.TANGGAL_KOMPETISI =@pdate ";
 
+            if(prowid != "")
+            {
+                sql += " AND tb_kompetisi.ROW_ID =@prowid ";
+            }
+
+            sql += " ORDER BY tb_parameter_kompetisi.ROW_ID_KOMPETISI ASC, SOAL_DARI ASC ";
+
+            sqlite_cmd.CommandText = sql;
             SQLiteParameter parm = new SQLiteParameter();
 
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
@@ -518,6 +526,12 @@ namespace FlashCalculation.Help
             parm = SqlParam("@pdate", DbType.String, ParameterDirection.Input);
             parm.Value = Encryptor.Encrypt(pdate);
             sqlite_cmd.Parameters.Add(parm);
+            if (prowid != "")
+            {
+                parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
+                parm.Value = Encryptor.Encrypt(prowid);
+                sqlite_cmd.Parameters.Add(parm);
+            }
 
             SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
 
@@ -1129,8 +1143,7 @@ namespace FlashCalculation.Help
                                                  tb_jawaban_kompetisi.IS_KIRIM  
                                             FROM tb_jawaban_kompetisi  
                                         WHERE tb_jawaban_kompetisi.ROW_ID_KOMPETISI =@prowid 
-                                        AND tb_jawaban_kompetisi.ID_PESERTA =@pid
-                                        ORDER BY tb_jawaban_kompetisi.SOAL_NO ASC";
+                                        AND tb_jawaban_kompetisi.ID_PESERTA =@pid ";
 
             SQLiteParameter parm = new SQLiteParameter();
 
@@ -1202,7 +1215,7 @@ namespace FlashCalculation.Help
             return str + 1;
         }
 
-        public DataTable GetJawabanKompetisiTrial(string prowid, string plinenum, string pid)
+        public DataTable GetJawabanKompetisiTrial(string prowid, string pid)
         {
             DataTable dt = new DataTable();
 
@@ -1210,8 +1223,7 @@ namespace FlashCalculation.Help
             sqlite_cmd = sqlite_conn.CreateCommand();
             sqlite_cmd.CommandText = @"SELECT *
                                          FROM tb_jawaban_kompetisi_trial
-                                        WHERE tb_jawaban_kompetisi_trial.ROW_ID =@prowid 
-                                          AND tb_jawaban_kompetisi_trial.LINE_NUM =@plinenum
+                                        WHERE tb_jawaban_kompetisi_trial.ROW_ID_HDR =@prowid 
                                           AND tb_jawaban_kompetisi_trial.ROW_ID_KOMPETISI =@pid";
 
             SQLiteParameter parm = new SQLiteParameter();
@@ -1219,8 +1231,128 @@ namespace FlashCalculation.Help
             parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
             parm.Value = Encryptor.Encrypt(prowid);
             sqlite_cmd.Parameters.Add(parm);
-            parm = SqlParam("@plinenum", DbType.String, ParameterDirection.Input);
-            parm.Value = Encryptor.Encrypt(plinenum);
+            parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(pid);
+            sqlite_cmd.Parameters.Add(parm);
+
+            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
+
+            dda.Fill(dt);
+
+            return dt;
+        }
+
+        public DataTable GetKompetisiTrialView(string pid, string prowid)
+        {
+            DataTable dt = new DataTable();
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT tb_kompetisi_trial.ROW_ID,
+                                             tb_kompetisi_trial.LINE_NUM,
+                                             tb_kompetisi_trial.ROW_ID_KOMPETISI,
+                                             tb_kompetisi_trial.CABANG_CODE,      
+                                             (SELECT tb_cabang.CABANG_NAME FROM tb_cabang WHERE tb_cabang.CABANG_CODE = tb_kompetisi_trial.CABANG_CODE) as CABANG_NAME,   
+                                             tb_kompetisi_trial.KOMPETISI_NAME,   
+                                             tb_kompetisi_trial.TANGGAL_KOMPETISI,   
+                                             tb_kompetisi_trial.JAM_MULAI,   
+                                             tb_kompetisi_trial.JAM_SAMPAI,   
+                                             tb_kompetisi_trial.JENIS_CODE,   
+                                             tb_kompetisi_trial.JENIS_NAME,   
+                                             tb_kompetisi_trial.TIPE,   
+                                             tb_kompetisi_trial.ROW_ID_KATEGORI,   
+                                             tb_kompetisi_trial.KATEGORI_CODE,   
+                                             tb_kompetisi_trial.KATEGORI_NAME,   
+                                             tb_kompetisi_trial.LAMA_PERLOMBAAN,   
+                                             tb_kompetisi_trial.KECEPATAN  
+                                        FROM tb_kompetisi_trial   
+                                    WHERE tb_kompetisi_trial.ROW_ID =@pid
+                                      AND tb_kompetisi_trial.ROW_ID_KOMPETISI =@prowid";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(pid);
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(prowid);
+            sqlite_cmd.Parameters.Add(parm);
+
+            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
+
+            dda.Fill(dt);
+
+            return dt;
+        }
+
+        public DataTable GetKompetisiTrialListView(string pid)
+        {
+            DataTable dt = new DataTable();
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"SELECT tb_kompetisi_trial.ROW_ID,
+                                             tb_kompetisi_trial.LINE_NUM,
+                                             tb_kompetisi_trial.ROW_ID_KOMPETISI,
+                                             tb_kompetisi_trial.CABANG_CODE,      
+                                             (SELECT tb_cabang.CABANG_NAME FROM tb_cabang WHERE tb_cabang.CABANG_CODE = tb_kompetisi_trial.CABANG_CODE) as CABANG_NAME,   
+                                             tb_kompetisi_trial.KOMPETISI_NAME,   
+                                             tb_kompetisi_trial.TANGGAL_KOMPETISI,   
+                                             tb_kompetisi_trial.JAM_MULAI,   
+                                             tb_kompetisi_trial.JAM_SAMPAI,   
+                                             tb_kompetisi_trial.JENIS_CODE,   
+                                             tb_kompetisi_trial.JENIS_NAME,   
+                                             tb_kompetisi_trial.TIPE,   
+                                             tb_kompetisi_trial.ROW_ID_KATEGORI,   
+                                             tb_kompetisi_trial.KATEGORI_CODE,   
+                                             tb_kompetisi_trial.KATEGORI_NAME,   
+                                             tb_kompetisi_trial.LAMA_PERLOMBAAN,   
+                                             tb_kompetisi_trial.KECEPATAN  
+                                        FROM tb_kompetisi_trial   
+                                    WHERE tb_kompetisi_trial.ROW_ID_KOMPETISI =@pid";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(pid);
+            sqlite_cmd.Parameters.Add(parm);
+
+            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
+
+            dda.Fill(dt);
+
+            return dt;
+        }
+
+        public DataTable GetJawabanTrialView(string pidhdr, string prowid, string pid)
+        {
+            DataTable dt = new DataTable();
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"  SELECT tb_jawaban_kompetisi_trial.ROW_ID_HDR, 
+                                                tb_jawaban_kompetisi_trial.ROW_ID_KOMPETISI,   
+                                                tb_jawaban_kompetisi_trial.ID_PESERTA,   
+                                                tb_jawaban_kompetisi_trial.SOAL_NO,   
+                                                tb_jawaban_kompetisi_trial.PERTANYAAN,   
+                                                tb_jawaban_kompetisi_trial.JAWABAN_PESERTA,   
+                                                tb_jawaban_kompetisi_trial.JAWAB_DETIK_BERAPA,   
+                                                tb_jawaban_kompetisi_trial.JAWAB_DATE,   
+                                                tb_jawaban_kompetisi_trial.KUNCI_JAWABAN,   
+                                                tb_jawaban_kompetisi_trial.SCORE_PESERTA,   
+                                                tb_jawaban_kompetisi_trial.IS_KIRIM  
+                                           FROM tb_jawaban_kompetisi_trial  
+                                          WHERE tb_jawaban_kompetisi_trial.ROW_ID_HDR =@pidhdr
+                                            AND tb_jawaban_kompetisi_trial.ROW_ID_KOMPETISI =@prowid 
+                                            AND tb_jawaban_kompetisi_trial.ID_PESERTA =@pid ";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@pidhdr", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(pidhdr);
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(prowid);
             sqlite_cmd.Parameters.Add(parm);
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
             parm.Value = Encryptor.Encrypt(pid);

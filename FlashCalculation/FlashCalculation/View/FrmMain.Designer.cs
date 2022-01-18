@@ -39,6 +39,7 @@ namespace FlashCalculation
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -172,6 +173,7 @@ namespace FlashCalculation
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.White;
+            this.panel8.Controls.Add(this.checkBox1);
             this.panel8.Controls.Add(this.button3);
             this.panel8.Controls.Add(this.button2);
             this.panel8.Controls.Add(this.button1);
@@ -185,10 +187,21 @@ namespace FlashCalculation
             this.panel8.Size = new System.Drawing.Size(1168, 37);
             this.panel8.TabIndex = 1;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(419, 10);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(72, 17);
+            this.checkBox1.TabIndex = 5;
+            this.checkBox1.Text = "Soal Baru";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Visible = false;
+            // 
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(623, 7);
+            this.button3.Location = new System.Drawing.Point(711, 7);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(84, 23);
             this.button3.TabIndex = 4;
@@ -199,7 +212,7 @@ namespace FlashCalculation
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(533, 7);
+            this.button2.Location = new System.Drawing.Point(621, 7);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(84, 23);
             this.button2.TabIndex = 3;
@@ -210,7 +223,7 @@ namespace FlashCalculation
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(443, 7);
+            this.button1.Location = new System.Drawing.Point(531, 7);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(84, 23);
             this.button1.TabIndex = 2;
@@ -222,9 +235,9 @@ namespace FlashCalculation
             // 
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(814, 8);
+            this.comboBox2.Location = new System.Drawing.Point(887, 8);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(250, 21);
+            this.comboBox2.Size = new System.Drawing.Size(235, 21);
             this.comboBox2.TabIndex = 1;
             // 
             // comboBox1
@@ -233,7 +246,7 @@ namespace FlashCalculation
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(112, 8);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(309, 21);
+            this.comboBox1.Size = new System.Drawing.Size(298, 21);
             this.comboBox1.TabIndex = 1;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -242,7 +255,7 @@ namespace FlashCalculation
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.Color.Navy;
-            this.label23.Location = new System.Drawing.Point(742, 7);
+            this.label23.Location = new System.Drawing.Point(815, 7);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(67, 19);
             this.label23.TabIndex = 0;
@@ -707,5 +720,6 @@ namespace FlashCalculation
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Timer timer3;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

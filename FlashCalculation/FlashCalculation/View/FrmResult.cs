@@ -32,18 +32,70 @@ namespace FlashCalculation.View
 
         private void FrmResult_Load(object sender, EventArgs e)
         {
-            db.OpenConnection();
+            db.OpenConnection();            
 
-            dthdr = Helper.DecryptDataTable(db.GetKompetisiView(rowid));
-            dthdr.AcceptChanges();
+            if (Properties.Settings.Default.trial == "Y")
+            {
+                label9.Visible = true;
+                comboBox1.Visible = true;
+                button2.Visible = false;
 
-            SetHeader();
+                DataTable dt = new DataTable();
+                dt = Helper.DecryptDataTable(db.GetKompetisiTrialListView(rowid));
+                dt.AcceptChanges();
+                dt.Columns.Add("DESKRIPSI", typeof(string), "KOMPETISI_NAME + ' (' + LINE_NUM + ')'");
+                dt.Columns.Add("LINE_NUM_SORT", typeof(int), "LINE_NUM");
+                dt.DefaultView.Sort = "LINE_NUM_SORT DESC";
+                dt = dt.DefaultView.ToTable();
 
-            dtdtl = Helper.DecryptDataTable(db.GetJawabanView(rowid, Properties.Settings.Default.siswa_id));
-            dtdtl.AcceptChanges();
-            dtdtl.Columns.Add("Int32_SOAL_NO", typeof(int), "SOAL_NO");
-            dtdtl.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, Int32_SOAL_NO ASC";
-            dtdtl = dtdtl.DefaultView.ToTable();
+                comboBox1.DataSource = dt;
+                comboBox1.DisplayMember = "DESKRIPSI";
+                comboBox1.ValueMember = "ROW_ID";
+
+                if(comboBox1.SelectedValue.ToString() != "")
+                {
+                    dthdr = Helper.DecryptDataTable(db.GetKompetisiTrialView(comboBox1.SelectedValue.ToString(), rowid));
+                    dthdr.AcceptChanges();
+
+                    dtdtl = Helper.DecryptDataTable(db.GetJawabanTrialView(comboBox1.SelectedValue.ToString(),rowid, Properties.Settings.Default.siswa_id));
+                    dtdtl.AcceptChanges();
+                }
+                else
+                {
+                    dthdr = Helper.DecryptDataTable(db.GetKompetisiTrialView(dt.Rows[0]["ROW_ID"].ToString(), rowid));
+                    dthdr.AcceptChanges();
+
+                    dtdtl = Helper.DecryptDataTable(db.GetJawabanTrialView(dt.Rows[0]["ROW_ID"].ToString(),rowid, Properties.Settings.Default.siswa_id));
+                    dtdtl.AcceptChanges();
+                }
+
+                SetHeader();
+
+                
+                dtdtl.Columns.Add("SOAL_NO_SORT", typeof(int), "SOAL_NO");
+                dtdtl.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_NO_SORT ASC";
+                dtdtl = dtdtl.DefaultView.ToTable();
+
+                Rest_8.Visible = false;
+
+            }
+            else
+            {
+                label9.Visible = false;
+                comboBox1.Visible = false;
+                button2.Visible = true;
+
+                dthdr = Helper.DecryptDataTable(db.GetKompetisiView(rowid));
+                dthdr.AcceptChanges();
+
+                SetHeader();
+
+                dtdtl = Helper.DecryptDataTable(db.GetJawabanView(rowid, Properties.Settings.Default.siswa_id));
+                dtdtl.AcceptChanges();
+                dtdtl.Columns.Add("SOAL_NO_SORT", typeof(int), "SOAL_NO");
+                dtdtl.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_NO_SORT ASC";
+                dtdtl = dtdtl.DefaultView.ToTable();
+            }
 
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.DataSource = dtdtl;
@@ -52,15 +104,6 @@ namespace FlashCalculation.View
             Translate();
 
             label8.Text = Total(dtdtl).ToString();          
-
-            if (Properties.Settings.Default.trial == "Y")
-            {
-                button2.Visible = false;
-            }
-            else
-            {
-                button2.Visible = true;
-            }
         }
 
         private void SetHeader()
@@ -98,6 +141,8 @@ namespace FlashCalculation.View
                 label6.Text = "Jenis Kompetisi :";
                 label4.Text = "Kategori :";
 
+                label9.Text = "History Kompetisi";
+
                 //Result
                 Rest_1.HeaderText = "#";
                 Rest_2.HeaderText = "Pertanyaan";
@@ -124,6 +169,8 @@ namespace FlashCalculation.View
                 label5.Text = "Type :";
                 label6.Text = "Competition Type :";
                 label4.Text = "Category :";
+
+                label9.Text = "Competition History";
 
                 //Result
                 Rest_1.HeaderText = "#";
@@ -251,6 +298,29 @@ namespace FlashCalculation.View
             else
             {
                 return 0;
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedValue.ToString() != "")
+            {
+                dthdr = Helper.DecryptDataTable(db.GetKompetisiTrialView(comboBox1.SelectedValue.ToString(), rowid));
+                dthdr.AcceptChanges();
+
+                dtdtl = Helper.DecryptDataTable(db.GetJawabanTrialView(comboBox1.SelectedValue.ToString(), rowid, Properties.Settings.Default.siswa_id));
+                dtdtl.AcceptChanges();
+
+                //SetHeader();
+
+                dtdtl.Columns.Add("SOAL_NO_SORT", typeof(int), "SOAL_NO");
+                dtdtl.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_NO_SORT ASC";
+                dtdtl = dtdtl.DefaultView.ToTable();
+
+                dataGridView1.AutoGenerateColumns = false;
+                dataGridView1.DataSource = dtdtl;
+
+                label8.Text = Total(dtdtl).ToString();
             }
         }
     }
