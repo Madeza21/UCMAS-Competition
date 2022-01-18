@@ -96,8 +96,8 @@ namespace FlashCalculation
             this.Text = db.GetAppConfig("LBL");
             label11.Text = db.GetAppConfig("LBK");
 
-            label23.Visible = false;
-            comboBox2.Visible = false;
+            //label23.Visible = false;
+            //comboBox2.Visible = false;
 
             //Load Kompetisi
             DataTable dtkom = Helper.DecryptDataTable(db.GetKompetisi(peserta.ID_PESERTA, DateTime.Now.ToString("yyyy-MM-dd"), Properties.Settings.Default.trial));
@@ -122,156 +122,14 @@ namespace FlashCalculation
             LoadListSpeech();
             textBox10.Enabled = false;
 
-            if (Properties.Settings.Default.trial == "Y")
-            {
-                checkBox1.Visible = true;
-            }
-            else
-            {
-                checkBox1.Visible = false;
-            }
+            SetType(dtkom);
+
             this.Cursor = System.Windows.Forms.Cursors.Default;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string pilihperlombaan;
-            string tglkompetisi;
-            decimal dlamalomba;
-
-            pilihperlombaan = comboBox1.SelectedValue.ToString();
-            tglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
-
-            if(pilihperlombaan == "")
-            {
-                if(Properties.Settings.Default.bahasa == "indonesia")
-                {
-                    MessageBox.Show("Mohon Kompetisi dipilih terlebih dahulu.");
-                }
-                else
-                {
-                    MessageBox.Show("Please choose the competition first.");
-                }
-                return;
-            }
-            else
-            {
-                ptype = db.GetTypeKompetisi(pilihperlombaan, tglkompetisi);
-                if(Properties.Settings.Default.trial == "Y")
-                {
-                    db.Query("DELETE FROM  tb_jawaban_kompetisi WHERE ROW_ID_KOMPETISI = '" + Encryptor.Encrypt(pilihperlombaan) + "' AND ID_PESERTA = '" + Encryptor.Encrypt(peserta.ID_PESERTA) + "'");
-                    //Generate ulang soal
-                    if (checkBox1.Checked)
-                    {
-                        //Load dummy soal kompetisi
-                        this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-                        dtSoal = db.GetSoalKompetisi("");
-                        SetSoalKompetisi(pilihperlombaan);
-                        this.Cursor = System.Windows.Forms.Cursors.Default;
-                    }
-                    //selalu insert data trial
-                    int linenum = db.CountKompetisiTrial(pilihperlombaan);
-                    
-                    var gid = Guid.NewGuid();
-                    rowidtrial = gid.ToString();
-                    db.InsertKompetisiTrial(rowidtrial, linenum.ToString(), pilihperlombaan, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                }
-                //Sudah ikut kompetisi
-                if(db.GetJawabanKompetisi(pilihperlombaan, peserta.ID_PESERTA) > 0)
-                {
-                    if (Properties.Settings.Default.bahasa == "indonesia")
-                    {
-                        MessageBox.Show("Anda sudah pernah berpartisipasi dalam kompetisi ini sebelumnya.");
-                    }
-                    else
-                    {
-                        MessageBox.Show("You have participated this competition before.");
-                    }
-                    return;
-                }
-
-                if (Properties.Settings.Default.trial != "Y")
-                {
-                    //Validasi flag
-                    string pflag = db.GetFlagKompetisi(pilihperlombaan, tglkompetisi);
-                    if (pflag == "Y")
-                    {
-                        if (Properties.Settings.Default.bahasa == "indonesia")
-                        {
-                            MessageBox.Show("Anda sudah pernah berpartisipasi dalam kompetisi ini sebelumnya.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("You have participated this competition before.");
-                        }
-                        return;
-                    }
-
-                    //Update Flag
-                    string msg = client.PostRequestUpdateFlag("api/pesertakompetisi/updateflag", pilihperlombaan);
-                    if (msg == "Flag update success")
-                    {
-                        //Update flag db local                    
-                        string flag = Encryptor.Encrypt("Y");
-                        db.Query("Update tb_kompetisi set START_FLAG = '" + flag + "' where ROW_ID = '" +
-                                        Encryptor.Encrypt(pilihperlombaan) + "' AND TANGGAL_KOMPETISI = '" +
-                                        Encryptor.Encrypt(tglkompetisi) + "'");
-                    }
-                }                    
-
-                textBox10.Enabled = false;
-                if(ptype == "V")
-                {
-                    textBox10.Enabled = true;
-                }
-                else
-                {
-                    textBox10.Enabled = false;
-                }
-                lblSoal.Text = "READY ??";
-                comboBox1.Enabled = false;
-
-                dtkompetisi = Helper.DecryptDataTable(db.GetKompetisiID(peserta.ID_PESERTA, pilihperlombaan));
-                dtSoalLomba = Helper.DecryptDataTableSoal(db.GetSoalKompetisiID(peserta.ID_PESERTA, pilihperlombaan));
-                dtSoalLomba.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
-                dtSoalLomba = dtSoalLomba.DefaultView.ToTable();
-
-                dtkompetisi.AcceptChanges();
-                dtSoalLomba.AcceptChanges();
-
-                if (dtkompetisi.Rows.Count > 0)
-                {
-                    dlamalomba = dtkompetisi.Rows[0]["lama_perlombaan"].ToString() == "" ? 0 : Convert.ToDecimal(dtkompetisi.Rows[0]["lama_perlombaan"].ToString());
-                    lamalombaori = dlamalomba + 1;
-
-                    if (ptype == "L")
-                    {                        
-                        dlamalomba = dlamalomba + 7;
-                    }
-                    else
-                    {
-                        dlamalomba = dlamalomba + 4;
-                    }
-
-                    lamalomba = dlamalomba;
-                    if (dtSoalLomba.Rows.Count > 0)
-                    {
-                        //set kecepatan per soal
-                        speedmuncul = dtSoalLomba.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[0]["kecepatan"].ToString());
-                        speedjeda = dtSoalLomba.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[0]["kecepatan"].ToString());
-
-                        datarow = 0;
-                        jumlahmuncul = 0;
-
-                    }
-                    //Start Waktu Perlombaan
-                    Start();
-                }
-
-                button1.Enabled = false;
-                button2.Enabled = false;
-                button3.Enabled = false;
-            }
+            //proses di pindahkan pakai mouse click
         }
 
         private string RandomAngka(int pdigit)
@@ -1858,13 +1716,23 @@ namespace FlashCalculation
 
             DataTable dt = Helper.DecryptDataTable(db.GetKompetisiID(peserta.ID_PESERTA, comboBox1.SelectedValue.ToString()));
             dt.AcceptChanges();
-            if(dt.Rows.Count > 0)
+            SetType(dt);
+        }
+
+        private void SetType(DataTable dt)
+        {
+            if (dt.Rows.Count > 0)
             {
-                if(dt.Rows[0]["TIPE"].ToString() == "L")
+                if (dt.Rows[0]["TIPE"].ToString() == "L")
                 {
                     label23.Visible = true;
                     comboBox2.Visible = true;
-                    if(dt.Rows[0]["BAHASA"].ToString() == "English")
+
+                    button4.Visible = false;
+                    button5.Visible = false;
+                    button6.Visible = false;
+
+                    if (dt.Rows[0]["BAHASA"].ToString() == "English")
                     {
                         for (int i = 0; i < dtsp.Rows.Count; i++)
                         {
@@ -1873,7 +1741,7 @@ namespace FlashCalculation
                                 //comboBox2.SelectedIndex = comboBox2.FindStringExact(dtsp.Rows[i]["Name"].ToString());
                                 comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
                                 break;
-                            }                                                 
+                            }
                         }
                     }
                     else
@@ -1888,16 +1756,23 @@ namespace FlashCalculation
                             }
                         }
                     }
-                    
+
                 }
                 else
                 {
                     label23.Visible = false;
                     comboBox2.Visible = false;
 
+                    button4.Visible = false;
+                    button5.Visible = false;
+                    button6.Visible = false;
+
                     //Buatkan Proses untuk visual bisa pilih soal yang dikerjakan terlebih dahulu misal perkalian atau pembagian terlebih dahulu
                     if (dt.Rows[0]["TIPE"].ToString() == "V")
                     {
+                        button4.Visible = true;
+                        button5.Visible = true;
+                        button6.Visible = true;
                         //Ongoing
                     }
                 }
@@ -2015,6 +1890,147 @@ namespace FlashCalculation
             }         
         }
 
+        private void button1_MouseClick(object sender, MouseEventArgs e)
+        {
+            string pilihperlombaan;
+            string tglkompetisi;
+            decimal dlamalomba;
+
+            pilihperlombaan = comboBox1.SelectedValue.ToString();
+            tglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
+
+            if (pilihperlombaan == "")
+            {
+                if (Properties.Settings.Default.bahasa == "indonesia")
+                {
+                    MessageBox.Show("Mohon Kompetisi dipilih terlebih dahulu.");
+                }
+                else
+                {
+                    MessageBox.Show("Please choose the competition first.");
+                }
+                return;
+            }
+            else
+            {
+                ptype = db.GetTypeKompetisi(pilihperlombaan, tglkompetisi);
+                if (Properties.Settings.Default.trial == "Y")
+                {
+                    db.Query("DELETE FROM  tb_jawaban_kompetisi WHERE ROW_ID_KOMPETISI = '" + Encryptor.Encrypt(pilihperlombaan) + "' AND ID_PESERTA = '" + Encryptor.Encrypt(peserta.ID_PESERTA) + "'");
+                    //Generate ulang soal
+                    if (checkBox1.Checked)
+                    {
+                        //Load dummy soal kompetisi
+                        this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+                        dtSoal = db.GetSoalKompetisi("");
+                        SetSoalKompetisi(pilihperlombaan);
+                        this.Cursor = System.Windows.Forms.Cursors.Default;
+                    }
+                    //selalu insert data trial
+                    int linenum = db.CountKompetisiTrial(pilihperlombaan);
+
+                    var gid = Guid.NewGuid();
+                    rowidtrial = gid.ToString();
+                    db.InsertKompetisiTrial(rowidtrial, linenum.ToString(), pilihperlombaan, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                }
+                //Sudah ikut kompetisi
+                if (db.GetJawabanKompetisi(pilihperlombaan, peserta.ID_PESERTA) > 0)
+                {
+                    if (Properties.Settings.Default.bahasa == "indonesia")
+                    {
+                        MessageBox.Show("Anda sudah pernah berpartisipasi dalam kompetisi ini sebelumnya.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("You have participated this competition before.");
+                    }
+                    return;
+                }
+
+                if (Properties.Settings.Default.trial != "Y")
+                {
+                    //Validasi flag
+                    string pflag = db.GetFlagKompetisi(pilihperlombaan, tglkompetisi);
+                    if (pflag == "Y")
+                    {
+                        if (Properties.Settings.Default.bahasa == "indonesia")
+                        {
+                            MessageBox.Show("Anda sudah pernah berpartisipasi dalam kompetisi ini sebelumnya.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("You have participated this competition before.");
+                        }
+                        return;
+                    }
+
+                    //Update Flag
+                    string msg = client.PostRequestUpdateFlag("api/pesertakompetisi/updateflag", pilihperlombaan);
+                    if (msg == "Flag update success")
+                    {
+                        //Update flag db local                    
+                        string flag = Encryptor.Encrypt("Y");
+                        db.Query("Update tb_kompetisi set START_FLAG = '" + flag + "' where ROW_ID = '" +
+                                        Encryptor.Encrypt(pilihperlombaan) + "' AND TANGGAL_KOMPETISI = '" +
+                                        Encryptor.Encrypt(tglkompetisi) + "'");
+                    }
+                }
+
+                textBox10.Enabled = false;
+                if (ptype == "V")
+                {
+                    textBox10.Enabled = true;
+                }
+                else
+                {
+                    textBox10.Enabled = false;
+                }
+                lblSoal.Text = "READY ??";
+                comboBox1.Enabled = false;
+
+                dtkompetisi = Helper.DecryptDataTable(db.GetKompetisiID(peserta.ID_PESERTA, pilihperlombaan));
+                dtSoalLomba = Helper.DecryptDataTableSoal(db.GetSoalKompetisiID(peserta.ID_PESERTA, pilihperlombaan));
+                dtSoalLomba.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
+                dtSoalLomba = dtSoalLomba.DefaultView.ToTable();
+
+                dtkompetisi.AcceptChanges();
+                dtSoalLomba.AcceptChanges();
+
+                if (dtkompetisi.Rows.Count > 0)
+                {
+                    dlamalomba = dtkompetisi.Rows[0]["lama_perlombaan"].ToString() == "" ? 0 : Convert.ToDecimal(dtkompetisi.Rows[0]["lama_perlombaan"].ToString());
+                    lamalombaori = dlamalomba + 1;
+
+                    if (ptype == "L")
+                    {
+                        dlamalomba = dlamalomba + 7;
+                    }
+                    else
+                    {
+                        dlamalomba = dlamalomba + 4;
+                    }
+
+                    lamalomba = dlamalomba;
+                    if (dtSoalLomba.Rows.Count > 0)
+                    {
+                        //set kecepatan per soal
+                        speedmuncul = dtSoalLomba.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[0]["kecepatan"].ToString());
+                        speedjeda = dtSoalLomba.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[0]["kecepatan"].ToString());
+
+                        datarow = 0;
+                        jumlahmuncul = 0;
+
+                    }
+                    //Start Waktu Perlombaan
+                    Start();
+                }
+
+                button1.Enabled = false;
+                button2.Enabled = false;
+                button3.Enabled = false;
+            }
+        }
+
         private void stop()
         {
             tdurlomba.Stop();
@@ -2090,10 +2106,12 @@ namespace FlashCalculation
                 if (Properties.Settings.Default.trial == "Y")
                 {
                     button1.Enabled = true;
+                    checkBox1.Visible = true;                    
                 }
                 else
                 {
                     button1.Enabled = false;
+                    checkBox1.Visible= false;
                 }
                     
                 button2.Enabled = true;
@@ -2116,7 +2134,7 @@ namespace FlashCalculation
                     }
                     speechSynthesizerObj.Dispose();
                 }
-
+                button3.Focus();
             }
             else
             {

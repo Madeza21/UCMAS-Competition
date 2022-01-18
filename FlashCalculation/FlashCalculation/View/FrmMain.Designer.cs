@@ -39,6 +39,9 @@ namespace FlashCalculation
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -173,6 +176,9 @@ namespace FlashCalculation
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.White;
+            this.panel8.Controls.Add(this.button6);
+            this.panel8.Controls.Add(this.button4);
+            this.panel8.Controls.Add(this.button5);
             this.panel8.Controls.Add(this.checkBox1);
             this.panel8.Controls.Add(this.button3);
             this.panel8.Controls.Add(this.button2);
@@ -186,6 +192,36 @@ namespace FlashCalculation
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(1168, 37);
             this.panel8.TabIndex = 1;
+            // 
+            // button6
+            // 
+            this.button6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.Location = new System.Drawing.Point(1048, 7);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(84, 23);
+            this.button6.TabIndex = 6;
+            this.button6.Text = "÷";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(868, 7);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(84, 23);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "+/-";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.Location = new System.Drawing.Point(958, 7);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(84, 23);
+            this.button5.TabIndex = 7;
+            this.button5.Text = "x";
+            this.button5.UseVisualStyleBackColor = true;
             // 
             // checkBox1
             // 
@@ -230,6 +266,7 @@ namespace FlashCalculation
             this.button1.Text = "Mulai";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
             // 
             // comboBox2
             // 
@@ -721,5 +758,8 @@ namespace FlashCalculation
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Timer timer3;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
     }
 }

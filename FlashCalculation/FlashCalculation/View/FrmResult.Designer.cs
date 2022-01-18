@@ -40,6 +40,7 @@ namespace FlashCalculation.View
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmResult));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
@@ -49,6 +50,7 @@ namespace FlashCalculation.View
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -69,8 +71,6 @@ namespace FlashCalculation.View
             this.Rest_6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rest_7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rest_8 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.label9 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -104,6 +104,16 @@ namespace FlashCalculation.View
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(912, 136);
             this.panel1.TabIndex = 0;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(534, 95);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(335, 21);
+            this.comboBox1.TabIndex = 17;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label8
             // 
@@ -189,6 +199,15 @@ namespace FlashCalculation.View
             this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(293, 20);
             this.textBox2.TabIndex = 12;
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(423, 98);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(108, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "History Kompetisi :";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // textBox1
             // 
@@ -416,24 +435,6 @@ namespace FlashCalculation.View
             this.Rest_8.ReadOnly = true;
             this.Rest_8.TrueValue = "Y";
             this.Rest_8.Width = 50;
-            // 
-            // label9
-            // 
-            this.label9.Location = new System.Drawing.Point(423, 98);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(108, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "History Kompetisi :";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(534, 95);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(335, 21);
-            this.comboBox1.TabIndex = 17;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // FrmResult
             // 

@@ -51,23 +51,34 @@ namespace FlashCalculation.View
                 comboBox1.DataSource = dt;
                 comboBox1.DisplayMember = "DESKRIPSI";
                 comboBox1.ValueMember = "ROW_ID";
-
-                if(comboBox1.SelectedValue.ToString() != "")
+                if(dt.Rows.Count > 0)
                 {
-                    dthdr = Helper.DecryptDataTable(db.GetKompetisiTrialView(comboBox1.SelectedValue.ToString(), rowid));
-                    dthdr.AcceptChanges();
+                    if (comboBox1.SelectedValue.ToString() != "")
+                    {
+                        dthdr = Helper.DecryptDataTable(db.GetKompetisiTrialView(comboBox1.SelectedValue.ToString(), rowid));
+                        dthdr.AcceptChanges();
 
-                    dtdtl = Helper.DecryptDataTable(db.GetJawabanTrialView(comboBox1.SelectedValue.ToString(),rowid, Properties.Settings.Default.siswa_id));
-                    dtdtl.AcceptChanges();
+                        dtdtl = Helper.DecryptDataTable(db.GetJawabanTrialView(comboBox1.SelectedValue.ToString(), rowid, Properties.Settings.Default.siswa_id));
+                        dtdtl.AcceptChanges();
+                    }
+                    else
+                    {
+                        dthdr = Helper.DecryptDataTable(db.GetKompetisiTrialView(dt.Rows[0]["ROW_ID"].ToString(), rowid));
+                        dthdr.AcceptChanges();
+
+                        dtdtl = Helper.DecryptDataTable(db.GetJawabanTrialView(dt.Rows[0]["ROW_ID"].ToString(), rowid, Properties.Settings.Default.siswa_id));
+                        dtdtl.AcceptChanges();
+                    }
                 }
                 else
                 {
-                    dthdr = Helper.DecryptDataTable(db.GetKompetisiTrialView(dt.Rows[0]["ROW_ID"].ToString(), rowid));
+                    dthdr = Helper.DecryptDataTable(db.GetKompetisiView(rowid));
                     dthdr.AcceptChanges();
 
-                    dtdtl = Helper.DecryptDataTable(db.GetJawabanTrialView(dt.Rows[0]["ROW_ID"].ToString(),rowid, Properties.Settings.Default.siswa_id));
+                    dtdtl = Helper.DecryptDataTable(db.GetJawabanView(rowid, Properties.Settings.Default.siswa_id));
                     dtdtl.AcceptChanges();
                 }
+                
 
                 SetHeader();
 

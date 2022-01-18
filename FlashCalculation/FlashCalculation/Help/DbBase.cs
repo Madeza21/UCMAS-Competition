@@ -1170,7 +1170,6 @@ namespace FlashCalculation.Help
             sqlite_cmd.CommandText = @"INSERT INTO tb_kompetisi_trial ( ROW_ID, LINE_NUM, ROW_ID_KOMPETISI, CABANG_CODE, KOMPETISI_NAME, TANGGAL_KOMPETISI, JAM_MULAI, JAM_SAMPAI,
 			                    JENIS_CODE, JENIS_NAME, TIPE, ROW_ID_KATEGORI, KATEGORI_CODE, KATEGORI_NAME, LAMA_PERLOMBAAN, KECEPATAN, IS_TRIAL,
                                 BAHASA, START_FLAG, TANGGAL_MULAI) 
-								        VALUES
                                 SELECT @prowid,@plinenum, ROW_ID, CABANG_CODE, KOMPETISI_NAME, TANGGAL_KOMPETISI, JAM_MULAI, JAM_SAMPAI,
 			                    JENIS_CODE, JENIS_NAME, TIPE, ROW_ID_KATEGORI, KATEGORI_CODE, KATEGORI_NAME, LAMA_PERLOMBAAN, KECEPATAN, IS_TRIAL,
                                 BAHASA, START_FLAG,@ptglmulai FROM tb_kompetisi WHERE ROW_ID =@prowidkompetisi ";
