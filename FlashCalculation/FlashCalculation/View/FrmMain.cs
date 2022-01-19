@@ -28,6 +28,9 @@ namespace FlashCalculation
         DataTable dtSoalLomba = new DataTable();
         //DataTable dtJawaban = new DataTable();
         DataTable dtsp = new DataTable();
+        DataTable dtTambah  = new DataTable();
+        DataTable dtKali = new DataTable();
+        DataTable dtBagi = new DataTable();
 
         Random rnd = new Random();
         CultureInfo culture = new CultureInfo("en-US");
@@ -854,6 +857,24 @@ namespace FlashCalculation
                         }
                     }
 
+                    string filter = "";
+
+                    if (munculpembagian == "Y")
+                    {
+                        filter = "Bagi";
+                    }
+                    else if (munculperkalian == "Y")
+                    {
+                        filter = "Kali";
+                    }
+                    else
+                    {
+                        if(filter == "")
+                        {
+                            filter = "TambahKurang";
+                        }
+                    }
+
                     dr["kunci_jawaban"] = kunci;
                     dr["row_id_kompetisi"] = idperlombaan;
                     dr["no_soal"] = idx;
@@ -864,6 +885,7 @@ namespace FlashCalculation
                     dr["total_digit_per_soal"] = totaldigitpersoal;
                     dr["muncul_angka_decimal"] = munculdec;
                     dr["digit_decimal"] = digitdec;
+                    dr["filter"] = filter;
 
                     dtSoal.Rows.Add(dr);
                 }
@@ -1287,9 +1309,9 @@ namespace FlashCalculation
                 string strtglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
                 DataTable dtparm = Helper.DecryptDataTable(db.GetParameterKompetisi(peserta.ID_PESERTA, strtglkompetisi, prowidkompetisi));
                 dtparm.AcceptChanges();
-                dtparm.Columns.Add("Int32_SOAL_DARI", typeof(int), "SOAL_DARI");//"Convert(SOAL_DARI, 'System.Int32')"
+                dtparm.Columns.Add("SOAL_DARI_SORT", typeof(int), "SOAL_DARI");
 
-                dtparm.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, Int32_SOAL_DARI ASC";
+                dtparm.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_DARI_SORT ASC";
                 dtparm = dtparm.DefaultView.ToTable();
 
                 if (dtparm.Rows.Count > 0)
@@ -1769,11 +1791,37 @@ namespace FlashCalculation
 
                     //Buatkan Proses untuk visual bisa pilih soal yang dikerjakan terlebih dahulu misal perkalian atau pembagian terlebih dahulu
                     if (dt.Rows[0]["TIPE"].ToString() == "V")
-                    {
-                        button4.Visible = true;
-                        button5.Visible = true;
-                        button6.Visible = true;
-                        //Ongoing
+                    {                        
+                        string strtglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
+                        DataTable dtparm = Helper.DecryptDataTable(db.GetParameterKompetisi(peserta.ID_PESERTA, strtglkompetisi, dt.Rows[0]["ROW_ID"].ToString()));
+                        dtparm.AcceptChanges();
+                        dtparm.Columns.Add("SOAL_DARI_SORT", typeof(int), "SOAL_DARI");
+
+                        dtparm.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_DARI_SORT ASC";
+                        dtparm = dtparm.DefaultView.ToTable();
+
+                        if(dtparm.Rows.Count > 0)
+                        {
+                            if(dtparm.Rows[0]["MUNCUL_ANGKA_PEMBAGIAN"].ToString() == "Y")
+                            {
+                                button6.Visible = true;
+                            }
+
+                            if (dtparm.Rows[0]["MUNCUL_ANGKA_PERKALIAN"].ToString() == "Y")
+                            {
+                                button5.Visible = true;
+                            }
+
+                            if (dtparm.Rows[0]["MUNCUL_ANGKA_PEMBAGIAN"].ToString() != "Y" && dtparm.Rows[0]["MUNCUL_ANGKA_PERKALIAN"].ToString() != "Y")
+                            {
+                                button4.Visible = false;
+                            }
+                            else
+                            {
+                                button4.Visible = true;
+                            }
+                        }
+
                     }
                 }
             }
