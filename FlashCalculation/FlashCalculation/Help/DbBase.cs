@@ -1018,7 +1018,9 @@ namespace FlashCalculation.Help
                                                 tb_soal_kompetisi.angkalistening2,
                                                 tb_soal_kompetisi.angkalistening3,
                                                 tb_soal_kompetisi.angkalistening4,
-                                                tb_soal_kompetisi.angkalistening5  
+                                                tb_soal_kompetisi.angkalistening5,
+                                                tb_soal_kompetisi.filter,
+                                                @pflag as flag
                                          FROM tb_soal_kompetisi, tb_peserta_kompetisi 
                                         WHERE tb_peserta_kompetisi.ROW_ID_KOMPETISI = tb_soal_kompetisi.ROW_ID_KOMPETISI
                                           AND tb_peserta_kompetisi.ID_PESERTA =@pid
@@ -1027,6 +1029,9 @@ namespace FlashCalculation.Help
 
             SQLiteParameter parm = new SQLiteParameter();
 
+            parm = SqlParam("@pflag", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt("N");
+            sqlite_cmd.Parameters.Add(parm);
             parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
             parm.Value = Encryptor.Encrypt(pid);
             sqlite_cmd.Parameters.Add(parm);

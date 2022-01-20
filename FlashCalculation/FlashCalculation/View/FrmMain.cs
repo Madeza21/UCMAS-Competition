@@ -26,6 +26,7 @@ namespace FlashCalculation
         DataTable dtSoal = new DataTable();
         DataTable dtkompetisi = new DataTable();
         DataTable dtSoalLomba = new DataTable();
+        DataTable dtSoalLombaV = new DataTable();
         //DataTable dtJawaban = new DataTable();
         DataTable dtsp = new DataTable();
         DataTable dtTambah  = new DataTable();
@@ -1430,7 +1431,7 @@ namespace FlashCalculation
                 //Save Data dtSoal
                 #region Save Soal
                 string[] lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol;
-                lstrPrmHdrUpdateCol = new string[235]{
+                lstrPrmHdrUpdateCol = new string[236]{
                                "row_id_kompetisi", "no_soal", "jumlah_muncul", "jml_baris_per_muncul", "angka1", "angka2", "angka3", "angka4", "angka5", "angka6", "angka7",
                                 "angka8", "angka9", "angka10", "angka11", "angka12", "angka13", "angka14", "angka15", "angka16", "angka17", "angka18", "angka19", "angka20",
                                 "angka21", "angka22", "angka23", "angka24", "angka25", "angka26", "angka27", "angka28", "angka29", "angka30", "angka31", "angka32", "angka33",
@@ -1452,7 +1453,7 @@ namespace FlashCalculation
                                 "angkamuncul33", "angkamuncul34", "angkamuncul35", "angkamuncul36", "angkamuncul37", "angkamuncul38", "angkamuncul39", "angkamuncul40", "angkamuncul41",
                                 "angkamuncul42", "angkamuncul43", "angkamuncul44", "angkamuncul45", "angkamuncul46", "angkamuncul47", "angkamuncul48", "angkamuncul49", "angkamuncul50",
                                 "kecepatan", "angkalistening1", "angkalistening2", "angkalistening3", "angkalistening4", "angkalistening5", "max_jml_digit_per_soal", "total_digit_per_soal",
-                                "MUNCUL_ANGKA_DECIMAL", "DIGIT_DECIMAL" };
+                                "MUNCUL_ANGKA_DECIMAL", "DIGIT_DECIMAL", "filter" };
                 lstrPrmHdrKeyCol = new string[2] { "row_id_kompetisi", "no_soal" };
                 Helper.EncryptDataTableSoal(dtSoal).AcceptChanges();
                 dtSoal.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
@@ -1674,6 +1675,9 @@ namespace FlashCalculation
                         textBox10.Enabled = true;
                         textBox10.Text = "";
                         textBox10.Focus();
+
+                        dtSoalLomba.Rows[datarow]["flag"] = "Y";
+
                         datarow = datarow + 1;
                     }
                     else
@@ -1756,7 +1760,11 @@ namespace FlashCalculation
 
                     if (dt.Rows[0]["BAHASA"].ToString() == "English")
                     {
-                        for (int i = 0; i < dtsp.Rows.Count; i++)
+                        DataTable dtt = dtsp.AsEnumerable()
+                                            .Where(row => row.Field<String>("Name").Contains("English"))
+                                            .CopyToDataTable();
+                        comboBox2.DataSource = dtt;
+                        /*for (int i = 0; i < dtsp.Rows.Count; i++)
                         {
                             if (dtsp.Rows[i]["Name"].ToString().Contains("English"))
                             {
@@ -1764,11 +1772,15 @@ namespace FlashCalculation
                                 comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
                                 break;
                             }
-                        }
+                        }*/
                     }
                     else
                     {
-                        for (int i = 0; i < dtsp.Rows.Count; i++)
+                        DataTable dtt = dtsp.AsEnumerable()
+                                            .Where(row => row.Field<String>("Name").Contains("Indonesian"))
+                                            .CopyToDataTable();
+                        comboBox2.DataSource = dtt;
+                        /*for (int i = 0; i < dtsp.Rows.Count; i++)
                         {
                             if (dtsp.Rows[i]["Name"].ToString().Contains("Indonesian"))
                             {
@@ -1776,7 +1788,7 @@ namespace FlashCalculation
                                 //comboBox2.SelectedIndex = comboBox2.FindStringExact(dtsp.Rows[i]["Name"].ToString());
                                 break;
                             }
-                        }
+                        }*/
                     }
 
                 }
@@ -1805,20 +1817,24 @@ namespace FlashCalculation
                             if(dtparm.Rows[0]["MUNCUL_ANGKA_PEMBAGIAN"].ToString() == "Y")
                             {
                                 button6.Visible = true;
+                                button6.Enabled = false;
                             }
 
                             if (dtparm.Rows[0]["MUNCUL_ANGKA_PERKALIAN"].ToString() == "Y")
                             {
                                 button5.Visible = true;
+                                button5.Enabled = false;
                             }
 
                             if (dtparm.Rows[0]["MUNCUL_ANGKA_PEMBAGIAN"].ToString() != "Y" && dtparm.Rows[0]["MUNCUL_ANGKA_PERKALIAN"].ToString() != "Y")
                             {
                                 button4.Visible = false;
+                                button4.Enabled = false;
                             }
                             else
                             {
                                 button4.Visible = true;
+                                button4.Enabled = false;
                             }
                         }
 
@@ -2079,6 +2095,46 @@ namespace FlashCalculation
             }
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            dtTambah = dtSoalLomba.AsEnumerable()
+                                  .Where(row => row.Field<String>("filter") == "TambahKurang" && row.Field<String>("filter") == "N")
+                                  .CopyToDataTable();
+
+            if (dtTambah.Rows.Count > 0)
+            {
+                datarow = dtTambah.Rows[0]["no_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtTambah.Rows[0]["no_soal"].ToString());
+                jumlahmuncul = 0;
+                StartLomba();
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            dtKali = dtSoalLomba.AsEnumerable()
+                                .Where(row => row.Field<String>("filter") == "Kali" && row.Field<String>("filter") == "N")
+                                .CopyToDataTable();
+            if (dtKali.Rows.Count > 0)
+            {
+                datarow = dtKali.Rows[0]["no_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtKali.Rows[0]["no_soal"].ToString());
+                jumlahmuncul = 0;
+                StartLomba();
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            dtBagi = dtSoalLomba.AsEnumerable()
+                                .Where(row => row.Field<String>("filter") == "Bagi" && row.Field<String>("filter") == "N")
+                                .CopyToDataTable();
+            if (dtBagi.Rows.Count > 0)
+            {
+                datarow = dtBagi.Rows[0]["no_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtBagi.Rows[0]["no_soal"].ToString());
+                jumlahmuncul = 0;
+                StartLomba();
+            }
+        }
+
         private void stop()
         {
             tdurlomba.Stop();
@@ -2137,12 +2193,34 @@ namespace FlashCalculation
                 lblDur.Text = "";
                 lblSoal.Text = "";
 
-                if(ptype == "L" || ptype == "F")
+                //Start Perlombaan
+                if (ptype == "L" || ptype == "F")
                 {
                     stop();
+                    StartLomba();
                 }
-                //Start Perlombaan
-                StartLomba();
+                else
+                {
+                    if(!button4.Visible && !button5.Visible && !button6.Visible)
+                    {
+                        StartLomba();
+                    }
+                    else
+                    {
+                        stop();
+                        StopLomba();
+
+                        button4.Enabled = true;
+                        button5.Enabled = true;
+                        button6.Enabled = true;
+
+                        button4.Focus();
+
+                        lblDur.Text = lamalomba.ToString();
+
+                        return;
+                    }                    
+                }
             }
 
             if(lamalomba <= 0)
