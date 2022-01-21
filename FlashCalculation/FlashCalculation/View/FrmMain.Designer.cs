@@ -196,7 +196,7 @@ namespace FlashCalculation
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(1048, 7);
+            this.button6.Location = new System.Drawing.Point(1000, 7);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(84, 23);
             this.button6.TabIndex = 6;
@@ -207,7 +207,7 @@ namespace FlashCalculation
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(868, 7);
+            this.button4.Location = new System.Drawing.Point(820, 7);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(84, 23);
             this.button4.TabIndex = 7;
@@ -218,7 +218,7 @@ namespace FlashCalculation
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(958, 7);
+            this.button5.Location = new System.Drawing.Point(910, 7);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(84, 23);
             this.button5.TabIndex = 7;
@@ -240,7 +240,7 @@ namespace FlashCalculation
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(711, 7);
+            this.button3.Location = new System.Drawing.Point(686, 7);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(84, 23);
             this.button3.TabIndex = 4;
@@ -251,7 +251,7 @@ namespace FlashCalculation
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(621, 7);
+            this.button2.Location = new System.Drawing.Point(596, 7);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(84, 23);
             this.button2.TabIndex = 3;
@@ -262,7 +262,7 @@ namespace FlashCalculation
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(531, 7);
+            this.button1.Location = new System.Drawing.Point(506, 7);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(84, 23);
             this.button1.TabIndex = 2;
