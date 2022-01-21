@@ -29,9 +29,6 @@ namespace FlashCalculation
         DataTable dtSoalLombaV = new DataTable();
         //DataTable dtJawaban = new DataTable();
         DataTable dtsp = new DataTable();
-        DataTable dtTambah  = new DataTable();
-        DataTable dtKali = new DataTable();
-        DataTable dtBagi = new DataTable();
 
         Random rnd = new Random();
         CultureInfo culture = new CultureInfo("en-US");
@@ -41,6 +38,7 @@ namespace FlashCalculation
         decimal lamalomba, lamalombaori, speedmuncul, speedjeda, jumlahmuncul, speedbicara, lamajeda;
         string ptype, strvoice = "";
         string rowidtrial = "";
+        string flagvisual = "";
 
         DbBase db = new DbBase();
         HttpRequest client = new HttpRequest();
@@ -2081,6 +2079,12 @@ namespace FlashCalculation
                         speedmuncul = dtSoalLomba.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[0]["kecepatan"].ToString());
                         speedjeda = dtSoalLomba.Rows[0]["kecepatan"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[0]["kecepatan"].ToString());
 
+                        if (ptype == "V")
+                        {
+                            dtSoalLombaV = dtSoalLomba;
+                            flagvisual = "";
+                        }
+
                         datarow = 0;
                         jumlahmuncul = 0;
 
@@ -2097,13 +2101,18 @@ namespace FlashCalculation
 
         private void button4_Click(object sender, EventArgs e)
         {
-            dtTambah = dtSoalLomba.AsEnumerable()
+            flagvisual = "TambahKurang";
+            dtSoalLomba.Clear();
+            dtSoalLomba = dtSoalLombaV.AsEnumerable()
                                   .Where(row => row.Field<String>("filter") == "TambahKurang" && row.Field<String>("filter") == "N")
                                   .CopyToDataTable();
+            dtSoalLomba.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
+            dtSoalLomba = dtSoalLomba.DefaultView.ToTable();
 
-            if (dtTambah.Rows.Count > 0)
+            if (dtSoalLomba.Rows.Count > 0)
             {
-                datarow = dtTambah.Rows[0]["no_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtTambah.Rows[0]["no_soal"].ToString());
+                //datarow = dtSoalLomba.Rows[0]["no_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtSoalLomba.Rows[0]["no_soal"].ToString()) - 1;
+                datarow = 0;
                 jumlahmuncul = 0;
                 StartLomba();
             }
@@ -2111,12 +2120,18 @@ namespace FlashCalculation
 
         private void button5_Click(object sender, EventArgs e)
         {
-            dtKali = dtSoalLomba.AsEnumerable()
+            flagvisual = "Kali";
+            dtSoalLomba.Clear();
+            dtSoalLomba = dtSoalLombaV.AsEnumerable()
                                 .Where(row => row.Field<String>("filter") == "Kali" && row.Field<String>("filter") == "N")
                                 .CopyToDataTable();
-            if (dtKali.Rows.Count > 0)
+            dtSoalLomba.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
+            dtSoalLomba = dtSoalLomba.DefaultView.ToTable();
+
+            if (dtSoalLomba.Rows.Count > 0)
             {
-                datarow = dtKali.Rows[0]["no_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtKali.Rows[0]["no_soal"].ToString());
+                //datarow = dtSoalLomba.Rows[0]["no_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtSoalLomba.Rows[0]["no_soal"].ToString()) - 1;
+                datarow = 0;
                 jumlahmuncul = 0;
                 StartLomba();
             }
@@ -2124,12 +2139,18 @@ namespace FlashCalculation
 
         private void button6_Click(object sender, EventArgs e)
         {
-            dtBagi = dtSoalLomba.AsEnumerable()
+            flagvisual = "Bagi";
+            dtSoalLomba.Clear();
+            dtSoalLomba = dtSoalLombaV.AsEnumerable()
                                 .Where(row => row.Field<String>("filter") == "Bagi" && row.Field<String>("filter") == "N")
                                 .CopyToDataTable();
-            if (dtBagi.Rows.Count > 0)
+            dtSoalLomba.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
+            dtSoalLomba = dtSoalLomba.DefaultView.ToTable();
+
+            if (dtSoalLomba.Rows.Count > 0)
             {
-                datarow = dtBagi.Rows[0]["no_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtBagi.Rows[0]["no_soal"].ToString());
+                //datarow = dtSoalLomba.Rows[0]["no_soal"].ToString() == "" ? 0 : Convert.ToInt32(dtSoalLomba.Rows[0]["no_soal"].ToString()) - 1;
+                datarow = 0;
                 jumlahmuncul = 0;
                 StartLomba();
             }
@@ -2273,7 +2294,7 @@ namespace FlashCalculation
 
         private void TimerLomba()
         {
-            int idatarow = dtSoalLomba.Rows.Count;
+            int idatarow = dtSoalLomba.Rows.Count - 1;
             decimal djumlahmuncul, djmlbarispermuncul = 0;
             string strAngka = "";
 
@@ -2344,12 +2365,34 @@ namespace FlashCalculation
                 {
                     lblNo.Text = "";
                     lblSoal.Text = "";
+                    if (ptype == "V")
+                    {
+                        if(flagvisual == "TambahKurang")
+                        {
+                            button4.Enabled = false;
+                        }
+                        else if (flagvisual == "Kali")
+                        {
+                            button5.Enabled = false;
+                        }
+                        else if (flagvisual == "Bagi")
+                        {
+                            button6.Enabled = false;
+                        }
+
+                        if (button4.Enabled || button5.Enabled || button6.Enabled)
+                        {
+                            lblSoal.Text = "Next...";
+                        }                        
+                    }
                 }
                 else
                 {
                     if (ptype != "L")
                     {
-                        lblNo.Text = "No. " + (datarow + 1).ToString();
+                        //
+                        //lblNo.Text = "No. " + (datarow + 1).ToString();
+                        lblNo.Text = "No. " + dtSoalLomba.Rows[datarow]["no_soal"].ToString();
                     }
                     
                     //lblSoal.Text = strAngka.;
@@ -2477,18 +2520,56 @@ namespace FlashCalculation
 
                     if (idatarow < datarow)
                     {
-                        button1.Enabled = false;
-                        button2.Enabled = true;
-                        button3.Enabled = true;
+                        if (ptype == "V")
+                        {
+                            if (flagvisual == "TambahKurang")
+                            {
+                                button4.Enabled = false;
+                            }
+                            else if (flagvisual == "Kali")
+                            {
+                                button5.Enabled = false;
+                            }
+                            else if (flagvisual == "Bagi")
+                            {
+                                button6.Enabled = false;
+                            }
 
-                        textBox10.Enabled = false;
-                        textBox10.Text = "";
-                        comboBox1.Enabled = true;
+                            if (button4.Enabled || button5.Enabled || button6.Enabled)
+                            {
+                                lblSoal.Text = "Next...";
+                            }
+                            else
+                            {
+                                button1.Enabled = false;
+                                button2.Enabled = true;
+                                button3.Enabled = true;
 
-                        lblNo.Text = "";
-                        lblSoal.Text = "";
+                                textBox10.Enabled = false;
+                                textBox10.Text = "";
+                                comboBox1.Enabled = true;
 
-                        StopLomba();
+                                lblNo.Text = "";
+                                lblSoal.Text = "";
+
+                                StopLomba();
+                            }
+                        }
+                        else
+                        {
+                            button1.Enabled = false;
+                            button2.Enabled = true;
+                            button3.Enabled = true;
+
+                            textBox10.Enabled = false;
+                            textBox10.Text = "";
+                            comboBox1.Enabled = true;
+
+                            lblNo.Text = "";
+                            lblSoal.Text = "";
+
+                            StopLomba();
+                        }                        
                     }
                 }
             }
