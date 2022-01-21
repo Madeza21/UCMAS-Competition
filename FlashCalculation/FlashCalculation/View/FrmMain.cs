@@ -1841,7 +1841,7 @@ namespace FlashCalculation
                                 button5.Enabled = false;
                             }
 
-                            if (foundRows_tambah.Length > 0)
+                            if (foundRows_tambah.Length > 0 && (foundRows_bagi.Length > 0 || foundRows_kali.Length > 0))
                             {
                                 button4.Visible = true;
                                 button4.Enabled = false;
