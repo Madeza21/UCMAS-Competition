@@ -39,6 +39,7 @@ namespace FlashCalculation
         string ptype, strvoice = "";
         string rowidtrial = "";
         string flagvisual = "";
+        string flaglistening = "";
 
         DbBase db = new DbBase();
         HttpRequest client = new HttpRequest();
@@ -75,7 +76,7 @@ namespace FlashCalculation
         private void FrmMain_Load(object sender, EventArgs e)
         {
             timer1.Start();
-            Visibled(false);
+            Visibled(true);
             //Properties.Settings.Default.siswa_id = "TES UBAH";
             this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             textBox10.Font = new Font(this.pfc.Families[0], 34, FontStyle.Bold);
@@ -1680,7 +1681,15 @@ namespace FlashCalculation
                     hell:
                     if (ptype == "V")
                     {
-                        textBox10.Enabled = true;
+                        if(lblSoal.Text == "Next...")
+                        {
+                            textBox10.Enabled = false;
+                        }
+                        else
+                        {
+                            textBox10.Enabled = true;
+                        }
+                        
                         textBox10.Text = "";
                         textBox10.Focus();
                         if (skip != "Y")
@@ -1768,12 +1777,16 @@ namespace FlashCalculation
                     button5.Visible = false;
                     button6.Visible = false;
 
+                    flaglistening = "";
+
                     if (dt.Rows[0]["BAHASA"].ToString() == "English")
                     {
                         DataTable dtt = dtsp.AsEnumerable()
                                             .Where(row => row.Field<String>("Name").Contains("English"))
                                             .CopyToDataTable();
                         comboBox2.DataSource = dtt;
+
+                        flaglistening = "English";
                         /*for (int i = 0; i < dtsp.Rows.Count; i++)
                         {
                             if (dtsp.Rows[i]["Name"].ToString().Contains("English"))
@@ -1790,6 +1803,8 @@ namespace FlashCalculation
                                             .Where(row => row.Field<String>("Name").Contains("Indonesian"))
                                             .CopyToDataTable();
                         comboBox2.DataSource = dtt;
+
+                        flaglistening = "Indonesian";
                         /*for (int i = 0; i < dtsp.Rows.Count; i++)
                         {
                             if (dtsp.Rows[i]["Name"].ToString().Contains("Indonesian"))
@@ -2122,16 +2137,37 @@ namespace FlashCalculation
 
         private void button4_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button4_MouseClick(object sender, MouseEventArgs e)
+        {
             flagvisual = "TambahKurang";
+            SetButtonEnabledVisual(flagvisual);
             dtSoalLomba.Clear();
             var dtfind = dtSoalLombaV.Select("filter = 'TambahKurang' and flag = 'N'");
-            if(dtfind.Any())
+            if (dtfind.Any())
             {
                 dtSoalLomba = dtfind.CopyToDataTable();
-            }            
+            }
 
             if (dtSoalLomba.Rows.Count > 0)
             {
+                if (!textBox10.Enabled)
+                {
+                    textBox10.Enabled = true;
+                }
+
                 dtSoalLomba.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
                 dtSoalLomba = dtSoalLomba.DefaultView.ToTable();
 
@@ -2141,23 +2177,29 @@ namespace FlashCalculation
                 {
                     tdurlomba.Start();
                 }
-                
+
                 StartLomba();
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_MouseClick(object sender, MouseEventArgs e)
         {
             flagvisual = "Kali";
+            SetButtonEnabledVisual(flagvisual);
             dtSoalLomba.Clear();
             var dtfind = dtSoalLombaV.Select("filter = 'Kali' and flag = 'N'");
             if (dtfind.Any())
             {
                 dtSoalLomba = dtfind.CopyToDataTable();
-            }            
+            }
 
             if (dtSoalLomba.Rows.Count > 0)
             {
+                if (!textBox10.Enabled)
+                {
+                    textBox10.Enabled = true;
+                }
+
                 dtSoalLomba.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
                 dtSoalLomba = dtSoalLomba.DefaultView.ToTable();
 
@@ -2171,9 +2213,10 @@ namespace FlashCalculation
             }
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void button6_MouseClick(object sender, MouseEventArgs e)
         {
             flagvisual = "Bagi";
+            SetButtonEnabledVisual(flagvisual);
             dtSoalLomba.Clear();
             var dtfind = dtSoalLombaV.Select("filter = 'Bagi' and flag = 'N'");
             if (dtfind.Any())
@@ -2183,6 +2226,11 @@ namespace FlashCalculation
 
             if (dtSoalLomba.Rows.Count > 0)
             {
+                if (!textBox10.Enabled)
+                {
+                    textBox10.Enabled = true;
+                }
+
                 dtSoalLomba.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
                 dtSoalLomba = dtSoalLomba.DefaultView.ToTable();
 
@@ -2320,6 +2368,11 @@ namespace FlashCalculation
                         speechSynthesizerObj.SpeakAsyncCancelAll();
                     }
                     speechSynthesizerObj.Dispose();
+                }else if (ptype == "V")
+                {
+                    button4.Enabled = false;
+                    button5.Enabled = false;
+                    button6.Enabled = false;
                 }
                 button3.Focus();
             }
@@ -2338,7 +2391,7 @@ namespace FlashCalculation
             decimal djumlahmuncul, djmlbarispermuncul = 0;
             string strAngka = "";
 
-            if (idatarow > 0)
+            if (idatarow >= 0 && datarow <= idatarow)
             {
                 djumlahmuncul = dtSoalLomba.Rows[datarow]["jumlah_muncul"].ToString() == "" ? 0 : Convert.ToDecimal(dtSoalLomba.Rows[datarow]["jumlah_muncul"].ToString());
                 if (jumlahmuncul == djumlahmuncul)
@@ -2353,8 +2406,16 @@ namespace FlashCalculation
                     }
 
                     textBox10.Text = "";
-                    textBox10.Enabled = true;
-                    textBox10.Focus();
+                    if (lblSoal.Text == "Next...")
+                    {
+                        textBox10.Enabled = false;
+                    }
+                    else
+                    {
+                        textBox10.Enabled = true;
+                        textBox10.Focus();
+                    }
+                        
                     jumlahmuncul = 0;
                     if (ptype == "F")
                     {
@@ -2401,7 +2462,7 @@ namespace FlashCalculation
 
                 }
 
-                if (idatarow == datarow)
+                if (strAngka.Contains("Thanks"))
                 {
                     lblNo.Text = "";
                     lblSoal.Text = "";
@@ -2423,6 +2484,7 @@ namespace FlashCalculation
                         if (button4.Enabled || button5.Enabled || button6.Enabled)
                         {
                             lblSoal.Text = "Next...";
+                            textBox10.Enabled = false;
                         }                        
                     }
                 }
@@ -2533,7 +2595,7 @@ namespace FlashCalculation
                     }
                     if (ptype == "L")
                     {
-                        if (strAngka.Contains("thanks"))
+                        if (strAngka.Contains("Thanks"))
                         {
                             speechRate = 0;
                             strvoice = "";
@@ -2548,7 +2610,15 @@ namespace FlashCalculation
                             else
                             {
                                 speechRate = Convert.ToInt32(speedbicara);
-                                strvoice = "ready?" + Environment.NewLine + Environment.NewLine + strAngka + Environment.NewLine + Environment.NewLine + "that is";
+                                if(flaglistening == "English")
+                                {
+                                    strvoice = "ready?" + Environment.NewLine + Environment.NewLine + strAngka + Environment.NewLine + Environment.NewLine + " that is";
+                                }
+                                else
+                                {
+                                    strvoice = "Siap?" + Environment.NewLine + Environment.NewLine + strAngka + Environment.NewLine + Environment.NewLine + " sama dengan";
+                                }
+                                
                             }
                         }
                     }
@@ -2578,6 +2648,7 @@ namespace FlashCalculation
                             if (button4.Enabled || button5.Enabled || button6.Enabled)
                             {
                                 lblSoal.Text = "Next...";
+                                textBox10.Enabled = false;
                             }
                             else
                             {
@@ -2610,6 +2681,32 @@ namespace FlashCalculation
 
                             StopLomba();
                         }                        
+                    }
+                }
+            }
+            else if(datarow > idatarow)
+            {
+                lblNo.Text = "";
+                lblSoal.Text = "";
+                if (ptype == "V")
+                {
+                    if (flagvisual == "TambahKurang")
+                    {
+                        button4.Enabled = false;
+                    }
+                    else if (flagvisual == "Kali")
+                    {
+                        button5.Enabled = false;
+                    }
+                    else if (flagvisual == "Bagi")
+                    {
+                        button6.Enabled = false;
+                    }
+
+                    if (button4.Enabled || button5.Enabled || button6.Enabled)
+                    {
+                        lblSoal.Text = "Next...";
+                        textBox10.Enabled = false;
                     }
                 }
             }
@@ -2726,6 +2823,90 @@ namespace FlashCalculation
             label20.Visible = flag;
             label21.Visible = flag;
             label22.Visible = flag;
+        }
+
+        private void SetButtonEnabledVisual(string flag)
+        {
+            var dtfind1 = dtSoalLombaV.Select("filter = 'TambahKurang' and flag = 'N'");    
+            var dtfind2 = dtSoalLombaV.Select("filter = 'Kali' and flag = 'N'");      
+            var dtfind3 = dtSoalLombaV.Select("filter = 'Bagi' and flag = 'N'");            
+
+            if (flag == "TambahKurang")
+            {
+                if (dtfind2.Any())
+                {
+                    if (!button5.Enabled)
+                    {
+                        button5.Enabled = true;
+                    }                                       
+                }
+                else
+                {
+                    button5.Enabled = false;
+                }
+                if (dtfind3.Any())
+                {
+                    if (!button6.Enabled)
+                    {
+                        button6.Enabled = true;
+                    }                    
+                }
+                else
+                {
+                    button6.Enabled = false;
+                }
+            }
+            else if (flag == "Kali")
+            {
+                if (dtfind1.Any())
+                {
+                    if (!button4.Enabled)
+                    {
+                        button4.Enabled = true;
+                    }                    
+                }
+                else
+                {
+                    button4.Enabled = false;
+                }
+                if (dtfind3.Any())
+                {
+                    if (!button6.Enabled)
+                    {
+                        button6.Enabled = true;
+                    }                    
+                }
+                else
+                {
+                    button6.Enabled = false;
+                }
+            }
+            else if(flag == "Bagi")
+            {
+                if (dtfind1.Any())
+                {
+                    if (!button4.Enabled)
+                    {
+                        button4.Enabled = true;
+                    }                    
+                }
+                else
+                {
+                    button4.Enabled = false;
+                }
+                if (dtfind2.Any())
+                {
+                    if (!button5.Enabled)
+                    {
+                        button5.Enabled = true;
+                    }
+                    
+                }
+                else
+                {
+                    button5.Enabled = false;
+                }
+            }
         }
     }
 }

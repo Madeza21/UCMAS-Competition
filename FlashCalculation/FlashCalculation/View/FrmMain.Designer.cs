@@ -116,9 +116,9 @@ namespace FlashCalculation
             this.panel6.Controls.Add(this.lblNo);
             this.panel6.Controls.Add(this.lblSoal);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(76, 96);
+            this.panel6.Location = new System.Drawing.Point(261, 96);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1168, 408);
+            this.panel6.Size = new System.Drawing.Size(983, 408);
             this.panel6.TabIndex = 4;
             // 
             // lblNo
@@ -138,7 +138,7 @@ namespace FlashCalculation
             this.lblSoal.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSoal.Location = new System.Drawing.Point(0, 0);
             this.lblSoal.Name = "lblSoal";
-            this.lblSoal.Size = new System.Drawing.Size(1168, 408);
+            this.lblSoal.Size = new System.Drawing.Size(983, 408);
             this.lblSoal.TabIndex = 0;
             this.lblSoal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -146,9 +146,9 @@ namespace FlashCalculation
             // 
             this.panel5.Controls.Add(this.textBox10);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(76, 504);
+            this.panel5.Location = new System.Drawing.Point(261, 504);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1168, 63);
+            this.panel5.Size = new System.Drawing.Size(983, 63);
             this.panel5.TabIndex = 3;
             // 
             // textBox10
@@ -157,7 +157,7 @@ namespace FlashCalculation
             this.textBox10.Font = new System.Drawing.Font("Tahoma", 33.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox10.Location = new System.Drawing.Point(0, 0);
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(1168, 62);
+            this.textBox10.Size = new System.Drawing.Size(983, 62);
             this.textBox10.TabIndex = 0;
             this.textBox10.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox10_KeyDown);
             this.textBox10.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox10_KeyPress);
@@ -168,9 +168,9 @@ namespace FlashCalculation
             this.panel4.Controls.Add(this.panel8);
             this.panel4.Controls.Add(this.panel7);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(76, 0);
+            this.panel4.Location = new System.Drawing.Point(261, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1168, 96);
+            this.panel4.Size = new System.Drawing.Size(983, 96);
             this.panel4.TabIndex = 2;
             // 
             // panel8
@@ -190,46 +190,49 @@ namespace FlashCalculation
             this.panel8.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel8.Location = new System.Drawing.Point(0, 59);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(1168, 37);
+            this.panel8.Size = new System.Drawing.Size(983, 37);
             this.panel8.TabIndex = 1;
             // 
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(1000, 7);
+            this.button6.Location = new System.Drawing.Point(893, 7);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(84, 23);
+            this.button6.Size = new System.Drawing.Size(70, 23);
             this.button6.TabIndex = 6;
             this.button6.Text = "÷";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button6_MouseClick);
             // 
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(820, 7);
+            this.button4.Location = new System.Drawing.Point(737, 7);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(84, 23);
+            this.button4.Size = new System.Drawing.Size(70, 23);
             this.button4.TabIndex = 7;
             this.button4.Text = "+/-";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button4_MouseClick);
             // 
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(910, 7);
+            this.button5.Location = new System.Drawing.Point(814, 7);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(84, 23);
+            this.button5.Size = new System.Drawing.Size(70, 23);
             this.button5.TabIndex = 7;
             this.button5.Text = "x";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button5_MouseClick);
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(419, 10);
+            this.checkBox1.Location = new System.Drawing.Point(352, 10);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(72, 17);
             this.checkBox1.TabIndex = 5;
@@ -240,7 +243,7 @@ namespace FlashCalculation
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(686, 7);
+            this.button3.Location = new System.Drawing.Point(619, 7);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(84, 23);
             this.button3.TabIndex = 4;
@@ -251,7 +254,7 @@ namespace FlashCalculation
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(596, 7);
+            this.button2.Location = new System.Drawing.Point(529, 7);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(84, 23);
             this.button2.TabIndex = 3;
@@ -262,7 +265,7 @@ namespace FlashCalculation
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(506, 7);
+            this.button1.Location = new System.Drawing.Point(439, 7);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(84, 23);
             this.button1.TabIndex = 2;
@@ -275,9 +278,9 @@ namespace FlashCalculation
             // 
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(887, 8);
+            this.comboBox2.Location = new System.Drawing.Point(803, 8);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(235, 21);
+            this.comboBox2.Size = new System.Drawing.Size(180, 21);
             this.comboBox2.TabIndex = 1;
             // 
             // comboBox1
@@ -286,7 +289,7 @@ namespace FlashCalculation
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(112, 8);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(298, 21);
+            this.comboBox1.Size = new System.Drawing.Size(228, 21);
             this.comboBox1.TabIndex = 1;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -295,7 +298,7 @@ namespace FlashCalculation
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.Color.Navy;
-            this.label23.Location = new System.Drawing.Point(815, 7);
+            this.label23.Location = new System.Drawing.Point(731, 7);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(67, 19);
             this.label23.TabIndex = 0;
@@ -319,7 +322,7 @@ namespace FlashCalculation
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(1168, 53);
+            this.panel7.Size = new System.Drawing.Size(983, 53);
             this.panel7.TabIndex = 0;
             // 
             // panel10
@@ -328,9 +331,9 @@ namespace FlashCalculation
             this.panel10.Controls.Add(this.lblDur);
             this.panel10.Controls.Add(this.label11);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel10.Location = new System.Drawing.Point(54, 0);
+            this.panel10.Location = new System.Drawing.Point(68, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(1114, 53);
+            this.panel10.Size = new System.Drawing.Size(915, 53);
             this.panel10.TabIndex = 1;
             // 
             // lblDur
@@ -338,7 +341,7 @@ namespace FlashCalculation
             this.lblDur.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblDur.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDur.ForeColor = System.Drawing.Color.Red;
-            this.lblDur.Location = new System.Drawing.Point(917, 0);
+            this.lblDur.Location = new System.Drawing.Point(718, 0);
             this.lblDur.Name = "lblDur";
             this.lblDur.Size = new System.Drawing.Size(197, 53);
             this.lblDur.TabIndex = 1;
@@ -365,17 +368,16 @@ namespace FlashCalculation
             this.panel9.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(54, 53);
+            this.panel9.Size = new System.Drawing.Size(68, 53);
             this.panel9.TabIndex = 0;
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Image = global::FlashCalculation.Properties.Resources.competition;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(9, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(54, 53);
+            this.pictureBox1.Size = new System.Drawing.Size(56, 53);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -385,7 +387,7 @@ namespace FlashCalculation
             // 
             this.panel3.BackColor = System.Drawing.Color.Red;
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(65, 0);
+            this.panel3.Location = new System.Drawing.Point(250, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(11, 567);
             this.panel3.TabIndex = 1;
@@ -417,7 +419,7 @@ namespace FlashCalculation
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(65, 567);
+            this.panel2.Size = new System.Drawing.Size(250, 567);
             this.panel2.TabIndex = 0;
             // 
             // pictureBox2
