@@ -38,7 +38,7 @@ namespace FlashCalculationUpdate
             string path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Flash Calculation.exe");
             if (File.Exists(path))
             {
-                Process.Start("Flash Calculation.exe");
+                Process.Start("App.exe");
             }
             
             Application.Exit();

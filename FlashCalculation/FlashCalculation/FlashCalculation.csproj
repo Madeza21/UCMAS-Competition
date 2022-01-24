@@ -8,7 +8,7 @@
     <ProjectGuid>{A9AC1279-D748-4F8D-89A8-485C6BBC6B6D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FlashCalculation</RootNamespace>
-    <AssemblyName>Flash Calculation</AssemblyName>
+    <AssemblyName>App</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -57,7 +57,7 @@
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup>
-    <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -293,6 +293,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\profile-icon-png-921.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\app.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

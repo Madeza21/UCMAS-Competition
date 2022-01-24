@@ -1,6 +1,6 @@
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Update Flash Calculation.exe.config
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Update Flash Calculation.exe
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Update Flash Calculation.pdb
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Competition.exe.config
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Competition.exe
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Competition.pdb
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Newtonsoft.Json.dll
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Newtonsoft.Json.xml
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.SuggestedBindingRedirects.cache
@@ -9,5 +9,5 @@ D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Fl
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.GenerateResource.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.CoreCompileInputs.cache
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.CopyComplete
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Update Flash Calculation.exe
-D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Update Flash Calculation.pdb
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Competition.exe
+D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Competition.pdb

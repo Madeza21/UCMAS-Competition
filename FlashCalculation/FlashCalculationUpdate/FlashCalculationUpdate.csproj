@@ -7,7 +7,7 @@
     <ProjectGuid>{8C42D826-34B8-4831-AAD5-3A79595A8C4D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FlashCalculationUpdate</RootNamespace>
-    <AssemblyName>Update Flash Calculation</AssemblyName>
+    <AssemblyName>Competition</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -137,6 +137,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\app.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
