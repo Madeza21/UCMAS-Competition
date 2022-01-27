@@ -1497,20 +1497,8 @@ namespace FlashCalculation
                 }
                 else
                 {
-                    /*if (Regex.IsMatch(textBox10.Text, "[^0-9]"))
-                    {
-                        if (Properties.Settings.Default.bahasa == "indonesia")
-                        {
-                            MessageBox.Show("Tolong masukan angka yang valid.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Please input valid number.");
-                        }
-                        return;
-                    }*/
                     lblSoal.Text = "";
-                    if(datarow >= 0)
+                    if (datarow >= 0)
                     {
                         if(ptype == "V")
                         {
@@ -1698,6 +1686,7 @@ namespace FlashCalculation
                         }                        
 
                         datarow = datarow + 1;
+                        textBox10.Enabled = false;
                     }
                     else
                     {
@@ -1708,7 +1697,7 @@ namespace FlashCalculation
                     {
                         lamalomba = lamalomba + 1;
                     }
-
+                    
                     StartLomba();
                 }
             }
@@ -2326,6 +2315,7 @@ namespace FlashCalculation
                         button4.Focus();
 
                         lblDur.Text = "";//lamalomba.ToString()
+                        textBox10.Enabled = false;
 
                         return;
                     }                    
@@ -2588,6 +2578,7 @@ namespace FlashCalculation
                             lblSoal.Font = new Font(this.pfc.Families[0], 20, FontStyle.Bold);
                         }
 
+                        textBox10.Enabled = true;
                     }
                     if (ptype == "F")
                     {
