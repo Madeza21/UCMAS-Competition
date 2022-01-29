@@ -11,3 +11,17 @@ D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Fl
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.CopyComplete
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Competition.exe
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Competition.pdb
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Competition.exe.config
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Competition.exe
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Competition.pdb
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.AssemblyReference.cache
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.SuggestedBindingRedirects.cache
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.FrmUpdate.resources
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.Properties.Resources.resources
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.GenerateResource.cache
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.CoreCompileInputs.cache
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\FlashCalculationUpdate.csproj.CopyComplete
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Competition.exe
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculationUpdate\obj\Debug\Competition.pdb

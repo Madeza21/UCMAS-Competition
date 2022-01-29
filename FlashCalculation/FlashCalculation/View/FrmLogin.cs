@@ -20,6 +20,7 @@ namespace FlashCalculation
         Url[] url;
         Cabang[] cabang;
         AppConfiguration[] config;
+        SystemConfiguration[] sysconfig;
 
         Peserta peserta;
 
@@ -37,23 +38,7 @@ namespace FlashCalculation
               
         private void button2_Click(object sender, EventArgs e)
         {
-            timer1.Stop();
-            db.CloseConnection();
-
-            if (!isdispose)
-            {
-                //Gets the current speaking state of the SpeechSynthesizer object.   
-                if (speechSynthesizerObj.State == SynthesizerState.Speaking)
-                {
-                    //close the SpeechSynthesizer object.   
-                    speechSynthesizerObj.SpeakAsyncCancelAll();
-                }
-                speechSynthesizerObj.Dispose();
-            }
-
-            this.DialogResult = DialogResult.Cancel;
-            //this.Close();
-            Application.Exit();
+            CloseApp();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -263,6 +248,7 @@ namespace FlashCalculation
         {
             try
             {
+                label10.Text = "Ver. " + Properties.Settings.Default.version;
                 db.OpenConnection();
                 client.initialize();
                 timer1.Start();
@@ -283,6 +269,14 @@ namespace FlashCalculation
                 radioButton1_CheckedChanged(null, null);
                 
                 textBox1.Focus();
+                if (sysconfig != null)
+                {
+                    if(sysconfig[0].APP_VERSION != Properties.Settings.Default.version)
+                    {
+                        MessageBox.Show("Please update application to version " + sysconfig[0].APP_VERSION);
+                        CloseApp();
+                    }
+                }
             }
             catch(Exception ex)
             {
@@ -346,6 +340,7 @@ namespace FlashCalculation
             }
             speechSynthesizerObj.Dispose();
             isdispose = true;
+
         }
 
         private void LoadDataFromApi()
@@ -377,6 +372,7 @@ namespace FlashCalculation
                     comboBox1.DisplayMember = "Value";
                     comboBox1.ValueMember = "Key";
                 }
+                sysconfig = client.GetRequestSysConfig("/api/sysconfig");
             }
             catch(Exception ex)
             {
@@ -560,6 +556,27 @@ namespace FlashCalculation
                     MessageBox.Show("Can't access to server");
                 }
             }
+        }
+
+        private void CloseApp()
+        {
+            timer1.Stop();
+            db.CloseConnection();
+
+            if (!isdispose)
+            {
+                //Gets the current speaking state of the SpeechSynthesizer object.   
+                if (speechSynthesizerObj.State == SynthesizerState.Speaking)
+                {
+                    //close the SpeechSynthesizer object.   
+                    speechSynthesizerObj.SpeakAsyncCancelAll();
+                }
+                speechSynthesizerObj.Dispose();
+            }
+
+            this.DialogResult = DialogResult.Cancel;
+            //this.Close();
+            Application.Exit();
         }
     }
 }

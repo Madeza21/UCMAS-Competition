@@ -96,7 +96,7 @@ namespace FlashCalculation
             db.OpenConnection();
 
             //set tittle
-            this.Text = db.GetAppConfig("LBL");
+            this.Text = db.GetAppConfig("LBL") + "  (Ver. " + Properties.Settings.Default.version + ")";
             label11.Text = db.GetAppConfig("LBK");
 
             //label23.Visible = false;
@@ -539,8 +539,8 @@ namespace FlashCalculation
                         {
                             if (Convert.ToDecimal(strrandomprev, culture) > Convert.ToDecimal(strrandom, culture))
                             {
-                                strangka = strangka + "dikurang " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
-                                strangkalisten = strangkalisten + "(-" + strrandom + ") " + "dikurang " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                strangka = strangka + "kurang " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                strangkalisten = strangkalisten + "(-" + strrandom + ") " + "kurang " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
 
                                 bminus = true;
 
@@ -551,8 +551,8 @@ namespace FlashCalculation
                             {
                                 if (bminus)
                                 {
-                                    strangka = strangka + "ditambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
-                                    strangkalisten = strangkalisten + "(" + strrandom + ") " + "ditambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                    strangka = strangka + "tambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                    strangkalisten = strangkalisten + "(" + strrandom + ") " + "tambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
                                 }
                                 else
                                 {
@@ -568,8 +568,8 @@ namespace FlashCalculation
                         {
                             if (bminus)
                             {
-                                strangka = strangka + "ditambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
-                                strangkalisten = strangkalisten + "(" + strrandom + ") " + "ditambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                strangka = strangka + "tambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
+                                strangkalisten = strangkalisten + "(" + strrandom + ") " + "tambah " + NumberInWordIndonesia(Convert.ToDecimal(strrandom, culture)) + Environment.NewLine;
                             }
                             else
                             {
@@ -1952,6 +1952,7 @@ namespace FlashCalculation
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            return;
             DataTable dt = Helper.DecryptDataTableSoal(db.GetSoalKompetisiID(peserta.ID_PESERTA, comboBox1.SelectedValue.ToString()));
             dt.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
             dt = dt.DefaultView.ToTable();
@@ -2331,12 +2332,14 @@ namespace FlashCalculation
                 if (Properties.Settings.Default.trial == "Y")
                 {
                     button1.Enabled = true;
-                    checkBox1.Visible = true;                    
+                    checkBox1.Visible = false;
+                    checkBox1.Checked = true;
                 }
                 else
                 {
                     button1.Enabled = false;
                     checkBox1.Visible= false;
+                    checkBox1.Checked = false;
                 }
                     
                 button2.Enabled = true;
@@ -2607,7 +2610,7 @@ namespace FlashCalculation
                                 }
                                 else
                                 {
-                                    strvoice = "Siap?" + Environment.NewLine + Environment.NewLine + strAngka + Environment.NewLine + Environment.NewLine + " sama dengan";
+                                    strvoice = "Siap?" + Environment.NewLine + Environment.NewLine + strAngka + Environment.NewLine + Environment.NewLine + " jadi";
                                 }
                                 
                             }

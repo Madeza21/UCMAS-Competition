@@ -17,6 +17,7 @@ namespace FlashCalculation.Help
     {
         static HttpClient client = new HttpClient();
         arrurl license = new arrurl();
+        arrsysconfig SysConfig = new arrsysconfig();
         arrcabang cabang = new arrcabang();
         arrconfig config = new arrconfig();
         ArrLogin login = new ArrLogin();
@@ -85,6 +86,33 @@ namespace FlashCalculation.Help
                 new Exception("");
                 return null;
             }    
+        }
+
+        public SystemConfiguration[] GetRequestSysConfig(string url)
+        {
+            //https://stackoverflow.com/questions/32716174/call-and-consume-web-api-in-winform-using-c-net/32716351            
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            try
+            {
+                response = client.GetAsync(url).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    SysConfig = (arrsysconfig)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(arrsysconfig));
+                }
+
+                SystemConfiguration[] obj = new SystemConfiguration[SysConfig.SystemConfig.Length];
+                SysConfig.SystemConfig.CopyTo(obj, 0);
+
+                return obj;
+
+            }
+            catch (Exception ex)
+            {
+                new Exception("");
+                return null;
+            }
         }
 
         public Cabang[] GetRequestCabang(string url)
@@ -333,6 +361,11 @@ namespace FlashCalculation.Help
         public class arrurl
         {
             public Url[] license { get; set; }
+        }
+
+        public class arrsysconfig
+        {
+            public SystemConfiguration[] SystemConfig { get; set; }
         }
 
         public class arrcabang

@@ -26,5 +26,8 @@
     <Setting Name="trial" Type="System.String" Scope="User">
       <Value Profile="(Default)">N</Value>
     </Setting>
+    <Setting Name="version" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2.0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

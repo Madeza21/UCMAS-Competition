@@ -51,7 +51,11 @@ namespace FlashCalculationUpdate
                     {
                         string strUpdate = JsonConvert.SerializeObject(lisUpdate);
                         File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "updt.json", strUpdate);
-                        if (bolUpdate && DialogResult.Yes == MessageBox.Show("Do you want to update now?", "Update Available", MessageBoxButtons.YesNo))
+                        if (DialogResult.OK == new FrmUpdate(lisUpdate, strUrlUpdateFolder).ShowDialog())
+                        {
+                            bolRes = true;
+                        }
+                        /*if (bolUpdate && DialogResult.Yes == MessageBox.Show("Do you want to update now?", "Update Available", MessageBoxButtons.YesNo))
                         {
                             if (DialogResult.OK == new FrmUpdate(lisUpdate, strUrlUpdateFolder).ShowDialog())
                             {
@@ -61,7 +65,7 @@ namespace FlashCalculationUpdate
                         else
                         {
                             bolRes = false;
-                        }
+                        }*/
                     }
                     if (!bolRes)
                     {

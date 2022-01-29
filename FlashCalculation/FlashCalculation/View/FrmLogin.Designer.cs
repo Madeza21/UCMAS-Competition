@@ -60,6 +60,7 @@ namespace FlashCalculation
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label10 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -325,6 +326,7 @@ namespace FlashCalculation
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.label10);
             this.panel5.Controls.Add(this.linkLabel1);
             this.panel5.Controls.Add(this.button2);
             this.panel5.Controls.Add(this.button1);
@@ -371,6 +373,16 @@ namespace FlashCalculation
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(4, 74);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(47, 14);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Version";
             // 
             // FrmLogin
             // 
@@ -432,6 +444,7 @@ namespace FlashCalculation
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label10;
     }
 }
 
