@@ -1538,7 +1538,7 @@ namespace FlashCalculation
                                 }
                                 else
                                 {
-                                    strpertanyaanloop = strpertanyaanloop + strangkamuncul;
+                                    strpertanyaanloop = strpertanyaanloop + strangkamuncul + Environment.NewLine;
                                 }                                 
                             }
                         }
@@ -1553,7 +1553,7 @@ namespace FlashCalculation
                                 }
                                 else
                                 {
-                                    strpertanyaanloop = strpertanyaanloop + strangkamuncul;
+                                    strpertanyaanloop = strpertanyaanloop + strangkamuncul + Environment.NewLine;
                                 }                             
                             }
                         }
@@ -1570,7 +1570,7 @@ namespace FlashCalculation
                             dr3["row_id_kompetisi"] = strrowidkomp;
                             dr3["id_peserta"] = peserta.ID_PESERTA;
                             dr3["soal_no"] = isoalno;
-                            dr3["pertanyaan"] = strpertanyaanloop;
+                            dr3["pertanyaan"] = strpertanyaanloop.TrimEnd(Environment.NewLine.ToCharArray());
                             dr3["jawaban_peserta"] = ijawaban;
                             dr3["jawab_detik_berapa"] = idetikberapa;
                             dr3["jawab_date"] = DateTime.Now;
@@ -1622,7 +1622,7 @@ namespace FlashCalculation
                             dr["row_id_kompetisi"] = strrowidkomp;
                             dr["id_peserta"] = peserta.ID_PESERTA;
                             dr["soal_no"] = isoalno;
-                            dr["pertanyaan"] = strpertanyaanloop;
+                            dr["pertanyaan"] = strpertanyaanloop.TrimEnd(Environment.NewLine.ToCharArray());
                             dr["jawaban_peserta"] = ijawaban;
                             dr["jawab_detik_berapa"] = idetikberapa;
                             dr["jawab_date"] = DateTime.Now;

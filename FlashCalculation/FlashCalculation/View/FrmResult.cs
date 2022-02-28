@@ -106,10 +106,11 @@ namespace FlashCalculation.View
                 dtdtl.Columns.Add("SOAL_NO_SORT", typeof(int), "SOAL_NO");
                 dtdtl.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_NO_SORT ASC";
                 dtdtl = dtdtl.DefaultView.ToTable();
+
             }
 
             dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.DataSource = dtdtl;
+            dataGridView1.DataSource = SetPertanyaan(dtdtl);
 
             ChangeColor();
             Translate();
@@ -201,6 +202,59 @@ namespace FlashCalculation.View
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private DataTable SetPertanyaan(DataTable dt)
+        {
+
+            for(int x = 0; x < dt.Rows.Count; x++)
+            {
+                string strAngka = dt.Rows[x]["PERTANYAAN"].ToString().TrimEnd(Environment.NewLine.ToCharArray());
+                strAngka = strAngka.Replace(Environment.NewLine, "|");
+                string[] arr = strAngka.Split('|');
+                int maxdigit = 0;
+                if (arr.Length > 0)
+                {
+                    for (int i = 0; i < arr.Length; i++)
+                    {
+                        if (maxdigit < arr[i].Length)
+                        {
+                            maxdigit = arr[i].Length;
+                        }
+                    }
+
+                    strAngka = "";
+                    for (int i = 0; i < arr.Length; i++)
+                    {
+                        if (maxdigit - arr[i].Length == 0)
+                        {
+                            strAngka += arr[i] + Environment.NewLine;
+                        }
+                        else if (maxdigit - arr[i].Length > 0)
+                        {
+                            if (arr[i].Substring(0, 1) == "-")
+                            {
+                                if (maxdigit - arr[i].Length > 0)
+                                {
+                                    strAngka += "-" + arr[i].Substring(1).PadLeft(maxdigit - 1, ' ') + Environment.NewLine;
+                                }
+                                else
+                                {
+                                    strAngka += arr[i].PadLeft(maxdigit, ' ') + Environment.NewLine;
+                                }
+                            }
+                            else
+                            {
+                                strAngka += arr[i].PadLeft(maxdigit, ' ') + Environment.NewLine;
+                            }
+                        }
+                    }
+                }
+
+                dt.Rows[x]["PERTANYAAN"] = strAngka.TrimEnd(Environment.NewLine.ToCharArray());
+            }
+
+            return dt;
         }
 
         private void button2_Click(object sender, EventArgs e)
