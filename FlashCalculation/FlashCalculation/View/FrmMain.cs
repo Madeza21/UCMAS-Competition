@@ -2047,6 +2047,22 @@ namespace FlashCalculation
                         }
                         return;
                     }
+                    else
+                    {
+                        pflag = client.PostRequestUpdateFlag("api/pesertakompetisi/getflag", pilihperlombaan);
+                        if (pflag == "Y")
+                        {
+                            if (Properties.Settings.Default.bahasa == "indonesia")
+                            {
+                                MessageBox.Show("Anda sudah pernah berpartisipasi dalam kompetisi ini sebelumnya.");
+                            }
+                            else
+                            {
+                                MessageBox.Show("You have participated this competition before.");
+                            }
+                            return;
+                        }
+                    }
 
                     //Update Flag
                     string msg = client.PostRequestUpdateFlag("api/pesertakompetisi/updateflag", pilihperlombaan);

@@ -237,6 +237,34 @@ namespace FlashCalculation.Help
             return data.message;
         }
 
+        public string PostRequestGetFlag(string url, string id)
+        {
+            HttpClient http = new HttpClient();
+
+            http.BaseAddress = new Uri(Properties.Settings.Default.api_address);
+            http.DefaultRequestHeaders.Accept.Clear();
+            http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Properties.Settings.Default.token);
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            paramflag prm = new paramflag() { ID_PESERTA = Properties.Settings.Default.siswa_id, ROW_ID_KOMPETISI = id, FLAG = "Y" };
+
+            OutputData data = new OutputData();
+
+            response = http.PostAsJsonAsync(url, prm).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                data = (OutputData)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(OutputData));
+            }
+            else
+            {
+                data = (OutputData)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(OutputData));
+            }
+
+            return data.message;
+        }
+
         public string PostKirimJawaban(string url, DataRow dr)
         {
             HttpClient http = new HttpClient();
