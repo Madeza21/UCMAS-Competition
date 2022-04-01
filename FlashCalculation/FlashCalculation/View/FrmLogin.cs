@@ -51,8 +51,8 @@ namespace FlashCalculation
 
                 if (chkTrial.Checked)
                 {
-                    textBox1.Text = "TRL000000001";
-                    textBox2.Text = "Peserta Trial";
+                    //textBox1.Text = "TRL000000001";
+                    //textBox2.Text = "Peserta Trial";
                     urllogin = "/api/kompetisitrial/search";
                 }
 
