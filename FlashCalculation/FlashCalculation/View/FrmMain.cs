@@ -937,7 +937,7 @@ namespace FlashCalculation
         private string NumberInWordEnglish(decimal amount)
         {
             string str = "", str2;
-            decimal nTrillion, nMillion, nThousand;
+            decimal nTrillion;//, nMillion, nThousand;
 
             // cannot greater then 999,999,999,999,997
             if (amount > 999999999999997) return "OUT OF RANGE";
@@ -961,25 +961,25 @@ namespace FlashCalculation
               var ul = 0ul; // unsigned long*/
             if(amount >= 1000000000000.00M)
             {
-                nTrillion = amount / 1000000000000.00M;
+                nTrillion = Math.Truncate(amount / 1000000000000);
                 str += NumberTranslate(Convert.ToInt32(nTrillion)) + " trillion ";
-                amount -= (nTrillion * 1000000000000.00M);
+                amount -= (nTrillion * 1000000000000);
             }
             if (amount >= 1000000000)
             {
-                nTrillion = amount / 1000000000;
+                nTrillion = Math.Truncate(amount / 1000000000);
                 str += NumberTranslate(Convert.ToInt32(nTrillion)) + " billion ";
                 amount -= (nTrillion * 1000000000);
             }
             if (amount >= 1000000)
             {
-                nTrillion = amount / 1000000;
+                nTrillion = Math.Truncate(amount / 1000000);
                 str += NumberTranslate(Convert.ToInt32(nTrillion)) + " million ";
                 amount -= (nTrillion * 1000000);
             }
             if (amount >= 1000)
             {
-                nTrillion = amount / 1000;
+                nTrillion = Math.Truncate(amount / 1000);
                 str += NumberTranslate(Convert.ToInt32(nTrillion)) + " thousand ";
                 amount -= (nTrillion * 1000);
             }
@@ -1002,7 +1002,7 @@ namespace FlashCalculation
         {
             decimal ld_divisor, ld_large_amount, ld_tiny_amount, ld_dividen, ld_dummy;
             string ls_word;
-            string ls_weight1, ls_weight2, ls_unit, ls_follower;
+            string ls_weight1, ls_unit, ls_follower;
             string[] ls_prefix = { "SE ", "DUA ", "TIGA ", "EMPAT ", "LIMA ", "ENAM ", "TUJUH ", "DELAPAN ", "SEMBILAN " };
             string[] ls_sufix = { "SATU ", "DUA ", "TIGA ", "EMPAT ", "LIMA ", "ENAM ", "TUJUH ", "DELAPAN ", "SEMBILAN " };
 
@@ -1577,7 +1577,7 @@ namespace FlashCalculation
                             dr3["kunci_jawaban"] = ikuncijawaban;
                             if (ijawaban == ikuncijawaban)
                             {
-                                if (strpertanyaanloop.Contains("÷") || strpertanyaanloop.Contains("x"))
+                                if ((strpertanyaanloop.Contains("÷") || strpertanyaanloop.Contains("x")) && ptype == "V")
                                 {
                                     dr3["score_peserta"] = 50;
                                 }
@@ -1629,7 +1629,7 @@ namespace FlashCalculation
                             dr["kunci_jawaban"] = ikuncijawaban;
                             if (ijawaban == ikuncijawaban)
                             {
-                                if (strpertanyaanloop.Contains("÷") || strpertanyaanloop.Contains("x"))
+                                if ((strpertanyaanloop.Contains("÷") || strpertanyaanloop.Contains("x")) && ptype == "V")
                                 {
                                     dr["score_peserta"] = 50;
                                 }
@@ -1953,7 +1953,7 @@ namespace FlashCalculation
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             return;
-            DataTable dt = Helper.DecryptDataTableSoal(db.GetSoalKompetisiID(peserta.ID_PESERTA, comboBox1.SelectedValue.ToString()));
+            /*DataTable dt = Helper.DecryptDataTableSoal(db.GetSoalKompetisiID(peserta.ID_PESERTA, comboBox1.SelectedValue.ToString()));
             dt.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
             dt = dt.DefaultView.ToTable();
             dt.AcceptChanges();
@@ -1971,7 +1971,7 @@ namespace FlashCalculation
                         wb.SaveAs(sfd.FileName);
                     }
                 }
-            }         
+            }   */      
         }
 
         private void button1_MouseClick(object sender, MouseEventArgs e)
