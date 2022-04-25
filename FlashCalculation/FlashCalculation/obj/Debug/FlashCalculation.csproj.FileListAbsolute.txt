@@ -33,7 +33,6 @@ D:\Riyan M\Flash Calculation UCMAS .Net\FlashCalculation\FlashCalculation\obj\De
 D:\Riyan M\Flash Calculation UCMAS .Net\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csprojAssemblyReference.cache
 D:\Riyan M\Flash Calculation UCMAS .Net\FlashCalculation\FlashCalculation\obj\Debug\Interop.SpeechLib.dll
 D:\Riyan M\Flash Calculation UCMAS .Net\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.ResolveComReference.cache
-C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\DocumentFormat.OpenXml.xml
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ucmas.db3
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\App.exe.config
 D:\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\App.exe
@@ -103,6 +102,7 @@ C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\Flas
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ClosedXML.pdb
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ClosedXML.xml
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\DocumentFormat.OpenXml.xml
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\EntityFramework.xml
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\ExcelNumberFormat.xml
@@ -114,6 +114,7 @@ C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\Flas
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.AssemblyReference.cache
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.SuggestedBindingRedirects.cache
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\Interop.SpeechLib.dll
 C:\Users\Yanza\OneDrive\Documents\GitHub\UCMAS-Competition\FlashCalculation\FlashCalculation\obj\Debug\FlashCalculation.csproj.ResolveComReference.cache

@@ -91,7 +91,10 @@ namespace FlashCalculation.Help
                                               tb_kompetisi.KATEGORI_CODE,   
                                               tb_kompetisi.KATEGORI_NAME,   
                                               tb_kompetisi.LAMA_PERLOMBAAN,   
-                                              tb_kompetisi.KECEPATAN  
+                                              tb_kompetisi.KECEPATAN,
+                                              tb_kompetisi.IS_TRIAL,   
+                                              tb_kompetisi.BAHASA,   
+                                              tb_kompetisi.START_FLAG
                                          FROM tb_peserta_kompetisi, tb_kompetisi
                                         WHERE tb_peserta_kompetisi.ROW_ID_KOMPETISI = tb_kompetisi.ROW_ID
                                           AND tb_peserta_kompetisi.ID_PESERTA =@pid

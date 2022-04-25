@@ -22,7 +22,7 @@ namespace FlashCalculation.View
 
         HttpRequest client = new HttpRequest();
 
-        string rowid;
+        string rowid, ptype;
 
         public FrmResult(string prowid)
         {
@@ -108,7 +108,10 @@ namespace FlashCalculation.View
                 dtdtl = dtdtl.DefaultView.ToTable();
 
             }
-
+            if (dthdr.Rows.Count > 0)
+            {
+                ptype = dthdr.Rows[0]["TIPE"].ToString();
+            }
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.DataSource = SetPertanyaan(dtdtl);
 
@@ -206,7 +209,7 @@ namespace FlashCalculation.View
 
         private DataTable SetPertanyaan(DataTable dt)
         {
-
+            if (ptype == "L") return dt;
             for(int x = 0; x < dt.Rows.Count; x++)
             {
                 string strAngka = dt.Rows[x]["PERTANYAAN"].ToString().TrimEnd(Environment.NewLine.ToCharArray());
