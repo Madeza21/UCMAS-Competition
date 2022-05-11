@@ -32,7 +32,8 @@ namespace FlashCalculation.View
 
         private void FrmResult_Load(object sender, EventArgs e)
         {
-            db.OpenConnection();            
+            db.OpenConnection();
+            //client.initialize();
 
             if (Properties.Settings.Default.trial == "Y")
             {
@@ -262,76 +263,94 @@ namespace FlashCalculation.View
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(dtdtl.Rows.Count > 0)
+            try
             {
-                this.Cursor = Cursors.WaitCursor;
-                this.Enabled = false;
-
-                if (client.IsConnectedToInternet())
+                if (dtdtl.Rows.Count > 0)
                 {
-                    for (int i = 0; i < dtdtl.Rows.Count; i++)
+                    this.Cursor = Cursors.WaitCursor;
+                    this.Enabled = false;
+
+                    if (client.IsConnectedToInternet())
                     {
-                        if (dtdtl.Rows[i]["is_kirim"].ToString() != "Y")
+                        for (int i = 0; i < dtdtl.Rows.Count; i++)
                         {
-                            string msg = client.PostKirimJawaban("api/kompetisi/input", dtdtl.Rows[i]);
-                            if (msg == "Berhasil input jawaban")
+                            if (dtdtl.Rows[i]["is_kirim"].ToString() != "Y")
                             {
-                                string flag = Encryptor.Encrypt("Y");
+                                try
+                                {
+                                    string msg = client.PostKirimJawaban("api/kompetisi/input", dtdtl.Rows[i]);
+                                    if (msg == "Berhasil input jawaban")
+                                    {
+                                        string flag = Encryptor.Encrypt("Y");
 
-                                db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
-                                    Encryptor.Encrypt(dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
-                                    Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
+                                        db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
+                                            Encryptor.Encrypt(dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
+                                            Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
 
-                                dtdtl.Rows[i]["is_kirim"] = "Y";
+                                        dtdtl.Rows[i]["is_kirim"] = "Y";
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    continue;
+                                }
                             }
                         }
                     }
+
+                    //Cek data di db server
+                    if (client.IsConnectedToInternet())
+                    {
+                        JawabanKompetisi[] jawaban = client.PostGetJawaban("api/kompetisi/jawaban", dtdtl.Rows[0]["ROW_ID_KOMPETISI"].ToString());
+                        if (jawaban.Length > 0)
+                        {
+                            if (jawaban.Length != dtdtl.Rows.Count)
+                            {
+                                //update is_kirim db local jadi N
+                                for (int i = 0; i < dtdtl.Rows.Count; i++)
+                                {
+                                    bool ada = false;
+                                    for (int j = 0; j < jawaban.Length; j++)
+                                    {
+                                        if (dtdtl.Rows[i]["SOAL_NO"].ToString() == jawaban[j].SOAL_NO.ToString())
+                                        {
+                                            ada = true;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            ada = false;
+                                        }
+                                    }
+                                    if (ada == false)
+                                    {
+                                        string flag = Encryptor.Encrypt("N");
+
+                                        db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
+                                        Encryptor.Encrypt(dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
+                                        Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
+
+                                        dtdtl.Rows[i]["is_kirim"] = "N";
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    dataGridView1.DataSource = dtdtl;
+
+                    this.Enabled = true;
+                    this.Cursor = Cursors.Default;
                 }
-
-                //Cek data di db server
-                if (client.IsConnectedToInternet())
-                {
-                    JawabanKompetisi[] jawaban = client.PostGetJawaban("api/kompetisi/jawaban", dtdtl.Rows[0]["ROW_ID_KOMPETISI"].ToString());
-                    if (jawaban.Length > 0)
-                    {
-                        if (jawaban.Length != dtdtl.Rows.Count)
-                        {
-                            //update is_kirim db local jadi N
-                            for (int i = 0; i < dtdtl.Rows.Count; i++)
-                            {
-                                bool ada = false;
-                                for (int j = 0; j < jawaban.Length; j++)
-                                {
-                                    if (dtdtl.Rows[i]["SOAL_NO"].ToString() == jawaban[j].SOAL_NO.ToString())
-                                    {
-                                        ada = true;
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        ada = false;
-                                    }
-                                }
-                                if (ada == false)
-                                {
-                                    string flag = Encryptor.Encrypt("N");
-
-                                    db.Query("Update tb_jawaban_kompetisi set is_kirim = 'N' where ROW_ID_KOMPETISI = '" +
-                                    Encryptor.Encrypt(dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
-                                    Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
-
-                                    dtdtl.Rows[i]["is_kirim"] = "N";
-                                }
-                            }
-                        }
-                    }
-                }                    
-
-                dataGridView1.DataSource = dtdtl;
-
+            }
+            catch(Exception ex)
+            {
                 this.Enabled = true;
                 this.Cursor = Cursors.Default;
+
+                MessageBox.Show(ex.Message);
             }
+            
         }
 
         private void button1_Click(object sender, EventArgs e)

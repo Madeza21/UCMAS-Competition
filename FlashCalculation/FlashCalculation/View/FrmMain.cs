@@ -94,6 +94,7 @@ namespace FlashCalculation
             label13.Text = peserta.ALAMAT_PESERTA;
 
             db.OpenConnection();
+            //client.initialize();
 
             //set tittle
             this.Text = db.GetAppConfig("LBL") + "  (Ver. " + Properties.Settings.Default.version + ")";
@@ -2088,6 +2089,11 @@ namespace FlashCalculation
                 lblSoal.Text = "READY ??";
                 comboBox1.Enabled = false;
 
+                if (ptype == "L")
+                {
+                    comboBox2.Enabled = false;
+                }
+
                 dtkompetisi = Helper.DecryptDataTable(db.GetKompetisiID(peserta.ID_PESERTA, pilihperlombaan));
                 dtSoalLomba = Helper.DecryptDataTableSoal(db.GetSoalKompetisiID(peserta.ID_PESERTA, pilihperlombaan));
                 dtSoalLomba.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, NO_SOAL ASC";
@@ -2370,6 +2376,7 @@ namespace FlashCalculation
                 StopLomba();
                 if (ptype == "L")
                 {
+                    comboBox2.Enabled = true;
                     //Gets the current speaking state of the SpeechSynthesizer object.   
                     if (speechSynthesizerObj.State == SynthesizerState.Speaking)
                     {
@@ -2688,6 +2695,11 @@ namespace FlashCalculation
 
                             lblNo.Text = "";
                             lblSoal.Text = "";
+
+                            if (ptype == "L")
+                            {
+                                comboBox2.Enabled = false;
+                            }
 
                             StopLomba();
                         }                        
