@@ -292,13 +292,15 @@ namespace FlashCalculation.Help
             if (response.IsSuccessStatusCode)
             {
                 obj = (msginputjawaban)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(msginputjawaban));
+
+                return obj.data[0].message;
             }
             else
             {
-                obj = (msginputjawaban)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, typeof(msginputjawaban));
+                return "Zonk";
             }
 
-            return obj.data[0].message;
+            
         }
 
         public JawabanKompetisi[] PostGetJawaban(string url, string rowid)
