@@ -119,7 +119,8 @@ namespace FlashCalculation.View
             ChangeColor();
             Translate();
 
-            label8.Text = Total(dtdtl).ToString();          
+            label8.Text = Total(dtdtl).ToString();
+            label10.Text = "";
         }
 
         private void SetHeader()
@@ -288,6 +289,9 @@ namespace FlashCalculation.View
                                             Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
 
                                         dtdtl.Rows[i]["is_kirim"] = "Y";
+                                        label10.Text = "No. Soal " + dtdtl.Rows[i]["SOAL_NO"].ToString() + " - " + dtdtl.Rows[dtdtl.Rows.Count-1]["SOAL_NO"].ToString();
+                                        dataGridView1.Rows[i].Selected = true;
+                                        dataGridView1.Rows[i].Cells[0].Selected = true;
                                     }
                                 }
                                 catch (Exception ex)
@@ -341,12 +345,16 @@ namespace FlashCalculation.View
 
                     this.Enabled = true;
                     this.Cursor = Cursors.Default;
+
+                    label10.Text = "";
                 }
             }
             catch(Exception ex)
             {
                 this.Enabled = true;
                 this.Cursor = Cursors.Default;
+
+                label10.Text = "";
 
                 MessageBox.Show(ex.Message);
             }

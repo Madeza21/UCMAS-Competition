@@ -71,6 +71,7 @@ namespace FlashCalculation.View
             this.Rest_6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rest_7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rest_8 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.label10 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -81,6 +82,7 @@ namespace FlashCalculation.View
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
@@ -118,9 +120,9 @@ namespace FlashCalculation.View
             // label8
             // 
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(297, 110);
+            this.label8.Location = new System.Drawing.Point(281, 110);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(108, 13);
+            this.label8.Size = new System.Drawing.Size(83, 13);
             this.label8.TabIndex = 16;
             this.label8.Text = "0";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -130,7 +132,7 @@ namespace FlashCalculation.View
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(226, 110);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(65, 13);
+            this.label7.Size = new System.Drawing.Size(55, 13);
             this.label7.TabIndex = 15;
             this.label7.Text = "Skor :";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -436,6 +438,15 @@ namespace FlashCalculation.View
             this.Rest_8.TrueValue = "Y";
             this.Rest_8.Width = 50;
             // 
+            // label10
+            // 
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Green;
+            this.label10.Location = new System.Drawing.Point(370, 110);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(158, 13);
+            this.label10.TabIndex = 18;
+            // 
             // FrmResult
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -494,5 +505,6 @@ namespace FlashCalculation.View
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label10;
     }
 }
