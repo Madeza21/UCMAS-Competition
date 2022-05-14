@@ -469,37 +469,52 @@ namespace FlashCalculation
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //Peserta perserta = new Peserta();
-
-            peserta = client.PostRequestCheckPeserta("/api/user/GetPeserta", textBox1.Text);
-
-            if(peserta.ID_PESERTA == null)
+            try
             {
-                if (Properties.Settings.Default.bahasa == "indonesia")
+                //Peserta perserta = new Peserta();
+
+                peserta = client.PostRequestCheckPeserta("/api/user/GetPeserta", textBox1.Text);
+
+                if (peserta.ID_PESERTA == null)
                 {
-                    MessageBox.Show("ID Peserta tidak valid");
+                    if (Properties.Settings.Default.bahasa == "indonesia")
+                    {
+                        MessageBox.Show("ID Peserta tidak valid");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Participant ID not valid");
+                    }
+
+                    return;
+                }
+
+                this.Hide();
+
+                FrmResetPswd frm = new FrmResetPswd(peserta);
+
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    //Jika Berhasil
                 }
                 else
                 {
-                    MessageBox.Show("Participant ID not valid"); 
+                    //Jika Batal
                 }
-                    
-                return;
+                this.Show();
             }
-
-            this.Hide();
-
-            FrmResetPswd frm = new FrmResetPswd(peserta);
+            catch(Exception ex)
+            {
+                if (Properties.Settings.Default.bahasa == "indonesia")
+                {
+                    MessageBox.Show("Tidak ada akses internet");
+                }
+                else
+                {
+                    MessageBox.Show("Can't access internet");
+                }
+            }
             
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                //Jika Berhasil
-            }
-            else 
-            {
-                //Jika Batal
-            }
-            this.Show();
         }
 
         private void chkTrial_CheckedChanged(object sender, EventArgs e)

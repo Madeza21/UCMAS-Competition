@@ -31,33 +31,48 @@ namespace FlashCalculation.View
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(peserta.TANGGAL_LAHIR == textBox6.Text)
+            try
             {
-                string msg = client.PostRequestChangePassword("api/changepassword/peserta", textBox1.Text, textBox5.Text);
-                if(msg == "Change password success")
+                if (peserta.TANGGAL_LAHIR == textBox6.Text)
                 {
-                    MessageBox.Show(msg);
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    string msg = client.PostRequestChangePassword("api/changepassword/peserta", textBox1.Text, textBox5.Text);
+                    if (msg == "Change password success")
+                    {
+                        MessageBox.Show(msg);
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error");
+                        return;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Error");
+                    if (Properties.Settings.Default.bahasa == "indonesia")
+                    {
+                        MessageBox.Show("Konfirmasi Tanggal Lahir beda dengan Tanggal Lahir yang di registrasi");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Date of Birth Confirmation is different with Date of Birth on registration");
+                    }
                     return;
-                }                
+                }
             }
-            else
+            catch(Exception ex)
             {
                 if (Properties.Settings.Default.bahasa == "indonesia")
                 {
-                    MessageBox.Show("Konfirmasi Tanggal Lahir beda dengan Tanggal Lahir yang di registrasi");
+                    MessageBox.Show("Tidak ada akses internet");
                 }
                 else
                 {
-                    MessageBox.Show("Date of Birth Confirmation is different with Date of Birth on registration");
+                    MessageBox.Show("Can't access internet");
                 }
-                return;
             }
+            
             
         }
 
