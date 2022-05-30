@@ -19,6 +19,7 @@ namespace FlashCalculation.View
         DbBase db = new DbBase();
         DataTable dthdr = new DataTable();
         DataTable dtdtl = new DataTable();
+        DataTable dtdtltemp = new DataTable();
 
         HttpRequest client = new HttpRequest();
 
@@ -35,8 +36,11 @@ namespace FlashCalculation.View
             db.OpenConnection();
             //client.initialize();
 
+            label10.Text = "";
+
             if (Properties.Settings.Default.trial == "Y")
             {
+                label10.Visible = false;
                 label9.Visible = true;
                 comboBox1.Visible = true;
                 button2.Visible = false;
@@ -61,6 +65,9 @@ namespace FlashCalculation.View
 
                         dtdtl = Helper.DecryptDataTable(db.GetJawabanTrialView(comboBox1.SelectedValue.ToString(), rowid, Properties.Settings.Default.siswa_id));
                         dtdtl.AcceptChanges();
+
+                        dtdtltemp = Helper.DecryptDataTable(db.GetJawabanTrialView(comboBox1.SelectedValue.ToString(), rowid, Properties.Settings.Default.siswa_id));
+                        dtdtltemp.AcceptChanges();
                     }
                     else
                     {
@@ -69,6 +76,9 @@ namespace FlashCalculation.View
 
                         dtdtl = Helper.DecryptDataTable(db.GetJawabanTrialView(dt.Rows[0]["ROW_ID"].ToString(), rowid, Properties.Settings.Default.siswa_id));
                         dtdtl.AcceptChanges();
+
+                        dtdtltemp = Helper.DecryptDataTable(db.GetJawabanTrialView(dt.Rows[0]["ROW_ID"].ToString(), rowid, Properties.Settings.Default.siswa_id));
+                        dtdtltemp.AcceptChanges();
                     }
                 }
                 else
@@ -78,6 +88,9 @@ namespace FlashCalculation.View
 
                     dtdtl = Helper.DecryptDataTable(db.GetJawabanView(rowid, Properties.Settings.Default.siswa_id));
                     dtdtl.AcceptChanges();
+
+                    dtdtltemp = Helper.DecryptDataTable(db.GetJawabanView(rowid, Properties.Settings.Default.siswa_id));
+                    dtdtltemp.AcceptChanges();
                 }
                 
 
@@ -93,6 +106,7 @@ namespace FlashCalculation.View
             }
             else
             {
+                label10.Visible = true;
                 label9.Visible = false;
                 comboBox1.Visible = false;
                 button2.Visible = true;
@@ -108,6 +122,11 @@ namespace FlashCalculation.View
                 dtdtl.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_NO_SORT ASC";
                 dtdtl = dtdtl.DefaultView.ToTable();
 
+                dtdtltemp = Helper.DecryptDataTable(db.GetJawabanView(rowid, Properties.Settings.Default.siswa_id));
+                dtdtltemp.AcceptChanges();
+
+                CheckTerkirim();
+
             }
             if (dthdr.Rows.Count > 0)
             {
@@ -118,9 +137,9 @@ namespace FlashCalculation.View
 
             ChangeColor();
             Translate();
+            ChangeRowColor();
 
-            label8.Text = Total(dtdtl).ToString();
-            label10.Text = "";
+            label8.Text = Total(dtdtl).ToString();            
         }
 
         private void SetHeader()
@@ -139,6 +158,46 @@ namespace FlashCalculation.View
         private void ChangeColor()
         {
             Rest_3.HeaderCell.Style.BackColor = Color.Maroon;
+        }
+
+        private void ChangeRowColor()
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells[7].Value.ToString() == "Y")
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightGreen;
+                }
+                else
+                {
+                    row.DefaultCellStyle.BackColor = Color.White;
+                }
+            }
+        }
+
+        private void CheckTerkirim()
+        {
+            try
+            {
+                if (client.IsConnectedToInternet())
+                {
+                    JawabanKompetisi[] jawaban = client.PostGetJawaban("api/kompetisi/jawaban", dtdtl.Rows[0]["ROW_ID_KOMPETISI"].ToString());
+                    if (jawaban != null)
+                    {
+                        label10.Text = "Jawaban Terkirim : " + jawaban.Length + Environment.NewLine +
+                            "Total Jawaban : " + dtdtl.Rows.Count;
+                    }
+                    else
+                    {
+                        label10.Text = "Jawaban Terkirim : 0 " + Environment.NewLine + 
+                            "Total Jawaban : " + dtdtl.Rows.Count;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "No Conection Internet");
+            }
         }
 
         private void Translate()
@@ -273,88 +332,96 @@ namespace FlashCalculation.View
 
                     if (client.IsConnectedToInternet())
                     {
-                        for (int i = 0; i < dtdtl.Rows.Count; i++)
+                        try
                         {
-                            if (dtdtl.Rows[i]["is_kirim"].ToString() != "Y")
+                            dtdtltemp.Clear();
+                            var dtfind = dtdtl.Select("is_kirim = 'N'");
+                            if (dtfind.Any())
                             {
-                                try
-                                {
-                                    string msg = client.PostKirimJawaban("api/kompetisi/input", dtdtl.Rows[i]);
-                                    if (msg == "Berhasil input jawaban")
-                                    {
-                                        string flag = Encryptor.Encrypt("Y");
+                                dtdtltemp = dtfind.CopyToDataTable();
+                            }
 
-                                        db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
-                                            Encryptor.Encrypt(dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
-                                            Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
-
-                                        dtdtl.Rows[i]["is_kirim"] = "Y";
-                                        label10.Text = "No. Soal " + dtdtl.Rows[i]["SOAL_NO"].ToString() + " - " + dtdtl.Rows[dtdtl.Rows.Count-1]["SOAL_NO"].ToString();
-                                        dataGridView1.Rows[i].Selected = true;
-                                        dataGridView1.Rows[i].Cells[0].Selected = true;
-                                    }
-                                }
-                                catch (Exception ex)
+                            if(dtdtltemp.Rows.Count > 0)
+                            {
+                                string msg = client.PostKirimJawaban("api/kompetisi/simpan", dtdtltemp);
+                                if (msg == "Berhasil input jawaban")
                                 {
-                                    continue;
+                                    string flag = Encryptor.Encrypt("Y");
+
+                                    db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
+                                        Encryptor.Encrypt(dtdtltemp.Rows[0]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
+                                        Encryptor.Encrypt(dtdtltemp.Rows[0]["ID_PESERTA"].ToString()) + "'");
                                 }
                             }
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "No Connection Internet");
                         }
                     }
+
+                    dtdtl = Helper.DecryptDataTable(db.GetJawabanView(rowid, Properties.Settings.Default.siswa_id));
+                    dtdtl.AcceptChanges();
+                    dtdtl.Columns.Add("SOAL_NO_SORT", typeof(int), "SOAL_NO");
+                    dtdtl.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_NO_SORT ASC";
+                    dtdtl = dtdtl.DefaultView.ToTable();
 
                     //Cek data di db server
                     if (client.IsConnectedToInternet())
                     {
                         JawabanKompetisi[] jawaban = client.PostGetJawaban("api/kompetisi/jawaban", dtdtl.Rows[0]["ROW_ID_KOMPETISI"].ToString());
-                        if (jawaban.Length > 0)
+                        if(jawaban != null)
                         {
-                            if (jawaban.Length != dtdtl.Rows.Count)
+                            if (jawaban.Length > 0)
                             {
-                                //update is_kirim db local jadi N
-                                for (int i = 0; i < dtdtl.Rows.Count; i++)
+                                if (jawaban.Length != dtdtl.Rows.Count)
                                 {
-                                    bool ada = false;
-                                    for (int j = 0; j < jawaban.Length; j++)
+                                    //update is_kirim db local jadi N
+                                    for (int i = 0; i < dtdtl.Rows.Count; i++)
                                     {
-                                        if (dtdtl.Rows[i]["SOAL_NO"].ToString() == jawaban[j].SOAL_NO.ToString())
+                                        bool ada = false;
+                                        for (int j = 0; j < jawaban.Length; j++)
                                         {
-                                            ada = true;
-                                            break;
+                                            if (dtdtl.Rows[i]["SOAL_NO"].ToString() == jawaban[j].SOAL_NO.ToString())
+                                            {
+                                                ada = true;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                ada = false;
+                                            }
                                         }
-                                        else
+                                        if (ada == false)
                                         {
-                                            ada = false;
+                                            string flag = Encryptor.Encrypt("N");
+
+                                            db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
+                                            Encryptor.Encrypt(dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
+                                            Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
+
+                                            dtdtl.Rows[i]["is_kirim"] = "N";
                                         }
-                                    }
-                                    if (ada == false)
-                                    {
-                                        string flag = Encryptor.Encrypt("N");
-
-                                        db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
-                                        Encryptor.Encrypt(dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
-                                        Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
-
-                                        dtdtl.Rows[i]["is_kirim"] = "N";
                                     }
                                 }
                             }
-                        }
+                        }                        
                     }
 
                     dataGridView1.DataSource = dtdtl;
+                    ChangeRowColor();
 
                     this.Enabled = true;
                     this.Cursor = Cursors.Default;
 
-                    label10.Text = "";
+                    CheckTerkirim();
                 }
             }
             catch(Exception ex)
             {
                 this.Enabled = true;
                 this.Cursor = Cursors.Default;
-
-                label10.Text = "";
 
                 MessageBox.Show(ex.Message);
             }

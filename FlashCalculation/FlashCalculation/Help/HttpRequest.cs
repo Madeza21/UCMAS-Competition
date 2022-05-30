@@ -265,7 +265,8 @@ namespace FlashCalculation.Help
             return data.message;
         }
 
-        public string PostKirimJawaban(string url, DataRow dr)
+        private inputjawaban[] kirimjawaban;
+        public string PostKirimJawaban(string url, DataTable dt)
         {
             HttpClient http = new HttpClient();
 
@@ -277,17 +278,29 @@ namespace FlashCalculation.Help
             msginputjawaban obj = new msginputjawaban();
 
             HttpResponseMessage response = new HttpResponseMessage();
-            inputjawaban prm = new inputjawaban() 
+
+            kirimjawaban = new inputjawaban[dt.Rows.Count];
+
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ROW_ID_KOMPETISI = dr["ROW_ID_KOMPETISI"].ToString(), ID_PESERTA = Properties.Settings.Default.siswa_id, 
-                SOAL_NO = Convert.ToInt32(dr["SOAL_NO"].ToString()), 
-                PERTANYAAN = dr["PERTANYAAN"].ToString(), JAWABAN_PESERTA = Convert.ToDecimal(dr["JAWABAN_PESERTA"].ToString()),
-                JAWAB_DETIK_BERAPA = Convert.ToInt32(dr["JAWAB_DETIK_BERAPA"].ToString()), 
-                JAWAB_DATE = Convert.ToDateTime(dr["JAWAB_DATE"].ToString()).ToString("yyyy-MM-dd hh:mm:ss"),
-                KUNCI_JAWABAN = Convert.ToDecimal(dr["KUNCI_JAWABAN"].ToString()), SCORE_PESERTA = Convert.ToInt32(dr["SCORE_PESERTA"].ToString()),
-                ENTRY_USER = Properties.Settings.Default.siswa_id, UPDATE_USER = Properties.Settings.Default.siswa_id
-            };
-            response = http.PostAsJsonAsync(url, prm).Result;
+                kirimjawaban[i] = new inputjawaban()
+                {
+                    ROW_ID_KOMPETISI = dt.Rows[i]["ROW_ID_KOMPETISI"].ToString(),
+                    ID_PESERTA = Properties.Settings.Default.siswa_id,
+                    SOAL_NO = Convert.ToInt32(dt.Rows[i]["SOAL_NO"].ToString()),
+                    PERTANYAAN = dt.Rows[i]["PERTANYAAN"].ToString(),
+                    JAWABAN_PESERTA = Convert.ToDecimal(dt.Rows[i]["JAWABAN_PESERTA"].ToString()),
+                    JAWAB_DETIK_BERAPA = Convert.ToInt32(dt.Rows[i]["JAWAB_DETIK_BERAPA"].ToString()),
+                    JAWAB_DATE = Convert.ToDateTime(dt.Rows[i]["JAWAB_DATE"].ToString()).ToString("yyyy-MM-dd hh:mm:ss"),
+                    KUNCI_JAWABAN = Convert.ToDecimal(dt.Rows[i]["KUNCI_JAWABAN"].ToString()),
+                    SCORE_PESERTA = Convert.ToInt32(dt.Rows[i]["SCORE_PESERTA"].ToString()),
+                    ENTRY_USER = Properties.Settings.Default.siswa_id,
+                    UPDATE_USER = Properties.Settings.Default.siswa_id
+                };
+            }
+
+            response = http.PostAsJsonAsync(url, kirimjawaban).Result;
 
             if (response.IsSuccessStatusCode)
             {
