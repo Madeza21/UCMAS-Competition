@@ -40,6 +40,7 @@ namespace FlashCalculation.View
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmResult));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -71,7 +72,6 @@ namespace FlashCalculation.View
             this.Rest_6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rest_7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rest_8 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.label10 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -106,6 +106,15 @@ namespace FlashCalculation.View
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(912, 136);
             this.panel1.TabIndex = 0;
+            // 
+            // label10
+            // 
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Green;
+            this.label10.Location = new System.Drawing.Point(370, 95);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(320, 37);
+            this.label10.TabIndex = 18;
             // 
             // comboBox1
             // 
@@ -437,15 +446,6 @@ namespace FlashCalculation.View
             this.Rest_8.ReadOnly = true;
             this.Rest_8.TrueValue = "Y";
             this.Rest_8.Width = 50;
-            // 
-            // label10
-            // 
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.Green;
-            this.label10.Location = new System.Drawing.Point(370, 110);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(158, 13);
-            this.label10.TabIndex = 18;
             // 
             // FrmResult
             // 
