@@ -34,25 +34,23 @@ namespace FlashCalculation.View
                 label10.Text = "Ver. " + Properties.Settings.Default.version;
                 client.initialize();
 
-                //if (client.IsConnectedToInternet())
-                //{
-                //    sysconfig = client.GetRequestSysConfig("/api/sysconfig");
-                //    if (sysconfig != null)
-                //    {
-                //        if (sysconfig[0].APP_VERSION != Properties.Settings.Default.version)
-                //        {
-                //            MessageBox.Show("Please update application to version " + sysconfig[0].APP_VERSION);
-                //            Application.Exit();
-                //        }
-                //    }
-                //}
-
-                
+                if (client.IsConnectedToInternet())
+                {
+                    sysconfig = client.GetRequestSysConfig("/api/sysconfig");
+                    if (sysconfig != null)
+                    {
+                        if (sysconfig[0].APP_VERSION != Properties.Settings.Default.version)
+                        {
+                            MessageBox.Show("Please update application to version " + sysconfig[0].APP_VERSION);
+                            Application.Exit();
+                        }
+                    }
+                }
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Warning!");
+                MessageBox.Show("Tidak ada akses internet", "Warning!");
             }
         }
 
