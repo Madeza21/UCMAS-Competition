@@ -56,11 +56,11 @@ namespace FlashCalculation
             this.label2 = new System.Windows.Forms.Label();
             this.chkTrial = new System.Windows.Forms.CheckBox();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label10 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -335,17 +335,6 @@ namespace FlashCalculation
             this.panel5.Size = new System.Drawing.Size(465, 93);
             this.panel5.TabIndex = 4;
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.Green;
-            this.label10.Location = new System.Drawing.Point(4, 74);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(47, 14);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Version";
-            // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
@@ -384,6 +373,17 @@ namespace FlashCalculation
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Green;
+            this.label10.Location = new System.Drawing.Point(4, 74);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(47, 14);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Version";
             // 
             // FrmLogin
             // 
