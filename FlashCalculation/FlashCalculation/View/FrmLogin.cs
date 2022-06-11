@@ -250,7 +250,7 @@ namespace FlashCalculation
             {
                 label10.Text = "Ver. " + Properties.Settings.Default.version;
                 db.OpenConnection();
-                client.initialize();
+                //client.initialize();
                 timer1.Start();
                 this.Cursor = Cursors.WaitCursor;
                 this.Enabled = false;
@@ -443,7 +443,7 @@ namespace FlashCalculation
                 button1.Text = "Masuk";
                 button2.Text = "Batal";
 
-                chkTrial.Text = "UJI COBA";
+                chkTrial.Text = "Latihan";
             }
         }
 
@@ -463,7 +463,7 @@ namespace FlashCalculation
                 button1.Text = "Sign In";
                 button2.Text = "Cancel";
 
-                chkTrial.Text = "TRIAL";
+                chkTrial.Text = "Practice";
             }
         }
 
@@ -575,23 +575,31 @@ namespace FlashCalculation
 
         private void CloseApp()
         {
-            timer1.Stop();
-            db.CloseConnection();
-
-            if (!isdispose)
+            try
             {
-                //Gets the current speaking state of the SpeechSynthesizer object.   
-                if (speechSynthesizerObj.State == SynthesizerState.Speaking)
-                {
-                    //close the SpeechSynthesizer object.   
-                    speechSynthesizerObj.SpeakAsyncCancelAll();
-                }
-                speechSynthesizerObj.Dispose();
-            }
+                timer1.Stop();
+                db.CloseConnection();
 
-            this.DialogResult = DialogResult.Cancel;
-            //this.Close();
-            Application.Exit();
+                if (!isdispose)
+                {
+                    //Gets the current speaking state of the SpeechSynthesizer object.   
+                    if (speechSynthesizerObj.State == SynthesizerState.Speaking)
+                    {
+                        //close the SpeechSynthesizer object.   
+                        speechSynthesizerObj.SpeakAsyncCancelAll();
+                    }
+                    speechSynthesizerObj.Dispose();
+                }
+
+                this.DialogResult = DialogResult.Cancel;
+                //this.Close();
+                Application.Exit();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Warning!");
+            }
+            
         }
     }
 }

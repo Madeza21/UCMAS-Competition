@@ -137,6 +137,13 @@ namespace FlashCalculation.View
                         string strial = Encryptor.Encrypt("Y");
                         db.Query("DELETE FROM tb_kompetisi where IS_TRIAL = '" + strial + "'");
 
+                        for (int i = 0; i < login.kompetisi.Length; i++)
+                        {
+                            db.Query("DELETE FROM tb_kompetisi where ROW_ID = '" + Encryptor.Encrypt(login.kompetisi[i].ROW_ID) + "'");
+                            db.Query("DELETE FROM tb_parameter_kompetisi where ROW_ID_KOMPETISI = '" + Encryptor.Encrypt(login.kompetisi[i].ROW_ID) + "'");
+                            db.Query("DELETE FROM tb_peserta_kompetisi where ROW_ID_KOMPETISI = '" + Encryptor.Encrypt(login.kompetisi[i].ROW_ID) + "' AND ID_PESERTA = '" + Encryptor.Encrypt(user) + "'");
+                        }
+
                         db.InsertKompetisi(login.kompetisi);
                         db.InsertKompetisiPeserta(login.kompetisi);
                     }
