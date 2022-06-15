@@ -1764,111 +1764,147 @@ namespace FlashCalculation
 
         private void SetType(DataTable dt)
         {
-            if (dt.Rows.Count > 0)
+            try
             {
-                if (dt.Rows[0]["TIPE"].ToString() == "L")
+                if (dt.Rows.Count > 0)
                 {
-                    label23.Visible = true;
-                    comboBox2.Visible = true;
-
-                    button4.Visible = false;
-                    button5.Visible = false;
-                    button6.Visible = false;
-
-                    flaglistening = "";
-
-                    if (dt.Rows[0]["BAHASA"].ToString() == "English")
+                    if (dt.Rows[0]["TIPE"].ToString() == "L")
                     {
-                        DataTable dtt = dtsp.AsEnumerable()
-                                            .Where(row => row.Field<String>("Name").Contains("English"))
-                                            .CopyToDataTable();
-                        comboBox2.DataSource = dtt;
+                        label23.Visible = true;
+                        comboBox2.Visible = true;
 
-                        flaglistening = "English";
-                        /*for (int i = 0; i < dtsp.Rows.Count; i++)
+                        button4.Visible = false;
+                        button5.Visible = false;
+                        button6.Visible = false;
+
+                        flaglistening = "";
+
+                        if (dt.Rows[0]["BAHASA"].ToString() == "English")
                         {
-                            if (dtsp.Rows[i]["Name"].ToString().Contains("English"))
+                            DataTable dtt = null;
+                            var dtfind = dtsp.Select("Name like '%English%'");
+                            if (dtfind.Any())
                             {
-                                //comboBox2.SelectedIndex = comboBox2.FindStringExact(dtsp.Rows[i]["Name"].ToString());
-                                comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
-                                break;
-                            }
-                        }*/
-                    }
-                    else
-                    {
-                        DataTable dtt = dtsp.AsEnumerable()
-                                            .Where(row => row.Field<String>("Name").Contains("Indonesian"))
-                                            .CopyToDataTable();
-                        comboBox2.DataSource = dtt;
+                                dtt = dtfind.CopyToDataTable();
+                                comboBox2.DataSource = dtt;
 
-                        flaglistening = "Indonesian";
-                        /*for (int i = 0; i < dtsp.Rows.Count; i++)
-                        {
-                            if (dtsp.Rows[i]["Name"].ToString().Contains("Indonesian"))
-                            {
-                                comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
-                                //comboBox2.SelectedIndex = comboBox2.FindStringExact(dtsp.Rows[i]["Name"].ToString());
-                                break;
-                            }
-                        }*/
-                    }
-
-                }
-                else
-                {
-                    label23.Visible = false;
-                    comboBox2.Visible = false;
-
-                    button4.Visible = false;
-                    button5.Visible = false;
-                    button6.Visible = false;
-
-                    //Buatkan Proses untuk visual bisa pilih soal yang dikerjakan terlebih dahulu misal perkalian atau pembagian terlebih dahulu
-                    if (dt.Rows[0]["TIPE"].ToString() == "V")
-                    {                        
-                        string strtglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
-                        DataTable dtparm = Helper.DecryptDataTable(db.GetParameterKompetisi(peserta.ID_PESERTA, strtglkompetisi, dt.Rows[0]["ROW_ID"].ToString()));
-                        dtparm.AcceptChanges();
-                        dtparm.Columns.Add("SOAL_DARI_SORT", typeof(int), "SOAL_DARI");
-
-                        dtparm.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_DARI_SORT ASC";
-                        dtparm = dtparm.DefaultView.ToTable();
-
-                        if(dtparm.Rows.Count > 0)
-                        {
-                            DataRow[] foundRows_bagi, foundRows_kali, foundRows_tambah;
-                            foundRows_bagi = dtparm.Select("MUNCUL_ANGKA_PEMBAGIAN='Y'");
-                            foundRows_kali = dtparm.Select("MUNCUL_ANGKA_PERKALIAN='Y'");
-                            foundRows_tambah = dtparm.Select("MUNCUL_ANGKA_PEMBAGIAN <> 'Y' or MUNCUL_ANGKA_PERKALIAN <> 'Y'");
-
-                            if (foundRows_bagi.Length > 0)
-                            {
-                                button6.Visible = true;
-                                button6.Enabled = false;
-                            }
-
-                            if (foundRows_kali.Length > 0)
-                            {
-                                button5.Visible = true;
-                                button5.Enabled = false;
-                            }
-
-                            if (foundRows_tambah.Length > 0 && (foundRows_bagi.Length > 0 || foundRows_kali.Length > 0))
-                            {
-                                button4.Visible = true;
-                                button4.Enabled = false;
                             }
                             else
                             {
-                                button4.Visible = false;
-                                button4.Enabled = false;
+                                MessageBox.Show("Please install Speak English!", "Warning!");
+                                return;
                             }
+
+                            //DataTable dtt = dtsp.AsEnumerable()
+                            //                    .Where(row => row.Field<String>("Name").Contains("English"))
+                            //                    .CopyToDataTable();
+                            //comboBox2.DataSource = dtt;
+
+                            flaglistening = "English";
+                            /*for (int i = 0; i < dtsp.Rows.Count; i++)
+                            {
+                                if (dtsp.Rows[i]["Name"].ToString().Contains("English"))
+                                {
+                                    //comboBox2.SelectedIndex = comboBox2.FindStringExact(dtsp.Rows[i]["Name"].ToString());
+                                    comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
+                                    break;
+                                }
+                            }*/
+                        }
+                        else
+                        {
+                            DataTable dtt = null;
+                            var dtfind = dtsp.Select("Name like '%Indonesian%'");
+                            if (dtfind.Any())
+                            {
+                                dtt = dtfind.CopyToDataTable();
+                                comboBox2.DataSource = dtt;
+
+                            }
+                            else
+                            {
+                                MessageBox.Show("Please install Speak Indonesian!", "Warning!");
+                                return;
+                            }
+
+                            //DataTable dtt = dtsp.AsEnumerable()
+                            //                    .Where(row => row.Field<String>("Name").Contains("Indonesian"))
+                            //                    .CopyToDataTable();
+                            //comboBox2.DataSource = dtt;
+
+                            flaglistening = "Indonesian";
+                            /*for (int i = 0; i < dtsp.Rows.Count; i++)
+                            {
+                                if (dtsp.Rows[i]["Name"].ToString().Contains("Indonesian"))
+                                {
+                                    comboBox2.Text = dtsp.Rows[i]["Name"].ToString();
+                                    //comboBox2.SelectedIndex = comboBox2.FindStringExact(dtsp.Rows[i]["Name"].ToString());
+                                    break;
+                                }
+                            }*/
                         }
 
                     }
+                    else
+                    {
+                        label23.Visible = false;
+                        comboBox2.Visible = false;
+
+                        button4.Visible = false;
+                        button5.Visible = false;
+                        button6.Visible = false;
+
+                        //Buatkan Proses untuk visual bisa pilih soal yang dikerjakan terlebih dahulu misal perkalian atau pembagian terlebih dahulu
+                        if (dt.Rows[0]["TIPE"].ToString() == "V")
+                        {
+                            string strtglkompetisi = DateTime.Now.ToString("yyyy-MM-dd");
+                            DataTable dtparm = Helper.DecryptDataTable(db.GetParameterKompetisi(peserta.ID_PESERTA, strtglkompetisi, dt.Rows[0]["ROW_ID"].ToString()));
+                            dtparm.AcceptChanges();
+                            dtparm.Columns.Add("SOAL_DARI_SORT", typeof(int), "SOAL_DARI");
+
+                            dtparm.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_DARI_SORT ASC";
+                            dtparm = dtparm.DefaultView.ToTable();
+
+                            if (dtparm.Rows.Count > 0)
+                            {
+                                DataRow[] foundRows_bagi, foundRows_kali, foundRows_tambah;
+                                foundRows_bagi = dtparm.Select("MUNCUL_ANGKA_PEMBAGIAN='Y'");
+                                foundRows_kali = dtparm.Select("MUNCUL_ANGKA_PERKALIAN='Y'");
+                                foundRows_tambah = dtparm.Select("MUNCUL_ANGKA_PEMBAGIAN <> 'Y' or MUNCUL_ANGKA_PERKALIAN <> 'Y'");
+
+                                if (foundRows_bagi.Length > 0)
+                                {
+                                    button6.Visible = true;
+                                    button6.Enabled = false;
+                                }
+
+                                if (foundRows_kali.Length > 0)
+                                {
+                                    button5.Visible = true;
+                                    button5.Enabled = false;
+                                }
+
+                                if (foundRows_tambah.Length > 0 && (foundRows_bagi.Length > 0 || foundRows_kali.Length > 0))
+                                {
+                                    button4.Visible = true;
+                                    button4.Enabled = false;
+                                }
+                                else
+                                {
+                                    button4.Visible = false;
+                                    button4.Enabled = false;
+                                }
+                            }
+
+                        }
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Warning!");
+            }
+            
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -2318,6 +2354,7 @@ namespace FlashCalculation
 
                     speechSynthesizerObj.Dispose();
                     speechSynthesizerObj = new SpeechSynthesizer();
+                    speechSynthesizerObj.SetOutputToDefaultAudioDevice();
                     speechSynthesizerObj.Volume = 100; // от 0 до 100
                     speechSynthesizerObj.Rate = speechRate; //от -10 до 10
                     speechSynthesizerObj.SelectVoice(comboBox2.SelectedValue.ToString());
