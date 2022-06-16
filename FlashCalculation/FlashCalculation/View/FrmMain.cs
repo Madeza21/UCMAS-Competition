@@ -2793,13 +2793,32 @@ namespace FlashCalculation
             }
         }
 
-        public void SpeakComplete(object sender, EventArgs e)
+        public void SpeakComplete(object sender, SpeakCompletedEventArgs e)
         {
-            Start();
+            if (e.Prompt.IsCompleted)
+            {
+                Start();
 
-            textBox10.Text = "";
-            textBox10.Enabled = true;
-            textBox10.Focus();
+                textBox10.Text = "";
+                textBox10.Enabled = true;
+                textBox10.Focus();
+            }
+
+            if (e.Cancelled)
+            {
+                MessageBox.Show("Error Cancelled Speak Object", "Information!");
+                textBox10.Enabled = false;
+                lamalomba = lamalomba + 1;
+                StartLomba();
+            }
+
+            if (e.Error != null)
+            {
+                MessageBox.Show("Error Speak Object " + Environment.NewLine + e.Error.Message, "Information!");
+                textBox10.Enabled = false;
+                lamalomba = lamalomba + 1;
+                StartLomba();
+            }
         }
 
         private void TranslateControl()
