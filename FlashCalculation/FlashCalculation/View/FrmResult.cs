@@ -330,6 +330,8 @@ namespace FlashCalculation.View
                     this.Cursor = Cursors.WaitCursor;
                     this.Enabled = false;
 
+                    db.BeginTransaction();
+
                     if (client.IsConnectedToInternet())
                     {
                         try
@@ -357,6 +359,7 @@ namespace FlashCalculation.View
                         }
                         catch (Exception ex)
                         {
+                            db.rollback();
                             MessageBox.Show(ex.Message, "No Connection Internet");
                         }
                     }
@@ -416,12 +419,18 @@ namespace FlashCalculation.View
                     this.Cursor = Cursors.Default;
 
                     CheckTerkirim();
+                    db.commit();
                 }
             }
             catch(Exception ex)
             {
                 this.Enabled = true;
                 this.Cursor = Cursors.Default;
+
+                if (db.IsTransactionStarted())
+                {
+                    db.rollback();
+                }
 
                 MessageBox.Show(ex.Message);
             }

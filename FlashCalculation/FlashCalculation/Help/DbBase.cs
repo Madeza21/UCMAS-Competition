@@ -12,6 +12,7 @@ namespace FlashCalculation.Help
     public class DbBase
     {
         SQLiteConnection sqlite_conn;
+        SQLiteTransaction sqlite_trans = null;
 
         static SQLiteConnection CreateConnection()
         {
@@ -39,6 +40,25 @@ namespace FlashCalculation.Help
         public void CloseConnection()
         {
             sqlite_conn.Close();
+        }
+
+        public void BeginTransaction()
+        {
+            sqlite_trans = sqlite_conn.BeginTransaction();
+        }
+        public Boolean IsTransactionStarted()
+        {
+            return sqlite_trans != null;
+        }
+        public void commit()
+        {
+            sqlite_trans.Commit();
+            sqlite_trans = null;
+        }
+        public void rollback()
+        {
+            sqlite_trans.Rollback();
+            sqlite_trans = null;
         }
 
         public SQLiteParameter SqlParam(string ParameterName, DbType type, ParameterDirection direction)
@@ -547,11 +567,10 @@ namespace FlashCalculation.Help
         {
             SQLiteCommand sqlite_cmd;
             sqlite_cmd = sqlite_conn.CreateCommand();
-            
+
             sqlite_cmd.CommandText = query;
 
             sqlite_cmd.ExecuteNonQuery();
-            
         }
 
         public string UpdateDataTable(DataTable dt, string astrUpdateTable,
@@ -569,10 +588,10 @@ namespace FlashCalculation.Help
             DateTime ldtTypeTest = DateTime.Now;
             decimal ldTypetest = 0;
 
-            SQLiteConnection connection = new SQLiteConnection("Data Source=ucmas.db3; Version = 3; New = True; Compress = True;");
-            connection.Open();
-            SQLiteCommand command = connection.CreateCommand();
-            SQLiteTransaction transaction = connection.BeginTransaction();
+            //SQLiteConnection connection = new SQLiteConnection("Data Source=ucmas.db3; Version = 3; New = True; Compress = True;");
+            //connection.Open();
+            SQLiteCommand command = sqlite_conn.CreateCommand();
+            //SQLiteTransaction transaction = connection.BeginTransaction();
 
             foreach (DataRow therow in dt.Rows)
             {                
@@ -600,9 +619,9 @@ namespace FlashCalculation.Help
                             }
                             if (lblnTest == false)
                             {
-                                transaction.Rollback();
+                                //transaction.Rollback();
                                 command.Dispose();
-                                connection.Dispose();
+                                //connection.Dispose();
 
                                 throw new Exception("The column '" + astrUpdateColumn + "' not exists while insert!");
                             }
@@ -650,18 +669,18 @@ namespace FlashCalculation.Help
                     }
                     catch (Exception ee)
                     {
-                        transaction.Rollback();
+                        //transaction.Rollback();
                         command.Dispose();
-                        connection.Dispose();
+                        //connection.Dispose();
 
                         throw new Exception(ee.Message);
                     }
                 }
             }
 
-            transaction.Commit();
+            //transaction.Commit();
             command.Dispose();
-            connection.Dispose();
+            //connection.Dispose();
 
             return "OK";
         }

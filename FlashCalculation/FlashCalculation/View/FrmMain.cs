@@ -75,60 +75,80 @@ namespace FlashCalculation
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            timer1.Start();
-            Visibled(true);
-            //Properties.Settings.Default.siswa_id = "TES UBAH";
-            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-            textBox10.Font = new Font(this.pfc.Families[0], 34, FontStyle.Bold);
-            lblSoal.Font = new Font(this.pfc.Families[0], 72, FontStyle.Bold);
-            lblNo.Font = new Font(this.pfc.Families[0], 10, FontStyle.Bold);
+            try
+            {
+                timer1.Start();
+                Visibled(true);
+                //Properties.Settings.Default.siswa_id = "TES UBAH";
+                this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+                textBox10.Font = new Font(this.pfc.Families[0], 34, FontStyle.Bold);
+                lblSoal.Font = new Font(this.pfc.Families[0], 72, FontStyle.Bold);
+                lblNo.Font = new Font(this.pfc.Families[0], 10, FontStyle.Bold);
 
-            label14.Text = peserta.ID_PESERTA;
-            label15.Text = peserta.NAMA_PESERTA;
-            label16.Text = peserta.JENIS_KELAMIN == "L" ? "Laki-laki" : "Perempuan";
-            label17.Text = peserta.TEMPAT_LAHIR;
-            label18.Text = peserta.TANGGAL_LAHIR;
-            label19.Text = peserta.SEKOLAH_PESERTA;
-            label20.Text = peserta.EMAIL_PESERTA;
-            label21.Text = peserta.NO_TELP_PESERTA;
-            label13.Text = peserta.ALAMAT_PESERTA;
+                label14.Text = peserta.ID_PESERTA;
+                label15.Text = peserta.NAMA_PESERTA;
+                label16.Text = peserta.JENIS_KELAMIN == "L" ? "Laki-laki" : "Perempuan";
+                label17.Text = peserta.TEMPAT_LAHIR;
+                label18.Text = peserta.TANGGAL_LAHIR;
+                label19.Text = peserta.SEKOLAH_PESERTA;
+                label20.Text = peserta.EMAIL_PESERTA;
+                label21.Text = peserta.NO_TELP_PESERTA;
+                label13.Text = peserta.ALAMAT_PESERTA;
 
-            db.OpenConnection();
-            //client.initialize();
+                db.OpenConnection();
+                //client.initialize();
 
-            //set tittle
-            this.Text = db.GetAppConfig("LBL") + "  (Ver. " + Properties.Settings.Default.version + ") - " + peserta.NAMA_PESERTA;
-            label11.Text = db.GetAppConfig("LBK");
+                //set tittle
+                this.Text = db.GetAppConfig("LBL") + "  (Ver. " + Properties.Settings.Default.version + ") - " + peserta.NAMA_PESERTA;
+                label11.Text = db.GetAppConfig("LBK");
 
-            //label23.Visible = false;
-            //comboBox2.Visible = false;
+                //label23.Visible = false;
+                //comboBox2.Visible = false;
 
-            //Load Kompetisi
-            DataTable dtkom = Helper.DecryptDataTable(db.GetKompetisi(peserta.ID_PESERTA, DateTime.Now.ToString("yyyy-MM-dd"), Properties.Settings.Default.trial));
-            dtkom.DefaultView.Sort = "KOMPETISI_NAME ASC";
-            dtkom = dtkom.DefaultView.ToTable();
-            comboBox1.DataSource = dtkom;
-            comboBox1.DisplayMember = "KOMPETISI_NAME";
-            comboBox1.ValueMember = "ROW_ID";
+                //Load Kompetisi
+                DataTable dtkom = Helper.DecryptDataTable(db.GetKompetisi(peserta.ID_PESERTA, DateTime.Now.ToString("yyyy-MM-dd"), Properties.Settings.Default.trial));
+                dtkom.DefaultView.Sort = "KOMPETISI_NAME ASC";
+                dtkom = dtkom.DefaultView.ToTable();
+                //if(dtkom.Rows.Count <= 0)
+                //{
+                //    MessageBox.Show("Data Kompetisi tidak ada di database !", "Warning!");
+                //}
+                comboBox1.DataSource = dtkom;
+                comboBox1.DisplayMember = "KOMPETISI_NAME";
+                comboBox1.ValueMember = "ROW_ID";
 
-            //Load dummy soal kompetisi
-            dtSoal = db.GetSoalKompetisi("");
-            SetSoalKompetisi("");
+                //Load dummy soal kompetisi
+                dtSoal = db.GetSoalKompetisi("");
+                db.BeginTransaction();
+                SetSoalKompetisi("");
+                db.commit();
+                //if (dtSoal.Rows.Count <= 0)
+                //{
+                //    MessageBox.Show("Soal Kompetisi tidak ada di database !", "Warning!");
+                //}
+                //dtJawaban = db.GetJawabanKompetisi("");
 
-            //dtJawaban = db.GetJawabanKompetisi("");
+                lblNo.Text = "";
+                lblDur.Text = "";
 
-            lblNo.Text = "";
-            lblDur.Text = "";
+                TranslateControl();
 
-            TranslateControl();
+                speechSynthesizerObj = new SpeechSynthesizer();
+                LoadListSpeech();
+                textBox10.Enabled = false;
 
-            speechSynthesizerObj = new SpeechSynthesizer();
-            LoadListSpeech();
-            textBox10.Enabled = false;
+                SetType(dtkom);
 
-            SetType(dtkom);
-
-            this.Cursor = System.Windows.Forms.Cursors.Default;
+                this.Cursor = System.Windows.Forms.Cursors.Default;
+            }
+            catch(Exception ex)
+            {
+                if (db.IsTransactionStarted())
+                {
+                    db.rollback();
+                }
+                MessageBox.Show(ex.Message, "Error !");
+            }            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1461,14 +1481,14 @@ namespace FlashCalculation
 
                 if (db.UpdateDataTable(dtSoal, "tb_soal_kompetisi", lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol) != "OK")
                 {
-
+                    throw new Exception("Error save to tb_soal_kompetisi");
                 }
                 #endregion Save Soal
                 
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message + " Row : " + errex);
+                MessageBox.Show(e.Message, "Error DB!");
             }   
         }
 
@@ -1609,10 +1629,12 @@ namespace FlashCalculation
                                 {
                                     row.SetAdded();
                                 }
+                                db.BeginTransaction();
                                 if (db.UpdateDataTable(dtJawabanTrial, "tb_jawaban_kompetisi_trial", lstrPrmHdrUpdateCol2, lstrPrmHdrKeyCol2) != "OK")
                                 {
-
+                                    db.rollback();
                                 }
+                                db.commit();
                             }
                             else
                             {
@@ -1661,10 +1683,12 @@ namespace FlashCalculation
                                 {
                                     row.SetAdded();
                                 }
+                                db.BeginTransaction();
                                 if (db.UpdateDataTable(dtJawaban, "tb_jawaban_kompetisi", lstrPrmHdrUpdateCol, lstrPrmHdrKeyCol) != "OK")
                                 {
-
+                                    db.rollback();
                                 }
+                                db.commit();
                             }
                             #endregion Trial
                         }
@@ -1707,6 +1731,10 @@ namespace FlashCalculation
             }
             catch(Exception ex)
             {
+                if (db.IsTransactionStarted())
+                {
+                    db.rollback();
+                }
                 MessageBox.Show(ex.Message, "Warning!");
             }
             
@@ -2044,6 +2072,7 @@ namespace FlashCalculation
                 }
                 else
                 {
+                    db.BeginTransaction();
                     ptype = db.GetTypeKompetisi(pilihperlombaan, tglkompetisi);
                     if (Properties.Settings.Default.trial == "Y")
                     {
@@ -2075,6 +2104,7 @@ namespace FlashCalculation
                         {
                             MessageBox.Show("You have participated this competition before.");
                         }
+                        db.rollback();
                         return;
                     }
 
@@ -2092,6 +2122,7 @@ namespace FlashCalculation
                             {
                                 MessageBox.Show("You have participated this competition before.");
                             }
+                            db.rollback();
                             return;
                         }
                         else
@@ -2107,6 +2138,7 @@ namespace FlashCalculation
                                 {
                                     MessageBox.Show("You have participated this competition before.");
                                 }
+                                db.rollback();
                                 return;
                             }
                         }
@@ -2190,10 +2222,17 @@ namespace FlashCalculation
                     button1.Enabled = false;
                     button2.Enabled = false;
                     button3.Enabled = false;
+
+                    db.commit();
                 }
             }
             catch(Exception ex)
             {
+                if (db.IsTransactionStarted())
+                {
+                    db.rollback();
+                }
+
                 if (Properties.Settings.Default.bahasa == "indonesia")
                 {
                     MessageBox.Show("Tidak ada akses internet");

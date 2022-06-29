@@ -138,6 +138,9 @@ namespace FlashCalculation
                         Properties.Settings.Default.trial = chkTrial.Checked == true ? "Y" : "N";
                         Properties.Settings.Default.Save();
                     }
+
+                    db.BeginTransaction();
+
                     //tb_peserta
                     if (login.peserta != null)
                     {
@@ -174,6 +177,8 @@ namespace FlashCalculation
 
                     UpdateDb("Login");
                     peserta = login.peserta[0];
+
+                    db.commit();
                 }
                 else
                 {
@@ -215,6 +220,10 @@ namespace FlashCalculation
             }
             catch (Exception ex)
             {
+                if (db.IsTransactionStarted())
+                {
+                    db.rollback();
+                }
                 MessageBox.Show(ex.Message);
             }            
         }

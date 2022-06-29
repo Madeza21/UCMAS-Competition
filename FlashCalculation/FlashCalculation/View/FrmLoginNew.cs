@@ -121,6 +121,7 @@ namespace FlashCalculation.View
                         Properties.Settings.Default.Save();
                     }
                     db.OpenConnection();
+                    db.BeginTransaction();
                     //tb_peserta
                     if (login.peserta != null)
                     {
@@ -157,15 +158,17 @@ namespace FlashCalculation.View
                     db.InsertAppConfig(config);
 
                     peserta = login.peserta[0];
+
+                    db.commit();
+                    db.CloseConnection();
                 }
                 else
                 {
-                    db.CloseConnection();
                     MessageBox.Show("Internet Disconnected", "Warning!");
                     return;
                 }
 
-                db.CloseConnection();
+                
 
                 //Open Main Form
                 this.Hide();
@@ -182,6 +185,10 @@ namespace FlashCalculation.View
             }
             catch (Exception ex)
             {
+                if (db.IsTransactionStarted())
+                {
+                    db.rollback();
+                }
                 MessageBox.Show(ex.Message, "Warning!");
             }            
         }
