@@ -296,10 +296,13 @@ namespace FlashCalculation.Help
                     KUNCI_JAWABAN = Convert.ToDecimal(dt.Rows[i]["KUNCI_JAWABAN"].ToString()),
                     SCORE_PESERTA = Convert.ToInt32(dt.Rows[i]["SCORE_PESERTA"].ToString()),
                     ENTRY_USER = Properties.Settings.Default.siswa_id,
-                    UPDATE_USER = Properties.Settings.Default.siswa_id
+                    ENTRY_DATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),
+                    UPDATE_USER = Properties.Settings.Default.siswa_id,
+                    UPDATE_DATE = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")
                 };
             }
 
+            //var json = JsonConvert.SerializeObject(kirimjawaban);
             response = http.PostAsJsonAsync(url, kirimjawaban).Result;
 
             if (response.IsSuccessStatusCode)
@@ -360,7 +363,9 @@ namespace FlashCalculation.Help
             public decimal KUNCI_JAWABAN { get; set; }
             public int SCORE_PESERTA { get; set; }
             public string ENTRY_USER { get; set; }
+            public string ENTRY_DATE { get; set; }
             public string UPDATE_USER { get; set; }
+            public string UPDATE_DATE { get; set; }
 
         }
 

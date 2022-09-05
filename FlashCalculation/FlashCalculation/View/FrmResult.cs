@@ -179,19 +179,17 @@ namespace FlashCalculation.View
         {
             try
             {
-                if (client.IsConnectedToInternet())
+                DataTable dt = Helper.DecryptDataTable(db.GetJawabanTerkirim(rowid, Properties.Settings.Default.siswa_id, "Y"));
+                
+                if(dt.Rows.Count > 0)
                 {
-                    JawabanKompetisi[] jawaban = client.PostGetJawaban("api/kompetisi/jawaban", dtdtl.Rows[0]["ROW_ID_KOMPETISI"].ToString());
-                    if (jawaban != null)
-                    {
-                        label10.Text = "Jawaban Terkirim : " + jawaban.Length + Environment.NewLine +
+                    label10.Text = "Jawaban Terkirim : " + dt.Rows.Count + Environment.NewLine +
                             "Total Jawaban : " + dtdtl.Rows.Count;
-                    }
-                    else
-                    {
-                        label10.Text = "Jawaban Terkirim : 0 " + Environment.NewLine + 
+                }
+                else
+                {
+                    label10.Text = "Jawaban Terkirim : 0 " + Environment.NewLine +
                             "Total Jawaban : " + dtdtl.Rows.Count;
-                    }
                 }
             }
             catch(Exception ex)
@@ -335,32 +333,22 @@ namespace FlashCalculation.View
                     if (client.IsConnectedToInternet())
                     {
                         try
-                        {
-                            dtdtltemp.Clear();
-                            var dtfind = dtdtl.Select("is_kirim = 'N'");
-                            if (dtfind.Any())
+                        {                            
+                            string msg = client.PostKirimJawaban("api/kompetisi/simpan", dtdtl);
+                            if (msg == "Berhasil input jawaban")
                             {
-                                dtdtltemp = dtfind.CopyToDataTable();
-                            }
+                                string flag = Encryptor.Encrypt("Y");
 
-                            if(dtdtltemp.Rows.Count > 0)
-                            {
-                                string msg = client.PostKirimJawaban("api/kompetisi/simpan", dtdtltemp);
-                                if (msg == "Berhasil input jawaban")
-                                {
-                                    string flag = Encryptor.Encrypt("Y");
-
-                                    db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
-                                        Encryptor.Encrypt(dtdtltemp.Rows[0]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
-                                        Encryptor.Encrypt(dtdtltemp.Rows[0]["ID_PESERTA"].ToString()) + "'");
-                                }
-                            }
-                            
+                                db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
+                                    Encryptor.Encrypt(dtdtl.Rows[0]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
+                                    Encryptor.Encrypt(dtdtl.Rows[0]["ID_PESERTA"].ToString()) + "'");
+                            }                            
                         }
                         catch (Exception ex)
                         {
                             db.rollback();
                             MessageBox.Show(ex.Message, "No Connection Internet");
+                            return;
                         }
                     }
 
@@ -369,48 +357,6 @@ namespace FlashCalculation.View
                     dtdtl.Columns.Add("SOAL_NO_SORT", typeof(int), "SOAL_NO");
                     dtdtl.DefaultView.Sort = "ROW_ID_KOMPETISI ASC, SOAL_NO_SORT ASC";
                     dtdtl = dtdtl.DefaultView.ToTable();
-
-                    //Cek data di db server
-                    if (client.IsConnectedToInternet())
-                    {
-                        JawabanKompetisi[] jawaban = client.PostGetJawaban("api/kompetisi/jawaban", dtdtl.Rows[0]["ROW_ID_KOMPETISI"].ToString());
-                        if(jawaban != null)
-                        {
-                            if (jawaban.Length > 0)
-                            {
-                                if (jawaban.Length != dtdtl.Rows.Count)
-                                {
-                                    //update is_kirim db local jadi N
-                                    for (int i = 0; i < dtdtl.Rows.Count; i++)
-                                    {
-                                        bool ada = false;
-                                        for (int j = 0; j < jawaban.Length; j++)
-                                        {
-                                            if (dtdtl.Rows[i]["SOAL_NO"].ToString() == jawaban[j].SOAL_NO.ToString())
-                                            {
-                                                ada = true;
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                ada = false;
-                                            }
-                                        }
-                                        if (ada == false)
-                                        {
-                                            string flag = Encryptor.Encrypt("N");
-
-                                            db.Query("Update tb_jawaban_kompetisi set is_kirim = '" + flag + "' where ROW_ID_KOMPETISI = '" +
-                                            Encryptor.Encrypt(dtdtl.Rows[i]["ROW_ID_KOMPETISI"].ToString()) + "' AND ID_PESERTA = '" +
-                                            Encryptor.Encrypt(dtdtl.Rows[i]["ID_PESERTA"].ToString()) + "' AND SOAL_NO ='" + Encryptor.Encrypt(dtdtl.Rows[i]["SOAL_NO"].ToString()) + "'");
-
-                                            dtdtl.Rows[i]["is_kirim"] = "N";
-                                        }
-                                    }
-                                }
-                            }
-                        }                        
-                    }
 
                     dataGridView1.DataSource = dtdtl;
                     ChangeRowColor();

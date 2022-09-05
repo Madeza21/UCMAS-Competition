@@ -146,6 +146,7 @@
   <ItemGroup>
     <Compile Include="Help\Encryptor.cs" />
     <Compile Include="Help\Helper.cs" />
+    <Compile Include="Help\RandomTrans.cs" />
     <Compile Include="Model\JawabanKompetisi.cs" />
     <Compile Include="Model\SystemConfiguration.cs" />
     <Compile Include="View\FrmLogin.cs">

@@ -1188,6 +1188,46 @@ namespace FlashCalculation.Help
             return dt;
         }
 
+        public DataTable GetJawabanTerkirim(string prowid, string pid, string flagkirim)
+        {
+            DataTable dt = new DataTable();
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = @"  SELECT tb_jawaban_kompetisi.ROW_ID_KOMPETISI,   
+                                                 tb_jawaban_kompetisi.ID_PESERTA,   
+                                                 tb_jawaban_kompetisi.SOAL_NO,   
+                                                 tb_jawaban_kompetisi.PERTANYAAN,   
+                                                 tb_jawaban_kompetisi.JAWABAN_PESERTA,   
+                                                 tb_jawaban_kompetisi.JAWAB_DETIK_BERAPA,   
+                                                 tb_jawaban_kompetisi.JAWAB_DATE,   
+                                                 tb_jawaban_kompetisi.KUNCI_JAWABAN,   
+                                                 tb_jawaban_kompetisi.SCORE_PESERTA,   
+                                                 tb_jawaban_kompetisi.IS_KIRIM  
+                                            FROM tb_jawaban_kompetisi  
+                                        WHERE tb_jawaban_kompetisi.ROW_ID_KOMPETISI =@prowid 
+                                        AND tb_jawaban_kompetisi.ID_PESERTA =@pid
+                                        AND tb_jawaban_kompetisi.IS_KIRIM =@flagkirim";
+
+            SQLiteParameter parm = new SQLiteParameter();
+
+            parm = SqlParam("@prowid", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(prowid);
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@pid", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(pid);
+            sqlite_cmd.Parameters.Add(parm);
+            parm = SqlParam("@flagkirim", DbType.String, ParameterDirection.Input);
+            parm.Value = Encryptor.Encrypt(flagkirim);
+            sqlite_cmd.Parameters.Add(parm);
+
+            SQLiteDataAdapter dda = new SQLiteDataAdapter(sqlite_cmd);
+
+            dda.Fill(dt);
+
+            return dt;
+        }
+
         public void InsertKompetisiTrial(string rowid, string linenum, string rowidkompetisi, string tglmulai)
         {
             SQLiteCommand sqlite_cmd;
