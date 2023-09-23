@@ -202,7 +202,7 @@ namespace FlashCalculation
 
                 //Open Main Form
                 this.Hide();
-                FrmMain frm = new FrmMain(peserta);
+                FrmMainMenu frm = new FrmMainMenu(peserta);
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     //Jika Berhasil

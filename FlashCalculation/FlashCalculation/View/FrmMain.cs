@@ -29,11 +29,13 @@ namespace FlashCalculation
         SpeechSynthesizer speechSynthesizerObj;
 
         int errex = 0, datarow, speechRate = 0;
-        decimal lamalomba, lamalombaori, speedmuncul, speedjeda, jumlahmuncul, speedbicara, lamajeda;
+        decimal lamalombaori, speedmuncul, speedjeda, jumlahmuncul, speedbicara, lamajeda;
         string ptype, strvoice = "";
         string rowidtrial = "";
         string flagvisual = "";
         string flaglistening = "";
+
+        public decimal lamalomba;
 
         DbBase db = new DbBase();
         HttpRequest client = new HttpRequest();
@@ -72,29 +74,18 @@ namespace FlashCalculation
             try
             {
                 tTanggal.Start();
-                Visibled(true);
                 //Properties.Settings.Default.siswa_id = "TES UBAH";
                 this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
                 textBox10.Font = new Font(this.pfc.Families[0], 34, FontStyle.Bold);
                 lblSoal.Font = new Font(this.pfc.Families[0], 72, FontStyle.Bold);
                 lblNo.Font = new Font(this.pfc.Families[0], 10, FontStyle.Bold);
-
-                label14.Text = peserta.ID_PESERTA;
-                label15.Text = peserta.NAMA_PESERTA;
-                label16.Text = peserta.JENIS_KELAMIN == "L" ? "Laki-laki" : "Perempuan";
-                label17.Text = peserta.TEMPAT_LAHIR;
-                label18.Text = peserta.TANGGAL_LAHIR;
-                label19.Text = peserta.SEKOLAH_PESERTA;
-                label20.Text = peserta.EMAIL_PESERTA;
-                label21.Text = peserta.NO_TELP_PESERTA;
-                label13.Text = peserta.ALAMAT_PESERTA;
+                                
 
                 db.OpenConnection();
                 //client.initialize();
 
                 //set tittle
                 this.Text = db.GetAppConfig("LBL") + "  (Ver. " + Properties.Settings.Default.version + ") - " + peserta.NAMA_PESERTA;
-                label11.Text = db.GetAppConfig("LBK");
 
                 //label23.Visible = false;
                 //comboBox2.Visible = false;
@@ -103,10 +94,12 @@ namespace FlashCalculation
                 DataTable dtkom = Helper.DecryptDataTable(db.GetKompetisi(peserta.ID_PESERTA, DateTime.Now.ToString("yyyy-MM-dd"), Properties.Settings.Default.trial));
                 dtkom.DefaultView.Sort = "KOMPETISI_NAME ASC";
                 dtkom = dtkom.DefaultView.ToTable();
-                //if(dtkom.Rows.Count <= 0)
-                //{
-                //    MessageBox.Show("Data Kompetisi tidak ada di database !", "Warning!");
-                //}
+
+                var dtkomFilter = dtkom.Select("TIPE <> 'R'");
+                if (dtkomFilter.Any())
+                {
+                    dtkom = dtkomFilter.CopyToDataTable();
+                }
                 comboBox1.DataSource = dtkom;
                 comboBox1.DisplayMember = "KOMPETISI_NAME";
                 comboBox1.ValueMember = "ROW_ID";
@@ -1360,11 +1353,6 @@ namespace FlashCalculation
             tdurlomba.Stop();
         }
 
-        private void tTanggal_Tick(object sender, EventArgs e)
-        {
-            label22.Text = DateTime.Now.ToString("dddd, dd-MMM-yyyy hh:mm:ss");
-        }
-
         private void StartLomba()
         {
             FuncTimer();
@@ -1871,16 +1859,6 @@ namespace FlashCalculation
         {
             if (Properties.Settings.Default.bahasa == "indonesia")
             {
-                label1.Text = "ID Peserta";
-                //label2.Text = "";
-                label3.Text = "Nama";
-                label4.Text = "Jenis Kelamin";
-                label5.Text = "Tempat Lahir";
-                label6.Text = "Tanggal Lahir";
-                label7.Text = "Sekolah";
-                label8.Text = "Email";
-                label9.Text = "Telp";
-                label10.Text = "Alamat";
                 label12.Text = "Kompetisi"; 
                 label23.Text = "Suara";
 
@@ -1892,16 +1870,6 @@ namespace FlashCalculation
             }
             else
             {
-                label1.Text = "Participant ID";
-                //label2.Text = "";
-                label3.Text = "Name";
-                label4.Text = "Gender";
-                label5.Text = "Place of birth";
-                label6.Text = "'Date of birth";
-                label7.Text = "School";
-                label8.Text = "Email";
-                label9.Text = "Phone";
-                label10.Text = "Address";
                 label12.Text = "Competition";
                 label23.Text = "Voice";
 
@@ -1944,31 +1912,6 @@ namespace FlashCalculation
                 comboBox2.DisplayMember = "Name";
                 comboBox2.ValueMember = "Id";
             }            
-        }
-
-        private void Visibled(bool flag)
-        {
-            label1.Visible = flag;
-            label2.Visible = flag;
-            label3.Visible = flag;
-            label4.Visible = flag;
-            label5.Visible = flag;
-            label6.Visible = flag;
-            label7.Visible = flag;
-            label8.Visible = flag;
-            label9.Visible = flag;
-            label10.Visible = flag;
-
-            label13.Visible = flag;
-            label14.Visible = flag;
-            label15.Visible = flag;
-            label16.Visible = flag;
-            label17.Visible = flag;
-            label18.Visible = flag;
-            label19.Visible = flag;
-            label20.Visible = flag;
-            label21.Visible = flag;
-            label22.Visible = flag;
         }
 
         private void SetButtonEnabledVisual(string flag)
@@ -2055,43 +1998,5 @@ namespace FlashCalculation
             }
         }
 
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            //250 66
-            if (panel2.Width == 250)
-            {
-                Visibled(false);
-                this.timer2.Start();
-            }
-            else if (panel2.Width == 65)
-            {
-                Visibled(true);
-                this.timer3.Start();
-            }
-        }
-
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            if (panel2.Width <= 65)
-            {
-                this.timer2.Stop();
-            }
-            else
-            {
-                panel2.Width = panel2.Width - 5;
-            }
-        }
-
-        private void timer3_Tick(object sender, EventArgs e)
-        {
-            if (panel2.Width >= 250)
-            {
-                this.timer3.Stop();
-            }
-            else
-            {
-                panel2.Width = panel2.Width + 5;
-            }
-        }
     }
 }
